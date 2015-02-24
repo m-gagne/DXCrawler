@@ -1,0 +1,2242 @@
+{"id": 26751, "created_at": "03.09.2014 17:17:47", "screenshot_only": "N", "is_complete": true, "name": null, "start_timestamp": 1409753867, "end_timestamp": 1409754173, "webpages": [
+    {
+        "id": 35994,
+        "step": null,
+        "step_data": null,
+        "unique_id": "c9797750d9",
+        "url": "http://philipwalton.github.io/solved-by-flexbox/demos/media-object/",
+        "captures": [
+            {
+                "id": 515391,
+                "success": true,
+                "is_baseline": false,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": true,
+                "sent_for_comparison": true,
+                "comparison_dir": "26751_c9797750d9/win7_chrome-1332x2284",
+                "configuration_key": "win7_ff_31esr",
+                "basename": "windows-7_firefox-31-0",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=firefox&browser_version=31esr&os=Windows&os_version=7&url=http%3A%2F%2Fphilipwalton.github.io%2Fsolved-by-flexbox%2Fdemos%2Fmedia-object%2F",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": "26751_c9797750d9/win7_chrome-1332x2284.png",
+                    "desktop": "26751_c9797750d9/windows-7_firefox-31-0_desktop.png",
+                    "document": "26751_c9797750d9/windows-7_firefox-31-0_document-1332x2299.png",
+                    "document_thumb": "26751_c9797750d9/windows-7_firefox-31-0_document-1332x2299_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_c9797750d9/windows-7_firefox-31-0_document-1332x2299_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "firefox",
+                    "name": "Firefox",
+                    "version": "31ESR"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515422,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-2-1332x2284",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Fphilipwalton.github.io%2Fsolved-by-flexbox%2Fdemos%2Fmedia-object%2F",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_c9797750d9/win7_chrome-2-1332x2284.png",
+                    "document_thumb": "26751_c9797750d9/win7_chrome-2-1332x2284_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_c9797750d9/win7_chrome-2-1332x2284_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515421,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-1-1332x2284",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Fphilipwalton.github.io%2Fsolved-by-flexbox%2Fdemos%2Fmedia-object%2F",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_c9797750d9/win7_chrome-1-1332x2284.png",
+                    "document_thumb": "26751_c9797750d9/win7_chrome-1-1332x2284_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_c9797750d9/win7_chrome-1-1332x2284_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515393,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-1332x2284",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Fphilipwalton.github.io%2Fsolved-by-flexbox%2Fdemos%2Fmedia-object%2F",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_c9797750d9/win7_chrome-1332x2284.png",
+                    "document_thumb": "26751_c9797750d9/win7_chrome-1332x2284_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_c9797750d9/win7_chrome-1332x2284_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515392,
+                "success": true,
+                "is_baseline": false,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": true,
+                "is_not_defected": false,
+                "sent_for_comparison": true,
+                "comparison_dir": "26751_c9797750d9/win7_chrome-1332x2284",
+                "configuration_key": "win81_ie11",
+                "basename": "windows-Vista_internet-explorer-11",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=ie&browser_version=11.0+Desktop&os=Windows&os_version=8.1&url=http%3A%2F%2Fphilipwalton.github.io%2Fsolved-by-flexbox%2Fdemos%2Fmedia-object%2F",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": "26751_c9797750d9/win7_chrome-1332x2284.png",
+                    "desktop": "26751_c9797750d9/windows-Vista_internet-explorer-11_desktop.png",
+                    "document": "26751_c9797750d9/windows-Vista_internet-explorer-11_document.png",
+                    "document_thumb": "26751_c9797750d9/windows-Vista_internet-explorer-11_document_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_c9797750d9/windows-Vista_internet-explorer-11_document_small.png",
+                    "defected_thumb": "26751_c9797750d9/win7_chrome-1332x2284/defected_image/windows-Vista_internet-explorer-11_document_0_4266_thumb.jpg",
+                    "defected_thumb_ready": true
+                },
+                "browser": {
+                    "group": "ie",
+                    "name": "Internet Explorer",
+                    "version": "11.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 8.1",
+                    "version": "8.1"
+                }
+            }
+        ]
+    },
+    {
+        "id": 35995,
+        "step": null,
+        "step_data": null,
+        "unique_id": "72b59b8c7e",
+        "url": "http://www.vm.fi/vm/fi/03_tiedotteet_ja_puheet/index.jsp",
+        "captures": [
+            {
+                "id": 515394,
+                "success": true,
+                "is_baseline": false,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": true,
+                "is_not_defected": false,
+                "sent_for_comparison": true,
+                "comparison_dir": "26751_72b59b8c7e/win7_chrome-1332x1164",
+                "configuration_key": "win7_ff_31esr",
+                "basename": "windows-7_firefox-31-0",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=firefox&browser_version=31esr&os=Windows&os_version=7&url=http%3A%2F%2Fwww.vm.fi%2Fvm%2Ffi%2F03_tiedotteet_ja_puheet%2Findex.jsp",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": "26751_72b59b8c7e/win7_chrome-1332x1164.png",
+                    "desktop": "26751_72b59b8c7e/windows-7_firefox-31-0_desktop.png",
+                    "document": "26751_72b59b8c7e/windows-7_firefox-31-0_document-1332x1207.png",
+                    "document_thumb": "26751_72b59b8c7e/windows-7_firefox-31-0_document-1332x1207_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_72b59b8c7e/windows-7_firefox-31-0_document-1332x1207_small.png",
+                    "defected_thumb": "26751_72b59b8c7e/win7_chrome-1332x1164/defected_image/windows-7_firefox-31-0_document-1332x1207_0_4348_thumb.jpg",
+                    "defected_thumb_ready": true
+                },
+                "browser": {
+                    "group": "firefox",
+                    "name": "Firefox",
+                    "version": "31ESR"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515424,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-2-1332x1164",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Fwww.vm.fi%2Fvm%2Ffi%2F03_tiedotteet_ja_puheet%2Findex.jsp",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_72b59b8c7e/win7_chrome-2-1332x1164.png",
+                    "document_thumb": "26751_72b59b8c7e/win7_chrome-2-1332x1164_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_72b59b8c7e/win7_chrome-2-1332x1164_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515423,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-1-1332x1164",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Fwww.vm.fi%2Fvm%2Ffi%2F03_tiedotteet_ja_puheet%2Findex.jsp",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_72b59b8c7e/win7_chrome-1-1332x1164.png",
+                    "document_thumb": "26751_72b59b8c7e/win7_chrome-1-1332x1164_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_72b59b8c7e/win7_chrome-1-1332x1164_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515396,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-1332x1164",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Fwww.vm.fi%2Fvm%2Ffi%2F03_tiedotteet_ja_puheet%2Findex.jsp",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_72b59b8c7e/win7_chrome-1332x1164.png",
+                    "document_thumb": "26751_72b59b8c7e/win7_chrome-1332x1164_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_72b59b8c7e/win7_chrome-1332x1164_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515395,
+                "success": true,
+                "is_baseline": false,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": true,
+                "sent_for_comparison": true,
+                "comparison_dir": "26751_72b59b8c7e/win7_chrome-1332x1164",
+                "configuration_key": "win81_ie11",
+                "basename": "windows-Vista_internet-explorer-11",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=ie&browser_version=11.0+Desktop&os=Windows&os_version=8.1&url=http%3A%2F%2Fwww.vm.fi%2Fvm%2Ffi%2F03_tiedotteet_ja_puheet%2Findex.jsp",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": "26751_72b59b8c7e/win7_chrome-1332x1164.png",
+                    "desktop": "26751_72b59b8c7e/windows-Vista_internet-explorer-11_desktop.png",
+                    "document": "26751_72b59b8c7e/windows-Vista_internet-explorer-11_document.png",
+                    "document_thumb": "26751_72b59b8c7e/windows-Vista_internet-explorer-11_document_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_72b59b8c7e/windows-Vista_internet-explorer-11_document_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "ie",
+                    "name": "Internet Explorer",
+                    "version": "11.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 8.1",
+                    "version": "8.1"
+                }
+            }
+        ]
+    },
+    {
+        "id": 35996,
+        "step": null,
+        "step_data": null,
+        "unique_id": "47909cff4f",
+        "url": "http://tinypic.com",
+        "captures": [
+            {
+                "id": 515397,
+                "success": true,
+                "is_baseline": false,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": true,
+                "is_not_defected": false,
+                "sent_for_comparison": true,
+                "comparison_dir": "26751_47909cff4f/win7_chrome-1332x1333",
+                "configuration_key": "win7_ff_31esr",
+                "basename": "windows-7_firefox-31-0",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=firefox&browser_version=31esr&os=Windows&os_version=7&url=http%3A%2F%2Ftinypic.com",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": "26751_47909cff4f/win7_chrome-1332x1333.png",
+                    "desktop": "26751_47909cff4f/windows-7_firefox-31-0_desktop.png",
+                    "document": "26751_47909cff4f/windows-7_firefox-31-0_document-1332x1335.png",
+                    "document_thumb": "26751_47909cff4f/windows-7_firefox-31-0_document-1332x1335_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_47909cff4f/windows-7_firefox-31-0_document-1332x1335_small.png",
+                    "defected_thumb": "26751_47909cff4f/win7_chrome-1332x1333/defected_image/windows-7_firefox-31-0_document-1332x1335_0_4433_thumb.jpg",
+                    "defected_thumb_ready": true
+                },
+                "browser": {
+                    "group": "firefox",
+                    "name": "Firefox",
+                    "version": "31ESR"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515426,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-2-1332x1333",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Ftinypic.com",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_47909cff4f/win7_chrome-2-1332x1333.png",
+                    "document_thumb": "26751_47909cff4f/win7_chrome-2-1332x1333_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_47909cff4f/win7_chrome-2-1332x1333_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515425,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-1-1332x1333",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Ftinypic.com",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_47909cff4f/win7_chrome-1-1332x1333.png",
+                    "document_thumb": "26751_47909cff4f/win7_chrome-1-1332x1333_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_47909cff4f/win7_chrome-1-1332x1333_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515399,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-1332x1333",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Ftinypic.com",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_47909cff4f/win7_chrome-1332x1333.png",
+                    "document_thumb": "26751_47909cff4f/win7_chrome-1332x1333_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_47909cff4f/win7_chrome-1332x1333_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515398,
+                "success": true,
+                "is_baseline": false,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": true,
+                "is_not_defected": false,
+                "sent_for_comparison": true,
+                "comparison_dir": "26751_47909cff4f/win7_chrome-1332x1333",
+                "configuration_key": "win81_ie11",
+                "basename": "windows-Vista_internet-explorer-11",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=ie&browser_version=11.0+Desktop&os=Windows&os_version=8.1&url=http%3A%2F%2Ftinypic.com",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": "26751_47909cff4f/win7_chrome-1332x1333.png",
+                    "desktop": "26751_47909cff4f/windows-Vista_internet-explorer-11_desktop.png",
+                    "document": "26751_47909cff4f/windows-Vista_internet-explorer-11_document.png",
+                    "document_thumb": "26751_47909cff4f/windows-Vista_internet-explorer-11_document_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_47909cff4f/windows-Vista_internet-explorer-11_document_small.png",
+                    "defected_thumb": "26751_47909cff4f/win7_chrome-1332x1333/defected_image/windows-Vista_internet-explorer-11_document_0_5125_thumb.jpg",
+                    "defected_thumb_ready": true
+                },
+                "browser": {
+                    "group": "ie",
+                    "name": "Internet Explorer",
+                    "version": "11.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 8.1",
+                    "version": "8.1"
+                }
+            }
+        ]
+    },
+    {
+        "id": 35997,
+        "step": null,
+        "step_data": null,
+        "unique_id": "469ed5cfce",
+        "url": "http://ph2009.zjol.com.cn/phnews/news/ywmtkph",
+        "captures": [
+            {
+                "id": 515400,
+                "success": true,
+                "is_baseline": false,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": true,
+                "sent_for_comparison": true,
+                "comparison_dir": "26751_469ed5cfce/win7_chrome-1332x1782",
+                "configuration_key": "win7_ff_31esr",
+                "basename": "windows-7_firefox-31-0",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=firefox&browser_version=31esr&os=Windows&os_version=7&url=http%3A%2F%2Fph2009.zjol.com.cn%2Fphnews%2Fnews%2Fywmtkph",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": "26751_469ed5cfce/win7_chrome-1332x1782.png",
+                    "desktop": "26751_469ed5cfce/windows-7_firefox-31-0_desktop.png",
+                    "document": "26751_469ed5cfce/windows-7_firefox-31-0_document-1332x1782.png",
+                    "document_thumb": "26751_469ed5cfce/windows-7_firefox-31-0_document-1332x1782_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_469ed5cfce/windows-7_firefox-31-0_document-1332x1782_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "firefox",
+                    "name": "Firefox",
+                    "version": "31ESR"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515402,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-1332x1782",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Fph2009.zjol.com.cn%2Fphnews%2Fnews%2Fywmtkph",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_469ed5cfce/win7_chrome-1332x1782.png",
+                    "document_thumb": "26751_469ed5cfce/win7_chrome-1332x1782_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_469ed5cfce/win7_chrome-1332x1782_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515428,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-2-1332x1782",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Fph2009.zjol.com.cn%2Fphnews%2Fnews%2Fywmtkph",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_469ed5cfce/win7_chrome-2-1332x1782.png",
+                    "document_thumb": "26751_469ed5cfce/win7_chrome-2-1332x1782_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_469ed5cfce/win7_chrome-2-1332x1782_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515427,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-1-1332x1782",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Fph2009.zjol.com.cn%2Fphnews%2Fnews%2Fywmtkph",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_469ed5cfce/win7_chrome-1-1332x1782.png",
+                    "document_thumb": "26751_469ed5cfce/win7_chrome-1-1332x1782_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_469ed5cfce/win7_chrome-1-1332x1782_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515401,
+                "success": true,
+                "is_baseline": false,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": true,
+                "is_not_defected": false,
+                "sent_for_comparison": true,
+                "comparison_dir": "26751_469ed5cfce/win7_chrome-1332x1782",
+                "configuration_key": "win81_ie11",
+                "basename": "windows-Vista_internet-explorer-11",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=ie&browser_version=11.0+Desktop&os=Windows&os_version=8.1&url=http%3A%2F%2Fph2009.zjol.com.cn%2Fphnews%2Fnews%2Fywmtkph",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": "26751_469ed5cfce/win7_chrome-1332x1782.png",
+                    "desktop": "26751_469ed5cfce/windows-Vista_internet-explorer-11_desktop.png",
+                    "document": "26751_469ed5cfce/windows-Vista_internet-explorer-11_document.png",
+                    "document_thumb": "26751_469ed5cfce/windows-Vista_internet-explorer-11_document_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_469ed5cfce/windows-Vista_internet-explorer-11_document_small.png",
+                    "defected_thumb": "26751_469ed5cfce/win7_chrome-1332x1782/defected_image/windows-Vista_internet-explorer-11_document_0_4462_thumb.jpg",
+                    "defected_thumb_ready": true
+                },
+                "browser": {
+                    "group": "ie",
+                    "name": "Internet Explorer",
+                    "version": "11.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 8.1",
+                    "version": "8.1"
+                }
+            }
+        ]
+    },
+    {
+        "id": 35998,
+        "step": null,
+        "step_data": null,
+        "unique_id": "7ff7b0eaea",
+        "url": "http://www.videotron.com/residentiel/mobile/appareils-et-accessoires",
+        "captures": [
+            {
+                "id": 515403,
+                "success": true,
+                "is_baseline": false,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": true,
+                "is_not_defected": false,
+                "sent_for_comparison": true,
+                "comparison_dir": "26751_7ff7b0eaea/win7_chrome-1332x8280",
+                "configuration_key": "win7_ff_31esr",
+                "basename": "windows-7_firefox-31-0",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=firefox&browser_version=31esr&os=Windows&os_version=7&url=http%3A%2F%2Fwww.videotron.com%2Fresidentiel%2Fmobile%2Fappareils-et-accessoires",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": "26751_7ff7b0eaea/win7_chrome-1332x8280.png",
+                    "desktop": "26751_7ff7b0eaea/windows-7_firefox-31-0_desktop.png",
+                    "document": "26751_7ff7b0eaea/windows-7_firefox-31-0_document-1332x8338.png",
+                    "document_thumb": "26751_7ff7b0eaea/windows-7_firefox-31-0_document-1332x8338_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_7ff7b0eaea/windows-7_firefox-31-0_document-1332x8338_small.png",
+                    "defected_thumb": "26751_7ff7b0eaea/win7_chrome-1332x8280/defected_image/windows-7_firefox-31-0_document-1332x8338_0_4737_thumb.jpg",
+                    "defected_thumb_ready": true
+                },
+                "browser": {
+                    "group": "firefox",
+                    "name": "Firefox",
+                    "version": "31ESR"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515430,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-2-1332x8280",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Fwww.videotron.com%2Fresidentiel%2Fmobile%2Fappareils-et-accessoires",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_7ff7b0eaea/win7_chrome-2-1332x8280.png",
+                    "document_thumb": "26751_7ff7b0eaea/win7_chrome-2-1332x8280_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_7ff7b0eaea/win7_chrome-2-1332x8280_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515429,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-1-1332x8280",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Fwww.videotron.com%2Fresidentiel%2Fmobile%2Fappareils-et-accessoires",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_7ff7b0eaea/win7_chrome-1-1332x8280.png",
+                    "document_thumb": "26751_7ff7b0eaea/win7_chrome-1-1332x8280_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_7ff7b0eaea/win7_chrome-1-1332x8280_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515405,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-1332x8280",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Fwww.videotron.com%2Fresidentiel%2Fmobile%2Fappareils-et-accessoires",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_7ff7b0eaea/win7_chrome-1332x8280.png",
+                    "document_thumb": "26751_7ff7b0eaea/win7_chrome-1332x8280_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_7ff7b0eaea/win7_chrome-1332x8280_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515404,
+                "success": true,
+                "is_baseline": false,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": true,
+                "is_not_defected": false,
+                "sent_for_comparison": true,
+                "comparison_dir": "26751_7ff7b0eaea/win7_chrome-1332x8280",
+                "configuration_key": "win81_ie11",
+                "basename": "windows-Vista_internet-explorer-11",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=ie&browser_version=11.0+Desktop&os=Windows&os_version=8.1&url=http%3A%2F%2Fwww.videotron.com%2Fresidentiel%2Fmobile%2Fappareils-et-accessoires",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": "26751_7ff7b0eaea/win7_chrome-1332x8280.png",
+                    "desktop": "26751_7ff7b0eaea/windows-Vista_internet-explorer-11_desktop.png",
+                    "document": "26751_7ff7b0eaea/windows-Vista_internet-explorer-11_document.png",
+                    "document_thumb": "26751_7ff7b0eaea/windows-Vista_internet-explorer-11_document_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_7ff7b0eaea/windows-Vista_internet-explorer-11_document_small.png",
+                    "defected_thumb": "26751_7ff7b0eaea/win7_chrome-1332x8280/defected_image/windows-Vista_internet-explorer-11_document_0_4599_thumb.jpg",
+                    "defected_thumb_ready": true
+                },
+                "browser": {
+                    "group": "ie",
+                    "name": "Internet Explorer",
+                    "version": "11.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 8.1",
+                    "version": "8.1"
+                }
+            }
+        ]
+    },
+    {
+        "id": 35999,
+        "step": null,
+        "step_data": null,
+        "unique_id": "ea629cdb1c",
+        "url": "http://voyager.jpl.nasa.gov",
+        "captures": [
+            {
+                "id": 515406,
+                "success": true,
+                "is_baseline": false,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": true,
+                "sent_for_comparison": true,
+                "comparison_dir": "26751_ea629cdb1c/win7_chrome-1332x1843",
+                "configuration_key": "win7_ff_31esr",
+                "basename": "windows-7_firefox-31-0",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=firefox&browser_version=31esr&os=Windows&os_version=7&url=http%3A%2F%2Fvoyager.jpl.nasa.gov",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": "26751_ea629cdb1c/win7_chrome-1332x1843.png",
+                    "desktop": "26751_ea629cdb1c/windows-7_firefox-31-0_desktop.png",
+                    "document": "26751_ea629cdb1c/windows-7_firefox-31-0_document-1332x1876.png",
+                    "document_thumb": "26751_ea629cdb1c/windows-7_firefox-31-0_document-1332x1876_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_ea629cdb1c/windows-7_firefox-31-0_document-1332x1876_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "firefox",
+                    "name": "Firefox",
+                    "version": "31ESR"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515408,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-1332x1843",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Fvoyager.jpl.nasa.gov",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_ea629cdb1c/win7_chrome-1332x1843.png",
+                    "document_thumb": "26751_ea629cdb1c/win7_chrome-1332x1843_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_ea629cdb1c/win7_chrome-1332x1843_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515432,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-2-1332x1843",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Fvoyager.jpl.nasa.gov",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_ea629cdb1c/win7_chrome-2-1332x1843.png",
+                    "document_thumb": "26751_ea629cdb1c/win7_chrome-2-1332x1843_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_ea629cdb1c/win7_chrome-2-1332x1843_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515431,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-1-1332x1843",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Fvoyager.jpl.nasa.gov",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_ea629cdb1c/win7_chrome-1-1332x1843.png",
+                    "document_thumb": "26751_ea629cdb1c/win7_chrome-1-1332x1843_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_ea629cdb1c/win7_chrome-1-1332x1843_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515407,
+                "success": true,
+                "is_baseline": false,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": true,
+                "is_not_defected": false,
+                "sent_for_comparison": true,
+                "comparison_dir": "26751_ea629cdb1c/win7_chrome-1332x1843",
+                "configuration_key": "win81_ie11",
+                "basename": "windows-Vista_internet-explorer-11",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=ie&browser_version=11.0+Desktop&os=Windows&os_version=8.1&url=http%3A%2F%2Fvoyager.jpl.nasa.gov",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": "26751_ea629cdb1c/win7_chrome-1332x1843.png",
+                    "desktop": "26751_ea629cdb1c/windows-Vista_internet-explorer-11_desktop.png",
+                    "document": "26751_ea629cdb1c/windows-Vista_internet-explorer-11_document.png",
+                    "document_thumb": "26751_ea629cdb1c/windows-Vista_internet-explorer-11_document_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_ea629cdb1c/windows-Vista_internet-explorer-11_document_small.png",
+                    "defected_thumb": "26751_ea629cdb1c/win7_chrome-1332x1843/defected_image/windows-Vista_internet-explorer-11_document_0_4560_thumb.jpg",
+                    "defected_thumb_ready": true
+                },
+                "browser": {
+                    "group": "ie",
+                    "name": "Internet Explorer",
+                    "version": "11.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 8.1",
+                    "version": "8.1"
+                }
+            }
+        ]
+    },
+    {
+        "id": 36000,
+        "step": null,
+        "step_data": null,
+        "unique_id": "2ddfa891fd",
+        "url": "http://awards.dstv.com/mkva",
+        "captures": [
+            {
+                "id": 515409,
+                "success": true,
+                "is_baseline": false,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": true,
+                "sent_for_comparison": true,
+                "comparison_dir": "26751_2ddfa891fd/win7_chrome-1332x1116",
+                "configuration_key": "win7_ff_31esr",
+                "basename": "windows-7_firefox-31-0",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=firefox&browser_version=31esr&os=Windows&os_version=7&url=http%3A%2F%2Fawards.dstv.com%2Fmkva",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": "26751_2ddfa891fd/win7_chrome-1332x1116.png",
+                    "desktop": "26751_2ddfa891fd/windows-7_firefox-31-0_desktop.png",
+                    "document": "26751_2ddfa891fd/windows-7_firefox-31-0_document-1332x1643.png",
+                    "document_thumb": "26751_2ddfa891fd/windows-7_firefox-31-0_document-1332x1643_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_2ddfa891fd/windows-7_firefox-31-0_document-1332x1643_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "firefox",
+                    "name": "Firefox",
+                    "version": "31ESR"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515433,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-1-1332x1116",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Fawards.dstv.com%2Fmkva",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_2ddfa891fd/win7_chrome-1-1332x1116.png",
+                    "document_thumb": "26751_2ddfa891fd/win7_chrome-1-1332x1116_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_2ddfa891fd/win7_chrome-1-1332x1116_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515411,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-1332x1116",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Fawards.dstv.com%2Fmkva",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_2ddfa891fd/win7_chrome-1332x1116.png",
+                    "document_thumb": "26751_2ddfa891fd/win7_chrome-1332x1116_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_2ddfa891fd/win7_chrome-1332x1116_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515434,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-2-1332x1116",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Fawards.dstv.com%2Fmkva",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_2ddfa891fd/win7_chrome-2-1332x1116.png",
+                    "document_thumb": "26751_2ddfa891fd/win7_chrome-2-1332x1116_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_2ddfa891fd/win7_chrome-2-1332x1116_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515410,
+                "success": true,
+                "is_baseline": false,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": true,
+                "is_not_defected": false,
+                "sent_for_comparison": true,
+                "comparison_dir": "26751_2ddfa891fd/win7_chrome-1332x1116",
+                "configuration_key": "win81_ie11",
+                "basename": "windows-Vista_internet-explorer-11",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=ie&browser_version=11.0+Desktop&os=Windows&os_version=8.1&url=http%3A%2F%2Fawards.dstv.com%2Fmkva",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": "26751_2ddfa891fd/win7_chrome-1332x1116.png",
+                    "desktop": "26751_2ddfa891fd/windows-Vista_internet-explorer-11_desktop.png",
+                    "document": "26751_2ddfa891fd/windows-Vista_internet-explorer-11_document.png",
+                    "document_thumb": "26751_2ddfa891fd/windows-Vista_internet-explorer-11_document_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_2ddfa891fd/windows-Vista_internet-explorer-11_document_small.png",
+                    "defected_thumb": "26751_2ddfa891fd/win7_chrome-1332x1116/defected_image/windows-Vista_internet-explorer-11_document_0_4652_thumb.jpg",
+                    "defected_thumb_ready": true
+                },
+                "browser": {
+                    "group": "ie",
+                    "name": "Internet Explorer",
+                    "version": "11.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 8.1",
+                    "version": "8.1"
+                }
+            }
+        ]
+    },
+    {
+        "id": 36001,
+        "step": null,
+        "step_data": null,
+        "unique_id": "93061bd501",
+        "url": "http://www.testimania.com/testicartoons.html",
+        "captures": [
+            {
+                "id": 515412,
+                "success": true,
+                "is_baseline": false,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": true,
+                "sent_for_comparison": true,
+                "comparison_dir": "26751_93061bd501/win7_chrome-1332x1357",
+                "configuration_key": "win7_ff_31esr",
+                "basename": "windows-7_firefox-31-0",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=firefox&browser_version=31esr&os=Windows&os_version=7&url=http%3A%2F%2Fwww.testimania.com%2Ftesticartoons.html",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": "26751_93061bd501/win7_chrome-1332x1357.png",
+                    "desktop": "26751_93061bd501/windows-7_firefox-31-0_desktop.png",
+                    "document": "26751_93061bd501/windows-7_firefox-31-0_document-1332x1354.png",
+                    "document_thumb": "26751_93061bd501/windows-7_firefox-31-0_document-1332x1354_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_93061bd501/windows-7_firefox-31-0_document-1332x1354_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "firefox",
+                    "name": "Firefox",
+                    "version": "31ESR"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515436,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-2-1332x1357",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Fwww.testimania.com%2Ftesticartoons.html",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_93061bd501/win7_chrome-2-1332x1357.png",
+                    "document_thumb": "26751_93061bd501/win7_chrome-2-1332x1357_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_93061bd501/win7_chrome-2-1332x1357_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515435,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-1-1332x1357",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Fwww.testimania.com%2Ftesticartoons.html",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_93061bd501/win7_chrome-1-1332x1357.png",
+                    "document_thumb": "26751_93061bd501/win7_chrome-1-1332x1357_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_93061bd501/win7_chrome-1-1332x1357_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515414,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-1332x1357",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Fwww.testimania.com%2Ftesticartoons.html",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_93061bd501/win7_chrome-1332x1357.png",
+                    "document_thumb": "26751_93061bd501/win7_chrome-1332x1357_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_93061bd501/win7_chrome-1332x1357_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515413,
+                "success": true,
+                "is_baseline": false,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": true,
+                "is_not_defected": false,
+                "sent_for_comparison": true,
+                "comparison_dir": "26751_93061bd501/win7_chrome-1332x1357",
+                "configuration_key": "win81_ie11",
+                "basename": "windows-Vista_internet-explorer-11",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=ie&browser_version=11.0+Desktop&os=Windows&os_version=8.1&url=http%3A%2F%2Fwww.testimania.com%2Ftesticartoons.html",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": "26751_93061bd501/win7_chrome-1332x1357.png",
+                    "desktop": "26751_93061bd501/windows-Vista_internet-explorer-11_desktop.png",
+                    "document": "26751_93061bd501/windows-Vista_internet-explorer-11_document.png",
+                    "document_thumb": "26751_93061bd501/windows-Vista_internet-explorer-11_document_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_93061bd501/windows-Vista_internet-explorer-11_document_small.png",
+                    "defected_thumb": "26751_93061bd501/win7_chrome-1332x1357/defected_image/windows-Vista_internet-explorer-11_document_0_4688_thumb.jpg",
+                    "defected_thumb_ready": true
+                },
+                "browser": {
+                    "group": "ie",
+                    "name": "Internet Explorer",
+                    "version": "11.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 8.1",
+                    "version": "8.1"
+                }
+            }
+        ]
+    },
+    {
+        "id": 36002,
+        "step": null,
+        "step_data": null,
+        "unique_id": "47a3278400",
+        "url": "http://sso.chinadaily.com.cn/",
+        "captures": [
+            {
+                "id": 515415,
+                "success": true,
+                "is_baseline": false,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": true,
+                "is_not_defected": false,
+                "sent_for_comparison": true,
+                "comparison_dir": "26751_47a3278400/win7_chrome-1332x1069",
+                "configuration_key": "win7_ff_31esr",
+                "basename": "windows-7_firefox-31-0",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=firefox&browser_version=31esr&os=Windows&os_version=7&url=http%3A%2F%2Fsso.chinadaily.com.cn%2F",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": "26751_47a3278400/win7_chrome-1332x1069.png",
+                    "desktop": "26751_47a3278400/windows-7_firefox-31-0_desktop.png",
+                    "document": "26751_47a3278400/windows-7_firefox-31-0_document-1332x1069.png",
+                    "document_thumb": "26751_47a3278400/windows-7_firefox-31-0_document-1332x1069_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_47a3278400/windows-7_firefox-31-0_document-1332x1069_small.png",
+                    "defected_thumb": "26751_47a3278400/win7_chrome-1332x1069/defected_image/windows-7_firefox-31-0_document-1332x1069_0_4887_thumb.jpg",
+                    "defected_thumb_ready": true
+                },
+                "browser": {
+                    "group": "firefox",
+                    "name": "Firefox",
+                    "version": "31ESR"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515438,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-2-1332x1069",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Fsso.chinadaily.com.cn%2F",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_47a3278400/win7_chrome-2-1332x1069.png",
+                    "document_thumb": "26751_47a3278400/win7_chrome-2-1332x1069_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_47a3278400/win7_chrome-2-1332x1069_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515417,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-1332x1069",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Fsso.chinadaily.com.cn%2F",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_47a3278400/win7_chrome-1332x1069.png",
+                    "document_thumb": "26751_47a3278400/win7_chrome-1332x1069_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_47a3278400/win7_chrome-1332x1069_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515437,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-1-1332x1069",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Fsso.chinadaily.com.cn%2F",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_47a3278400/win7_chrome-1-1332x1069.png",
+                    "document_thumb": "26751_47a3278400/win7_chrome-1-1332x1069_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_47a3278400/win7_chrome-1-1332x1069_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515416,
+                "success": true,
+                "is_baseline": false,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": true,
+                "sent_for_comparison": true,
+                "comparison_dir": "26751_47a3278400/win7_chrome-1332x1069",
+                "configuration_key": "win81_ie11",
+                "basename": "windows-Vista_internet-explorer-11",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=ie&browser_version=11.0+Desktop&os=Windows&os_version=8.1&url=http%3A%2F%2Fsso.chinadaily.com.cn%2F",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": "26751_47a3278400/win7_chrome-1332x1069.png",
+                    "desktop": "26751_47a3278400/windows-Vista_internet-explorer-11_desktop.png",
+                    "document": "26751_47a3278400/windows-Vista_internet-explorer-11_document.png",
+                    "document_thumb": "26751_47a3278400/windows-Vista_internet-explorer-11_document_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_47a3278400/windows-Vista_internet-explorer-11_document_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "ie",
+                    "name": "Internet Explorer",
+                    "version": "11.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 8.1",
+                    "version": "8.1"
+                }
+            }
+        ]
+    },
+    {
+        "id": 36003,
+        "step": null,
+        "step_data": null,
+        "unique_id": "7e7e6af2f3",
+        "url": "http://www.spray.se/kampanjer",
+        "captures": [
+            {
+                "id": 515418,
+                "success": true,
+                "is_baseline": false,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": true,
+                "sent_for_comparison": true,
+                "comparison_dir": "26751_7e7e6af2f3/win7_chrome-1332x1870",
+                "configuration_key": "win7_ff_31esr",
+                "basename": "windows-7_firefox-31-0",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=firefox&browser_version=31esr&os=Windows&os_version=7&url=http%3A%2F%2Fwww.spray.se%2Fkampanjer",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": "26751_7e7e6af2f3/win7_chrome-1332x1870.png",
+                    "desktop": "26751_7e7e6af2f3/windows-7_firefox-31-0_desktop.png",
+                    "document": "26751_7e7e6af2f3/windows-7_firefox-31-0_document-1332x1892.png",
+                    "document_thumb": "26751_7e7e6af2f3/windows-7_firefox-31-0_document-1332x1892_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_7e7e6af2f3/windows-7_firefox-31-0_document-1332x1892_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "firefox",
+                    "name": "Firefox",
+                    "version": "31ESR"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515420,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-1332x1870",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Fwww.spray.se%2Fkampanjer",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_7e7e6af2f3/win7_chrome-1332x1870.png",
+                    "document_thumb": "26751_7e7e6af2f3/win7_chrome-1332x1870_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_7e7e6af2f3/win7_chrome-1332x1870_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515440,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-2-1332x1870",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Fwww.spray.se%2Fkampanjer",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_7e7e6af2f3/win7_chrome-2-1332x1870.png",
+                    "document_thumb": "26751_7e7e6af2f3/win7_chrome-2-1332x1870_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_7e7e6af2f3/win7_chrome-2-1332x1870_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515439,
+                "success": true,
+                "is_baseline": true,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": false,
+                "sent_for_comparison": false,
+                "comparison_dir": null,
+                "configuration_key": "win7_chrome",
+                "basename": "win7_chrome-1-1332x2050",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=chrome&browser_version=32.0&os=Windows&os_version=7&url=http%3A%2F%2Fwww.spray.se%2Fkampanjer",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": null,
+                    "desktop": null,
+                    "document": "26751_7e7e6af2f3/win7_chrome-1-1332x2050.png",
+                    "document_thumb": "26751_7e7e6af2f3/win7_chrome-1-1332x2050_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_7e7e6af2f3/win7_chrome-1-1332x2050_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "chrome",
+                    "name": "Google Chrome",
+                    "version": "37.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 7",
+                    "version": "7"
+                }
+            },
+            {
+                "id": 515419,
+                "success": true,
+                "is_baseline": false,
+                "is_failed": false,
+                "is_completed": true,
+                "is_pending": false,
+                "is_comparing": false,
+                "is_defected": false,
+                "is_not_defected": true,
+                "sent_for_comparison": true,
+                "comparison_dir": "26751_7e7e6af2f3/win7_chrome-1332x1870",
+                "configuration_key": "win81_ie11",
+                "basename": "windows-Vista_internet-explorer-11",
+                "orientation": null,
+                "device": null,
+                "browserstack_query": "browser=ie&browser_version=11.0+Desktop&os=Windows&os_version=8.1&url=http%3A%2F%2Fwww.spray.se%2Fkampanjer",
+                "use_browserstack": false,
+                "viewport": {
+                    "width": null,
+                    "height": null
+                },
+                "images": {
+                    "baseline": "26751_7e7e6af2f3/win7_chrome-1332x1870.png",
+                    "desktop": "26751_7e7e6af2f3/windows-Vista_internet-explorer-11_desktop.png",
+                    "document": "26751_7e7e6af2f3/windows-Vista_internet-explorer-11_document.png",
+                    "document_thumb": "26751_7e7e6af2f3/windows-Vista_internet-explorer-11_document_thumb.png",
+                    "document_thumb_ready": true,
+                    "document_small": "26751_7e7e6af2f3/windows-Vista_internet-explorer-11_document_small.png",
+                    "defected_thumb": null,
+                    "defected_thumb_ready": false
+                },
+                "browser": {
+                    "group": "ie",
+                    "name": "Internet Explorer",
+                    "version": "11.0"
+                },
+                "os": {
+                    "group": "windows",
+                    "name": "Windows 8.1",
+                    "version": "8.1"
+                }
+            }
+        ]
+    }
+]}
