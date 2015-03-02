@@ -172,7 +172,7 @@ function processResponse(originalUrl) {
                     analyze({ uri: res.request.href, auth: auth, deep: deep, originalUrl: originalUrl }, result, cb);
                 }, cb);
             } else {
-                cb(res ? res.statusCode : 'No response', 'Error found: ' + err, null);
+                cb((res ? res.statusCode : 'No response') + ', Error found: ' + err, null);
             }
         };
     }
