@@ -144,7 +144,7 @@ function decompress(body, type) {
                     body: data.toString(charset),
                     compression: 'deflate'
                 }
-);
+                );
             } else {
                 deferred.reject('Error found: can\'t deflate content' + err);
             }
@@ -286,10 +286,31 @@ function returnMainPage(response) {
 }
 
 /**
+ * Shows the list of websites in the CSV file
+ */
+function showSites(response) {
+    fs.readFile(path.join(__dirname, "lib", "sites.html"), function (err, data) {
+        if (!err) {
+            response.writeHeader(200, { "Content-Type": "text/html" });
+
+        } else {
+            response.writeHeader(500, { "Content-Type": "text/plain" });
+            data = "Server error: " + err + "\n";
+        }
+        response.write(data);
+        response.end();
+    });
+}
+
+/**
  * Decides what action needs to be done: show the main page or analyze a website
  * */
 function handleRequest(req, response) {
     console.log(req.url);
+    if (req.url === '/sites') {
+        showSites(response);
+        return;
+    }
     var requestUrl = url.parse(req.url),
         parameters = querystring.parse(requestUrl.query),
         urlToAnalyze = sanitize(decodeURIComponent(parameters.url)).xss(),
@@ -407,10 +428,10 @@ var allowCrossDomain = function (req, res, next) {
     }
 };
 app.use(allowCrossDomain);
-
+app.use("/static", express.static(__dirname + '/static'));
 app.use(express.bodyParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.get('/sites', handleRequest);
 app.get('/api/v1/scan', handleRequest);
 app.post('/api/v1/package', handlePackage);
 app.get('/api/v2/scan', handleRequestV2);

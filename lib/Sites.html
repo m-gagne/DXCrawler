@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Sites to scan</title>
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <style>
+        .sitetable {
+            border-style: solid;
+            font-family: "Segoe UI";
+            margin: auto;
+            text-align: left;
+        }
+    </style>
+    <script>
+        "use strict";
+
+        $(function () {
+            $(document).ready(function () {
+                $.ajax({
+                    type: "GET",
+                    url: "/static/websites.csv",
+                    dataType: "text",
+                    success: function (data) { processCsv(data); },
+                    error: function (exception) {
+                        alert('Exeption:' + exception);
+                    }
+                });
+            });
+        });
+
+        function processCsv(data) {
+            var allTextLines = data.split(/\r\n|\n/);
+            for (var i = 1; i < allTextLines.length; i++) {
+                var site = allTextLines[i].split(',');
+                if (site[0] !== '') {
+                    $(".sitetable").append('<tr>' +
+                     '<td>' + site[0] + '</td>' +
+                     '<td>' + site[1] + '</td>' +
+                     '<td>' + site[2] + '</td> +' +
+                     '</tr>');
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <table class="sitetable">
+        <tr>
+            <th>Site URL</th>
+            <th>Region</th>
+            <th>Rank</th>
+        </tr>
+    </table>
+</body>
+</html>
