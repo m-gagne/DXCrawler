@@ -1,10 +1,9 @@
 var batch = require('./lib/batch.js');
 var fs = require('fs');
 var parseArgs = require('minimist');
+var http = require('http');
 
 var argv = parseArgs(process.argv.slice(2));
-
-console.dir(argv);
 
 if (!argv.file)
     argv.file = './websites.csv';
@@ -19,12 +18,17 @@ var errorCount = 0;
 var lines = fs.readFileSync(argv.file, 'utf8').trim().split('\r\n');
 var prefix = argv.prefix;
 
+console.log('maxSockets', http.globalAgent.maxSockets);
+
 var connections;
 
 if (argv.connections)
     connections = argv.connections;
 else
     connections = 5;
+    
+if (connections > http.globalAgent.maxSockets)
+    http.globalAgent.maxSockets = connections;
 
 console.log(lines.length + ' to analyze');
 
@@ -79,7 +83,9 @@ var outputErrorsFile = 'errors' + suffix + '.txt';
 var results = "";
 var errors = "";
 
-console.log('starting processing ' + websites.length + ' sites');
+var starting = new Date();
+console.log('starting date/time', starting);
+console.log('processing ' + websites.length + ' sites');
 console.log('date/time', new Date());
 results += 'rank, area, url, ' + tests.join(', ') + ', comments\n';
 
@@ -110,12 +116,16 @@ function formater(data) {
 }
 
 batch.onFinish = function () {
+    var ending = new Date();
+    console.log('ending date/time', ending);
+    
     saveDataToFile(outputResultsFile, results);
     saveDataToFile(outputErrorsFile, errors);
 
     console.log('Errors: ' + errorCount);
     console.log('All websites finished. Thanks!');
-    console.log('date/time', new Date());
+    
+    console.log('milliseconds', ending.getTime() - starting.getTime());
 };
 
 batch.onError = function (url, err) {
