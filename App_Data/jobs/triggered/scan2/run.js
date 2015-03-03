@@ -62,7 +62,8 @@ var tests = [
 
 
 var saveDataToFile = function (filename, data) {
-            console.log(filename + " created");
+    fs.writeFileSync(filename, data);
+    console.log(filename + " created");
 }
 
 
@@ -78,6 +79,7 @@ if(dd<10){
 if(mm<10){
     mm='0'+mm
 }
+
 var suffix = mm + '-' + dd + '-' + yyyy;
 var outputResultsFile = 'results' + suffix + '.csv';
 var outputErrorsFile = 'errors' + suffix + '.txt';
