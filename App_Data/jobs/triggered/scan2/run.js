@@ -1,7 +1,5 @@
 var batch = require('./lib/batch.js');
 var fs = require('fs');
-var prefix = 'http://localhost:1337/?url=http://';
-var errorCount = 0;
 var parseArgs = require('minimist');
 
 var argv = parseArgs(process.argv.slice(2));
@@ -10,8 +8,9 @@ if (!argv.file)
     argv.file = './websites.csv';
     
 if (!argv.prefix)
-    argv.prefix = 'http://localhost:1337/?url=http://';
+    argv.prefix = 'http://localhost:1337/api/v0/scan?url=http://';
 
+var errorCount = 0;
 var lines = fs.readFileSync(argv.file, 'utf8').trim().split('\r\n');
 var prefix = argv.prefix;
 
