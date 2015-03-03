@@ -302,6 +302,20 @@ function showSites(response) {
     });
 }
 
+function returnWebsites(req, res) {
+    var csvFile = path.join(__dirname, "static", "websites.csv");
+    fs.readFile(csvFile, 'utf-8', function (err, csvContent) {
+        if (!err) {
+            res.writeHeader(200, { "Content-Type": "text/html" });
+            res.write(csvContent);
+            
+        } else {
+            res.writeHeader(404);
+        }
+        res.end();
+    });
+}
+
 /**
  * Decides what action needs to be done: show the main page or analyze a website
  * */
@@ -345,9 +359,9 @@ function handleCsvUpload(req, res) {
         } else {
             // TODO: save somewhere else
             var newPath = __dirname + "/static/websites.csv";
-            fs.writeFile(newPath, data, function() {
+            fs.writeFile(newPath, data, function () {
                 // refresh page after successful upload
-                res.redirect(req.get('referer'));
+                res.redirect('/sites');
             });
         }
     });
@@ -447,9 +461,9 @@ var allowCrossDomain = function (req, res, next) {
     }
 };
 app.use(allowCrossDomain);
-app.use("/static", express.static(__dirname + '/static'));
 app.use(express.bodyParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.get('/websites', returnWebsites);
 app.get('/sites', handleRequest);
 app.get('/api/v1/scan', handleRequest);
 app.post('/sites', handleCsvUpload);

@@ -55,7 +55,7 @@
             $(document).ready(function () {
                 $.ajax({
                     type: "GET",
-                    url: "/static/websites.csv",
+                    url: "/websites",
                     dataType: "text",
                     success: function (data) {
                         if (processCsv(data) === 0) {
