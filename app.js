@@ -269,12 +269,7 @@ function returnMainPage(response) {
  * Decides what action needs to be done: show the main page or analyze a website
  * */
 function handleRequest(req, response) {
-    if (req.url === '/') {
-        // Return the "local scan" page
-        returnMainPage(response);
-        return;
-    }
-    
+    console.log(req.url);
     var requestUrl = url.parse(req.url),
         parameters = querystring.parse(requestUrl.query),
         urlToAnalyze = sanitize(decodeURIComponent(parameters.url)).xss(),

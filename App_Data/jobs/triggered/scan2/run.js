@@ -4,8 +4,13 @@ var parseArgs = require('minimist');
 
 var argv = parseArgs(process.argv.slice(2));
 
+console.dir(argv);
+
 if (!argv.file)
     argv.file = './websites.csv';
+
+if (!argv.prefix && argv.azure)
+    argv.prefix = 'http://sites-scanner.azurewebsites.net/?url=http://';
     
 if (!argv.prefix)
     argv.prefix = 'http://localhost:1337/api/v0/scan?url=http://';
@@ -13,6 +18,13 @@ if (!argv.prefix)
 var errorCount = 0;
 var lines = fs.readFileSync(argv.file, 'utf8').trim().split('\r\n');
 var prefix = argv.prefix;
+
+var connections;
+
+if (argv.connections)
+    connections = argv.connections;
+else
+    connections = 5;
 
 console.log(lines.length + ' to analyze');
 
@@ -49,68 +61,70 @@ var saveDataToFile = function (filename, data) {
 }
 
 
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth()+1;//January is 0!`
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1;//January is 0!`
 
-        var yyyy = today.getFullYear();
-        if(dd<10){
-            dd='0'+dd
-        }
-        
-        if(mm<10){
-            mm='0'+mm
-        }
-        var suffix = mm + '-' + dd + '-' + yyyy;
-        var outputResultsFile = 'results' + suffix + '.csv';
-        var outputErrorsFile = 'errors' + suffix + '.txt';
-        var results = "";
-        var errors = "";
+var yyyy = today.getFullYear();
+if(dd<10){
+    dd='0'+dd
+}
 
-        console.log('starting processing ' + websites.length + ' sites');
-        results += 'rank, area, url, ' + tests.join(', ') + ', comments\n';
+if(mm<10){
+    mm='0'+mm
+}
+var suffix = mm + '-' + dd + '-' + yyyy;
+var outputResultsFile = 'results' + suffix + '.csv';
+var outputErrorsFile = 'errors' + suffix + '.txt';
+var results = "";
+var errors = "";
 
-        function formater(data) {
-            var content;
+console.log('starting processing ' + websites.length + ' sites');
+console.log('date/time', new Date());
+results += 'rank, area, url, ' + tests.join(', ') + ', comments\n';
 
-            try {
-                var body = JSON.parse(data.body);
-                var info = body.results;
-                var url = data.url .replace(prefix, "");
+function formater(data) {
+    var content;
 
-                content = ranks[data.url] + ', ' + areas[data.url] + ', ' + url + ', ' + tests.reduce(function (acum, item) {
-                    acum.push(info[item] && info[item].passed ? 1 : 0);
-                    return acum;
-                }, []).join(', ') + ', N/A';
+    try {
+        var body = JSON.parse(data.body);
+        var info = body.results;
+        var url = data.url .replace(prefix, "");
 
-                console.log('Checked - ' + data.url);
-            } catch (err) {
-                console.log(err);
-                content = ranks[data.url] + ', ' + areas[data.url] + ', ' + url + ', ' + tests.reduce(function (acum, item) {
-                    acum.push(0);
-                    return acum;
-                }, []).join(', ') + ', ' + err;
-            }
+        content = ranks[data.url] + ', ' + areas[data.url] + ', ' + url + ', ' + tests.reduce(function (acum, item) {
+            acum.push(info[item] && info[item].passed ? 1 : 0);
+            return acum;
+        }, []).join(', ') + ', N/A';
 
-            content += '\n';
-            return content;
-        }
+        console.log('Checked - ' + data.url);
+    } catch (err) {
+        console.log(err);
+        content = ranks[data.url] + ', ' + areas[data.url] + ', ' + url + ', ' + tests.reduce(function (acum, item) {
+            acum.push(0);
+            return acum;
+        }, []).join(', ') + ', ' + err;
+    }
 
-        batch.onFinish = function () {
-            saveDataToFile(outputResultsFile, results);
-            saveDataToFile(outputErrorsFile, errors);
+    content += '\n';
+    return content;
+}
 
-            console.log('Errors: ' + errorCount);
-            console.log('All websites finished. Thanks!');
-        };
+batch.onFinish = function () {
+    saveDataToFile(outputResultsFile, results);
+    saveDataToFile(outputErrorsFile, errors);
 
-        batch.onError = function (url, err) {
-            errorCount++;
-            console.log('error analyzing ' + url);
-            errors +='error analyzing ' + url;
-        };
+    console.log('Errors: ' + errorCount);
+    console.log('All websites finished. Thanks!');
+    console.log('date/time', new Date());
+};
 
-        batch.start(1, websites, function (data) {
-            var line = formater(data);
-            results += line;
-        });
+batch.onError = function (url, err) {
+    errorCount++;
+    console.log('error analyzing ' + url);
+    errors +='error analyzing ' + url;
+};
+
+batch.start(connections, websites, function (data) {
+    var line = formater(data);
+    results += line;
+});
