@@ -34,7 +34,6 @@
     "express": "~3.2.4",
     "http-agent": ">=0.1.2",
     "hyperquest": "~0.1.4",
-    "jsdom": "~0.2.19",
     "lodash": "^2.4.1",
     "parserlib": "~0.2.3",
     "promised-io": ">=0.3.0",
