@@ -100,9 +100,12 @@
 
 				event.preventDefault();
 				$("#step1status").text("Scanning " + url + "...");
+                
+                var apiurl = $("#scanform").attr('action');
+                
 				$.ajax({
 					method: "get",
-					url: "/",
+					url: apiurl,
 					data: data,
 					dataType: "text"
 				})
@@ -150,7 +153,7 @@
 
 	<p>Enter the URL of the page to be scanned. If the page requires authentication for access, enter the username and password; otherwise leave those fields blank. (HTTP Basic and Digest authentication methods are supported.)</p>
 
-	<form id="scanform" action="">
+	<form id="scanform" action="/api/v0/scan">
 		<label>
 			<span>URL to scan:</span>
 			<input type="text" name="url" id="url" size="70">
