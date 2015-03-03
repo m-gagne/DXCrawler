@@ -334,6 +334,22 @@ function handleRequest(req, response) {
     }
 }
 
+function handleCsvUpload(req, res) {
+    console.log("File to upload: " + req.files.uploadCsv.path);
+    fs.readFile(req.files.uploadCsv.path, function (err, data) {
+        if (err) {
+            console.log("Exception: " + exception);
+        } else {
+            // TODO: save somewhere else
+            var newPath = __dirname + "/static/websites.csv";
+            fs.writeFile(newPath, data, function() {
+                // refresh page after successful upload
+                res.redirect(req.get('referer'));
+            });
+        }
+    });
+}
+
 /**
  * Decides what action needs to be done: show the main page or analyze a website (version 2)
  * */
@@ -433,6 +449,7 @@ app.use(express.bodyParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.get('/sites', handleRequest);
 app.get('/api/v1/scan', handleRequest);
+app.post('/sites', handleCsvUpload);
 app.post('/api/v1/package', handlePackage);
 app.get('/api/v2/scan', handleRequestV2);
 app.get('/test', function (req, res) {

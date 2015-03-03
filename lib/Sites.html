@@ -14,8 +14,17 @@
             margin-left: 15px;
         }
 
-        #sitestable, tr{
+        .displaytext, label {
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        #sitestable, tr {
             border: 1px solid black;
+        }
+
+        td.rightpad {
+            padding-right: 20px;
         }
 
         th {
@@ -24,7 +33,7 @@
 
         header {
             font-size: 29px;
-            margin: 15px;
+            margin: 20px 15px;
         }
 
         form {
@@ -32,6 +41,11 @@
             font-size: 15px;
             margin-right: 20px;
             margin-left: 15px;
+        }
+
+        label, input {
+            display: block;
+            margin-bottom: 5px;
         }
     </style>
     <script>
@@ -44,14 +58,19 @@
                     url: "/static/websites.csv",
                     dataType: "text",
                     success: function (data) {
-                        processCsv(data);
-                        $("#displaytext").html("Current list:");
-                        $("#sitestable").show();
-
+                        if (processCsv(data) === 0) {
+                            console.log("Processed CSV.");
+                            $(".displaytext").html("Current list:");
+                            $("#sitestable").show();
+                        } else {
+                            console.log("Error: Wrong CSV format.");
+                            $("#sitestable").hide();
+                            $(".displaytext").html("Error: Wrong CSV format.");
+                        }
                     },
                     error: function () {
                         $("#sitestable").hide();
-                        $("#displaytext").html("No file 'websites.csv' has been found. Please upload one.");
+                        $(".displaytext").html("No file 'websites.csv' has been found. Please upload one.");
                     }
                 });
             });
@@ -60,26 +79,33 @@
         function processCsv(data) {
             var allTextLines = data.split(/\r\n|\n/);
             for (var i = 1; i < allTextLines.length; i++) {
-                var site = allTextLines[i].split(',');
-                if (site[0] !== '') {
+                var siteData = allTextLines[i].split(',');
+                if (siteData[0] !== '' && siteData.length !== 3) {
+                    return -1;
+                }
+                if (siteData[0] !== '') {
+                    // Add URL data read from the CSV file
                     $("#sitestable").append('<tr>' +
-                     '<td>' + site[0] + '</td>' +
-                     '<td>' + site[1] + '</td>' +
-                     '<td>' + site[2] + '</td> +' +
+                     '<td class="rightpad"> <a href= \http://' + siteData[0] + ' \'>' + siteData[0] + '</a></td>' +
+                     '<td class="rightpad">' + siteData[1] + '</td>' +
+                     '<td class="rightpad">' + siteData[2] + '</td> +' +
                      '</tr>');
                 }
             }
+            return 0;
         }
+
     </script>
 </head>
 <body>
     <header>Site List</header>
-    <form enctype="multipart/form-data" action="/sites" method="post" onsubmit="return submitForm();">
-        <label style="display: block">Upload CSV:</label>
-        <input type="file" value="Upload new CSV" accept=".csv" />
+    <form enctype="multipart/form-data" action="/sites" method="post">
+        <label>Upload CSV:</label>
+        <input type="file" accept=".csv" name="uploadCsv" />
+        <input type="submit" value="Upload" />
     </form>
     <div id="content">
-        <div id="displaytext">Loading site list...</div>
+        <div class="displaytext">Loading site list...</div>
         <table id="sitestable" style="display: none">
             <tr>
                 <th>Site URL</th>
