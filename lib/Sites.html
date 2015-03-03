@@ -6,11 +6,32 @@
     <title>Sites to scan</title>
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <style>
-        .sitetable {
-            border-style: solid;
+        body {
             font-family: "Segoe UI";
-            margin: auto;
+        }
+
+        #content {
+            margin-left: 15px;
+        }
+
+        #sitestable, tr{
+            border: 1px solid black;
+        }
+
+        th {
             text-align: left;
+        }
+
+        header {
+            font-size: 29px;
+            margin: 15px;
+        }
+
+        form {
+            float: left;
+            font-size: 15px;
+            margin-right: 20px;
+            margin-left: 15px;
         }
     </style>
     <script>
@@ -22,9 +43,15 @@
                     type: "GET",
                     url: "/static/websites.csv",
                     dataType: "text",
-                    success: function (data) { processCsv(data); },
-                    error: function (exception) {
-                        alert('Exeption:' + exception);
+                    success: function (data) {
+                        processCsv(data);
+                        $("#displaytext").html("Current list:");
+                        $("#sitestable").show();
+
+                    },
+                    error: function () {
+                        $("#sitestable").hide();
+                        $("#displaytext").html("No file 'websites.csv' has been found. Please upload one.");
                     }
                 });
             });
@@ -35,7 +62,7 @@
             for (var i = 1; i < allTextLines.length; i++) {
                 var site = allTextLines[i].split(',');
                 if (site[0] !== '') {
-                    $(".sitetable").append('<tr>' +
+                    $("#sitestable").append('<tr>' +
                      '<td>' + site[0] + '</td>' +
                      '<td>' + site[1] + '</td>' +
                      '<td>' + site[2] + '</td> +' +
@@ -46,12 +73,20 @@
     </script>
 </head>
 <body>
-    <table class="sitetable">
-        <tr>
-            <th>Site URL</th>
-            <th>Region</th>
-            <th>Rank</th>
-        </tr>
-    </table>
+    <header>Site List</header>
+    <form enctype="multipart/form-data" action="/sites" method="post" onsubmit="return submitForm();">
+        <label style="display: block">Upload CSV:</label>
+        <input type="file" value="Upload new CSV" accept=".csv" />
+    </form>
+    <div id="content">
+        <div id="displaytext">Loading site list...</div>
+        <table id="sitestable" style="display: none">
+            <tr>
+                <th>Site URL</th>
+                <th>Region</th>
+                <th>Rank</th>
+            </tr>
+        </table>
+    </div>
 </body>
 </html>
