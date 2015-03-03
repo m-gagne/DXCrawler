@@ -18,8 +18,6 @@ var errorCount = 0;
 var lines = fs.readFileSync(argv.file, 'utf8').trim().split('\r\n');
 var prefix = argv.prefix;
 
-console.log('maxSockets', http.globalAgent.maxSockets);
-
 var connections;
 
 if (argv.connections)

@@ -36,6 +36,7 @@ var url = require('url'),
     sanitize = require('validator').sanitize,
     charset = 'utf-8',
     querystring = require('querystring'),
+    http = require('http');
     request = request.defaults({
         followAllRedirects: true,
         encoding: null,
@@ -49,7 +50,11 @@ var url = require('url'),
             'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko'
         }
     }); //IE11
+    
+// Adjust the global agent maxSockets
 
+if (http.globalAgent.maxSockets < 100)
+    http.globalAgent.maxSockets = 100;
 
 /**
  * Serializes a test results array and sends it via the response
