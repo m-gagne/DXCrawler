@@ -10,9 +10,12 @@ if (!argv.file)
 
 if (!argv.prefix && argv.azure)
     argv.prefix = 'http://sites-scanner.azurewebsites.net/?url=http://';
+
+if (!argv.prefix && argv.azurev1)
+    argv.prefix = 'http://site-scanner-dev.azurewebsites.net/api/v1/scan?url=http://';
     
 if (!argv.prefix)
-    argv.prefix = 'http://localhost:1337/api/v0/scan?url=http://';
+    argv.prefix = 'http://localhost:1337/api/v1/scan?url=http://';
 
 var errorCount = 0;
 var lines = fs.readFileSync(argv.file, 'utf8').trim().split('\r\n');

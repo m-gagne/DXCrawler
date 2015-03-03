@@ -369,8 +369,8 @@ app.use(allowCrossDomain);
 app.use(express.bodyParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/api/v0/scan', handleRequest);
-app.post('/api/v0/package', handlePackage);
+app.get('/api/v1/scan', handleRequest);
+app.post('/api/v1/package', handlePackage);
 app.listen(port);
 
 console.log('Server started on port ' + port);
