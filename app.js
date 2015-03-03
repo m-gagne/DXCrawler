@@ -36,7 +36,8 @@ var url = require('url'),
     sanitize = require('validator').sanitize,
     charset = 'utf-8',
     querystring = require('querystring'),
-    http = require('http');
+    http = require('http'),
+    scanner = require('./lib/scanner');
     request = request.defaults({
         followAllRedirects: true,
         encoding: null,
@@ -299,6 +300,33 @@ function handleRequest(req, response) {
 }
 
 /**
+ * Decides what action needs to be done: show the main page or analyze a website (version 2)
+ * */
+function handleRequestV2(req, response) {
+    console.log(req.url);
+    var requestUrl = url.parse(req.url),
+        parameters = querystring.parse(requestUrl.query),
+        urlToAnalyze = sanitize(decodeURIComponent(parameters.url)).xss(),
+        user = sanitize(decodeURIComponent(parameters.user)).xss(),
+        password = sanitize(decodeURIComponent(parameters.password)).xss(),
+        deep = (parameters.deep && parameters.deep === 'true'),
+        auth;
+        
+        
+    if (!deep)
+        deep = false;
+    
+    scanner.scan(urlToAnalyze, user, password, deep, function (err, data) {
+        if (err) {
+            sendInternalServerError(err);
+            return;
+        }
+        
+        sendResults(response, data.start, data.results);
+    });
+}
+
+/**
  * Handles the content of a package sent via any of the plugins
  * */
 function handlePackage(req, res) {
@@ -371,6 +399,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/api/v1/scan', handleRequest);
 app.post('/api/v1/package', handlePackage);
+app.get('/api/v2/scan', handleRequestV2);
 app.listen(port);
 
 console.log('Server started on port ' + port);

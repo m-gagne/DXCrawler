@@ -5,6 +5,8 @@ var http = require('http');
 
 var argv = parseArgs(process.argv.slice(2));
 
+console.dir(argv);
+
 if (!argv.file)
     argv.file = './websites.csv';
 
@@ -14,6 +16,12 @@ if (!argv.prefix && argv.azure)
 if (!argv.prefix && argv.azurev1)
     argv.prefix = 'http://site-scanner-dev.azurewebsites.net/api/v1/scan?url=http://';
     
+if (!argv.prefix && argv.azurev2)
+    argv.prefix = 'http://site-scanner-dev.azurewebsites.net/api/v2/scan?url=http://';
+    
+if (!argv.prefix && argv.v2)
+    argv.prefix = 'http://localhost:1337/api/v2/scan?url=http://';
+
 if (!argv.prefix)
     argv.prefix = 'http://localhost:1337/api/v1/scan?url=http://';
 
