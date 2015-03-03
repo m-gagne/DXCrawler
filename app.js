@@ -334,6 +334,9 @@ function handleRequest(req, response) {
     }
 }
 
+/**
+ * Handles the upload of a CSV file (overwrites existing file)
+ */
 function handleCsvUpload(req, res) {
     console.log("File to upload: " + req.files.uploadCsv.path);
     fs.readFile(req.files.uploadCsv.path, function (err, data) {
