@@ -1,8 +1,19 @@
 var batch = require('./lib/batch.js');
 var fs = require('fs');
-var lines = fs.readFileSync('./websites.csv', 'utf8').trim().split('\r\n');
 var prefix = 'http://localhost:1337/?url=http://';
 var errorCount = 0;
+var parseArgs = require('minimist');
+
+var argv = parseArgs(process.argv.slice(2));
+
+if (!argv.file)
+    argv.file = './websites.csv';
+    
+if (!argv.prefix)
+    argv.prefix = 'http://localhost:1337/?url=http://';
+
+var lines = fs.readFileSync(argv.file, 'utf8').trim().split('\r\n');
+var prefix = argv.prefix;
 
 console.log(lines.length + ' to analyze');
 
