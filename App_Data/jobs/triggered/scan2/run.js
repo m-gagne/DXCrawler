@@ -4,7 +4,12 @@ var parseArgs = require('minimist');
 var http = require('http');
 var azure = require('azure-storage');
 
-var argv = parseArgs(process.argv.slice(2));
+var argv;
+
+if (process.env.ScanJob_Arguments)
+    argv = parseArgs(process.env.ScanJob_Arguments.split(/\s+/));
+else
+    argv = parseArgs(process.argv.slice(2));
 
 console.dir(argv);
 
