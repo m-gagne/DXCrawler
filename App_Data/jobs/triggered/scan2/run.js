@@ -92,6 +92,7 @@ var suffix = mm + '-' + dd + '-' + yyyy;
 var outputResultsFile = 'results' + suffix + '.csv';
 var outputErrorsFile = 'errors' + suffix + '.txt';
 var results = "";
+var dresults = [];
 var errors = "";
 
 var starting = new Date();
@@ -146,6 +147,7 @@ batch.onError = function (url, err) {
 };
 
 batch.start(connections, websites, function (data) {
+    dresults.push(data);
     var line = formater(data);
     results += line;
 });
