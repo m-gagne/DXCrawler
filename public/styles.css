@@ -9,8 +9,6 @@ body {
     font-family: "Segoe UI", Verdana, Arial, sans-serif;
     color: #114477;
     background: rgb(222,239,255); /* Old browsers */
-    background: -webkit-linear-gradient(top, rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* Chrome10+,Safari5.1+ */
-    background: linear-gradient(to bottom, rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* W3C */
 }
 
 p {
@@ -45,8 +43,6 @@ input[type=submit], button {
     margin-top: 1em;
     display: block;
     background: #225599; /* Old browsers */
-    background: -webkit-linear-gradient(top, #7db9e8 0%,#207cca 24%,#1e5799 100%); /* Chrome10+,Safari5.1+ */
-    background: linear-gradient(to bottom, #7db9e8 0%,#207cca 24%,#1e5799 100%); /* W3C */
 }
 
 

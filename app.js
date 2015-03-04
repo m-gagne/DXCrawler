@@ -302,20 +302,6 @@ function showSites(response) {
     });
 }
 
-function returnWebsites(req, res) {
-    var csvFile = path.join(__dirname, "static", "websites.csv");
-    fs.readFile(csvFile, 'utf-8', function (err, csvContent) {
-        if (!err) {
-            res.writeHeader(200, { "Content-Type": "text/html" });
-            res.write(csvContent);
-            
-        } else {
-            res.writeHeader(404);
-        }
-        res.end();
-    });
-}
-
 /**
  * Decides what action needs to be done: show the main page or analyze a website
  * */
@@ -348,6 +334,23 @@ function handleRequest(req, response) {
     }
 }
 
+/*
+ * Returns the CSV file of the website list
+ */
+function returnWebsites(req, res) {
+    var csvFile = path.join(__dirname, "public", "websites.csv");
+    fs.readFile(csvFile, 'utf-8', function (err, csvContent) {
+        if (!err) {
+            res.writeHeader(200, { "Content-Type": "text/html" });
+            res.write(csvContent);
+            
+        } else {
+            res.writeHeader(404);
+        }
+        res.end();
+    });
+}
+
 /**
  * Handles the upload of a CSV file (overwrites existing file)
  */
@@ -358,7 +361,7 @@ function handleCsvUpload(req, res) {
             console.log("Exception: " + exception);
         } else {
             // TODO: save somewhere else
-            var newPath = __dirname + "/static/websites.csv";
+            var newPath = __dirname + "/public/websites.csv";
             fs.writeFile(newPath, data, function () {
                 // refresh page after successful upload
                 res.redirect('/sites');
