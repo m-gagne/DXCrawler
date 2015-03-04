@@ -2,10 +2,16 @@ var batch = require('./lib/batch.js');
 var fs = require('fs');
 var parseArgs = require('minimist');
 var http = require('http');
+var azure = require('azure-storage');
 
 var argv = parseArgs(process.argv.slice(2));
 
 console.dir(argv);
+
+var useazurestorage = false;
+
+if (argv.storage)
+    useazurestorage = true;
 
 if (!argv.file)
     argv.file = './websites.csv';
@@ -77,7 +83,24 @@ var tests = [
 //    'ariaTags',
 ];
 
+
+var blobSvc = azure.createBlobService("sitesscannerdev", "WYLY1df7AVnv5Kh0ed6UXD+z7dQzHsMGm5BAgNs2b0iH6CCMV1QK+rmIMHALKnFgRuE5hdx+0L4AQXKLVhYXjw==");
+
+var saveDataToAzureFile = function (filename, data) {
+    blobSvc.createBlockBlobFromText('dailyscan', filename, data, function (error, result, response) {
+        if (!error) {
+            // file uploaded
+            console.log(filename + " created");
+        }
+    });
+}
+
 var saveDataToFile = function (filename, data) {
+    if (useazurestorage) {
+        saveDataToAzureFile(filename, data);
+        return;
+    }
+    
     fs.writeFileSync(filename, data);
     console.log(filename + " created");
 }
