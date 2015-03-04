@@ -43,6 +43,7 @@ console.log(lines.length + ' to analyze');
 
 var areas = [];
 var ranks = [];
+var drows = {};
 
 var websites = lines.map(function (line) {
     var split = line.split(",");
@@ -50,6 +51,8 @@ var websites = lines.map(function (line) {
 
     areas[url] = split[1];
     ranks[url] = split[2];
+    
+    drows[url] = {};
 
     return url;
 });
@@ -68,12 +71,10 @@ var tests = [
 //    'ariaTags',
 ];
 
-
 var saveDataToFile = function (filename, data) {
     fs.writeFileSync(filename, data);
     console.log(filename + " created");
 }
-
 
 var today = new Date();
 var dd = today.getDate();
@@ -90,6 +91,7 @@ if(mm<10){
 
 var suffix = mm + '-' + dd + '-' + yyyy;
 var outputResultsFile = 'results' + suffix + '.csv';
+var outputOldResultsFile = 'oldresults' + suffix + '.csv';
 var outputErrorsFile = 'errors' + suffix + '.txt';
 var results = "";
 var dresults = [];
@@ -117,8 +119,15 @@ function formater(data) {
         var row = { 
             rank: ranks[data.url], 
             area: areas[data.url],
-            url: url
+            url: url,
+            tests: []
         }
+        
+        tests.forEach(function (item) {
+            row.tests.push(info[item] && info[item].passed ? 1 : 0);
+        });
+        
+        drows[data.url] = row;
 
         console.log('Checked - ' + data.url);
     } catch (err) {
@@ -127,6 +136,21 @@ function formater(data) {
             acum.push(0);
             return acum;
         }, []).join(', ') + ', ' + err;
+        
+        var row = { 
+            rank: ranks[data.url], 
+            area: areas[data.url],
+            url: url,
+            tests: []
+        }
+        
+        tests.forEach(function (item) {
+            row.tests.push(0);
+        });
+        
+        drows[data.url] = row;
+        
+        console.log('error - ' + data.url, err);
     }
 
     content += '\n';
@@ -137,8 +161,17 @@ batch.onFinish = function () {
     var ending = new Date();
     console.log('ending date/time', ending);
     
-    saveDataToFile(outputResultsFile, results);
+    saveDataToFile(outputOldResultsFile, results);
     saveDataToFile(outputErrorsFile, errors);
+    
+    var newresults = 'rank, area, url, ' + tests.join(', ') + ', comments\n';
+    
+    for (var n in drows) {
+        var row = drows[n];
+        newresults += row.rank + ", " + row.area + ", " + row.url + ", " + row.tests.join(", ") + ", N/A\n";
+    }
+    
+    saveDataToFile(outputResultsFile, newresults);
 
     console.log('Errors: ' + errorCount);
     console.log('All websites finished. Thanks!');
