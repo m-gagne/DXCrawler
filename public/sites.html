@@ -4,13 +4,16 @@
 <head>
     <meta charset="utf-8" />
     <title>Site List</title>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.5/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="styles.css" />
-    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
     <script>
         "use strict";
 
         $(function () {
             $(document).ready(function () {
+                //$('#sitestable').DataTable();
                 $.ajax({
                     type: "GET",
                     url: "/websites",
@@ -29,45 +32,50 @@
                         $(".displaytext").html("No file 'websites.csv' has been found. Please upload one.");
                     }
                 });
+
             });
         });
 
         function processCsv(data) {
+            var table = $('#sitestable').DataTable();
             var allTextLines = data.split(/\r\n|\n/);
-            for (var i = 1; i < allTextLines.length; i++) {
+            for (var i = 0; i < allTextLines.length; i++) {
                 var siteData = allTextLines[i].split(',');
                 if (siteData[0] !== '' && siteData.length !== 3) {
                     return -1;
                 }
                 if (siteData[0] !== '') {
                     // Add URL data read from the CSV file
-                    $("#sitestable").append('<tr>' +
-                     '<td class="rightpad"> <a href= \http://' + siteData[0] + ' \'>' + siteData[0] + '</a></td>' +
-                     '<td class="rightpad">' + siteData[1] + '</td>' +
-                     '<td class="rightpad">' + siteData[2] + '</td> +' +
-                     '</tr>');
+                    table.row.add( [
+                        siteData[0],
+                        siteData[1],
+                        siteData[2]]);
                 }
             }
             return 0;
         }
-
     </script>
 </head>
 <body>
     <h1>Site List</h1>
     <form enctype="multipart/form-data" action="/sites" method="post">
-        <label id="upload-csv"">Upload CSV:</label>
+        <label id="upload-csv" ">Upload CSV:</label>
         <input type="file" accept=".csv" name="uploadCsv" />
         <input type="submit" value="Upload" />
     </form>
     <div id="content">
         <div class="displaytext">Loading site list...</div>
         <table id="sitestable" style="display: none">
-            <tr>
-                <th>Site URL</th>
-                <th>Region</th>
-                <th>Rank</th>
-            </tr>
+            <thead>
+                <tr>
+                    <th>Site URL</th>
+                    <th>Region</th>
+                    <th>Rank</th>
+                </tr>
+            </thead>
+            <tbody>
+            
+            </tbody>
         </table>
     </div>
 </body>
