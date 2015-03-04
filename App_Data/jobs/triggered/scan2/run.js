@@ -14,10 +14,16 @@ if (!argv.prefix && argv.azure)
     argv.prefix = 'http://sites-scanner.azurewebsites.net/?url=http://';
 
 if (!argv.prefix && argv.azurev1)
-    argv.prefix = 'http://site-scanner-dev.azurewebsites.net/api/v1/scan?url=http://';
+    argv.prefix = 'http://sites-scanner-dev.azurewebsites.net/api/v1/scan?url=http://';
     
 if (!argv.prefix && argv.azurev2)
-    argv.prefix = 'http://site-scanner-dev.azurewebsites.net/api/v2/scan?url=http://';
+    argv.prefix = 'http://sites-scanner-dev.azurewebsites.net/api/v2/scan?url=http://';
+    
+if (!argv.prefix && argv.azuretestv1)
+    argv.prefix = 'http://sites-scanner-test.azurewebsites.net/api/v1/scan?url=http://';
+    
+if (!argv.prefix && argv.azuretestv2)
+    argv.prefix = 'http://sites-scanner-test.azurewebsites.net/api/v2/scan?url=http://';
     
 if (!argv.prefix && argv.v2)
     argv.prefix = 'http://localhost:1337/api/v2/scan?url=http://';
