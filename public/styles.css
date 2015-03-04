@@ -63,7 +63,12 @@ label span {
 }
 
 #content {
+    float: left;
     margin-left: 15px;
+}
+
+#uploadcsvform {
+    width: auto;
 }
 
 .displaytext, label {
@@ -75,7 +80,6 @@ label span {
     border: 1px solid black;
 }
 
-td.rightpad {
-    padding-right: 20px;
+.dataTables_wrapper {
+    width: 600px;
 }
-
