@@ -338,17 +338,8 @@ function handleRequest(req, response) {
  * Returns the CSV file of the website list
  */
 function returnWebsites(req, res) {
-    var csvFile = path.join(__dirname, "public", "websites.csv");
-    fs.readFile(csvFile, 'utf-8', function (err, csvContent) {
-        if (!err) {
-            res.writeHeader(200, { "Content-Type": "text/html" });
-            res.write(csvContent);
-            
-        } else {
-            res.writeHeader(404);
-        }
-        res.end();
-    });
+    // TODO: get from azure storage
+    res.redirect('/websites.csv');
 }
 
 /**
