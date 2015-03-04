@@ -113,6 +113,12 @@ function formater(data) {
             acum.push(info[item] && info[item].passed ? 1 : 0);
             return acum;
         }, []).join(', ') + ', N/A';
+        
+        var row = { 
+            rank: ranks[data.url], 
+            area: areas[data.url],
+            url: url
+        }
 
         console.log('Checked - ' + data.url);
     } catch (err) {
