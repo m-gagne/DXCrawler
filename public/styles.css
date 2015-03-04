@@ -1,0 +1,85 @@
+﻿/*
+    general styles
+*/
+html, body {
+    min-height: 100%;
+}
+
+body {
+    font-family: "Segoe UI", Verdana, Arial, sans-serif;
+    color: #114477;
+    background: rgb(222,239,255); /* Old browsers */
+    background: -webkit-linear-gradient(top, rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: linear-gradient(to bottom, rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* W3C */
+}
+
+p {
+    margin: 0.5em 0;
+}
+
+pre {
+    color: #006611;
+    background: rgb(192,239,192); /* Old browsers */
+    background: -webkit-linear-gradient(top, rgba(192,239,192,1) 0%,rgba(171,199,171,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: linear-gradient(to bottom, rgba(192,239,192,1) 0%,rgba(171,199,171,1) 100%); /* W3C */
+}
+
+label {
+    display: inline;
+    color: #225599;
+    margin: 0.25em 0;
+}
+
+form {
+    float: left;
+    font-size: 15px;
+    margin-right: 30px;
+}
+
+input[type=submit], button {
+    font-size: 125%;
+    color: #dfefff;
+    border: none;
+    padding: 4px 32px;
+    margin-bottom: 1em;
+    margin-top: 1em;
+    display: block;
+    background: #225599; /* Old browsers */
+    background: -webkit-linear-gradient(top, #7db9e8 0%,#207cca 24%,#1e5799 100%); /* Chrome10+,Safari5.1+ */
+    background: linear-gradient(to bottom, #7db9e8 0%,#207cca 24%,#1e5799 100%); /* W3C */
+}
+
+
+/*
+    sites.html
+*/
+label#upload-csv {
+    display: block;
+}
+
+th {
+    text-align: left;
+}
+
+label span {
+    display: inline-block;
+    width: 7em;
+}
+
+#content {
+    margin-left: 15px;
+}
+
+.displaytext, label {
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+#sitestable, tr {
+    border: 1px solid black;
+}
+
+td.rightpad {
+    padding-right: 20px;
+}
+

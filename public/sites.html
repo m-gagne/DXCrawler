@@ -4,50 +4,8 @@
 <head>
     <meta charset="utf-8" />
     <title>Site List</title>
+    <link rel="stylesheet" href="styles.css" />
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-    <style>
-        body {
-            font-family: "Segoe UI";
-        }
-
-        #content {
-            margin-left: 15px;
-        }
-
-        .displaytext, label {
-            font-size: 15px;
-            margin-bottom: 10px;
-        }
-
-        #sitestable, tr {
-            border: 1px solid black;
-        }
-
-        td.rightpad {
-            padding-right: 20px;
-        }
-
-        th {
-            text-align: left;
-        }
-
-        header {
-            font-size: 29px;
-            margin: 20px 15px;
-        }
-
-        form {
-            float: left;
-            font-size: 15px;
-            margin-right: 30px;
-            margin-left: 15px;
-        }
-
-        label, input {
-            display: block;
-            margin-bottom: 10px;
-        }
-    </style>
     <script>
         "use strict";
 
@@ -96,9 +54,9 @@
     </script>
 </head>
 <body>
-    <header>Site List</header>
+    <h1>Site List</h1>
     <form enctype="multipart/form-data" action="/sites" method="post">
-        <label>Upload CSV:</label>
+        <label id="upload-csv"">Upload CSV:</label>
         <input type="file" accept=".csv" name="uploadCsv" />
         <input type="submit" value="Upload" />
     </form>
