@@ -203,7 +203,8 @@ batch.onFinish = function () {
     
     for (var n in drows) {
         var row = drows[n];
-        newresults += row.rank + ", " + row.area + ", " + row.url + ", " + row.tests.join(", ") + ", N/A\n";
+        if (row.rank)
+            newresults += row.rank + ", " + row.area + ", " + row.url + ", " + row.tests.join(", ") + ", N/A\n";
     }
     
     saveDataToFile(outputResultsFile, newresults);
