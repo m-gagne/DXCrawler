@@ -318,7 +318,7 @@ function handleRequestV2(req, response) {
     
     scanner.scan(urlToAnalyze, user, password, deep, function (err, data) {
         if (err) {
-            sendInternalServerError(err);
+            sendInternalServerError(err, response);
             return;
         }
         
