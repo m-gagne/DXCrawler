@@ -31,6 +31,7 @@ var url = require('url'),
     jsLoader = require('./lib/checks/loadjs.js'),
     tests = require('./lib/checks/loadchecks.js').tests,
     http = require('http'),
+    csv = require('csv'),
     path = require('path'),
     zlib = require('zlib'),
     sanitize = require('validator').sanitize,
@@ -344,7 +345,7 @@ function returnWebsites(req, res) {
     var filename = path.join(__dirname, "public", 'websites.csv');
     fs.exists(filename, function (exists) {
         if (!exists) {
-            sendInternalServerError("File nout found", res);
+            sendInternalServerError("File not found", res);
         } else {
             csv()
                 .from.stream(fs.createReadStream(filename))
