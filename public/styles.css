@@ -3,12 +3,11 @@
 */
 html, body {
     min-height: 100%;
+    margin: 10px 20px;
 }
 
 body {
     font-family: "Segoe UI", Verdana, Arial, sans-serif;
-    color: #114477;
-    background: rgb(222,239,255); /* Old browsers */
 }
 
 p {
@@ -24,7 +23,6 @@ pre {
 
 label {
     display: inline;
-    color: #225599;
     margin: 0.25em 0;
 }
 
@@ -34,28 +32,9 @@ form {
     margin-right: 30px;
 }
 
-input[type=submit], button {
-    font-size: 125%;
-    color: #dfefff;
-    border: none;
-    padding: 4px 32px;
-    margin-bottom: 1em;
-    margin-top: 1em;
-    display: block;
-    background: #225599; /* Old browsers */
-}
-
-
 /*
     sites.html
 */
-label#upload-csv {
-    display: block;
-}
-
-th {
-    text-align: left;
-}
 
 label span {
     display: inline-block;
@@ -64,11 +43,7 @@ label span {
 
 #content {
     float: left;
-    margin-left: 15px;
-}
-
-#uploadcsvform {
-    width: auto;
+    margin-left: 20px;
 }
 
 .displaytext, label {
@@ -82,4 +57,9 @@ label span {
 
 .dataTables_wrapper {
     width: 600px;
+}
+
+.panel, .panel-primary, .panel-body {
+    display: inline-block;
+    float: left;
 }

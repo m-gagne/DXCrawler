@@ -17,11 +17,16 @@
  * See the Apache Version 2.0 License for specific language governing permissions
  * and limitations under the License.
 -->
-<html>
+<html lang="en">
 <head>
     <title>Modern.ie Local Scan</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css" />
-    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+
     <script>
         $(function () {
             $("#step2").hide();
@@ -103,29 +108,40 @@
     </script>
 </head>
 <body>
-
-    <h1>Modern.ie Local Scan</h1>
+    <nav class="navbar navbar-inverse">
+        <ul class="nav navbar-nav">
+            <li><a class="navbar-brand" href="/">Modern.IE Local Scan</a></li>
+            <li><a href="#" class="active">Scan</a></li>
+            <li><a href="/sites">Site list</a></li>
+        </ul>
+    </nav>
 
     <div id="step1">
 	<h2>Scan a page (v2)</h2>
 
         <form id="scanform" action="/api/v1/scan">
-            <label>URL to scan</label>
-            <input type="text" name="url" id="url" size="70">
+            <div class="form-group">
+                <label for="url">URL to scan</label>
+                <input type="url" name="url" id="url" size="70">
+            </div>
+
             <p>If the page requires authentication for access, enter below the username and password; otherwise leave the fields blank.</p>
             <p>HTTP Basic and Digest authentication methods are supported.</p>
-            <label>Username</label>
-            <input type="text" name="user" id="user" size="20">
-            <label>Password</label>
-            <input type="text" name="password" id="password" size="20">
-
-            <input type="submit" name="scan" id="scan" value="Scan">
+            <div class="form-group">
+                <label for="user">Username</label>
+                <input type="text" name="user" id="user" size="20">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" size="20">
+            </div>
+            <button type="submit" name="scan" id="scan" class="btn btn-primary">Scan</button>
             <p id="step1status"></p>
         </form>
     </div>
 
     <div id="step2">
-        <h2>Generate report</h2>
+        <h1>Generate report</h1>
 
         <p>
             The scan is complete and the report is ready to be generated.
@@ -137,11 +153,13 @@
             <input type="hidden" name="local_test_results" id="json" value="">
         </form>
 
-        <p><a href="" id="viewresults">See what will be submitted</a></p>
+        <p>
+            <a href="" id="viewresults">See what will be submitted</a>
+        </p>
         <pre id="scanresults"></pre>
 
         <div>
-            <button id="newscan">New Scan</button>
+            <button id="newscan" class="btn btn-primary">New Scan</button>
         </div>
     </div>
 

@@ -1,40 +1,41 @@
 ﻿<!DOCTYPE html>
 
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
     <title>Site List</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.5/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css" />
-    <script src="//code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
     <script>
         "use strict";
 
-        $(function () {
-            $(document).ready(function () {
-                $.ajax({
-                    type: "GET",
-                    url: "/websites",
-                    success: function (data) {
-                        if (processCsv(data) === 0) {
-                            console.log("Processed CSV.");
-                            $(".displaytext").hide();
-                            $("#sitestable").DataTable().draw();
-                            $("#sitestable").show();
-                        } else {
-                            console.log("Error: Wrong CSV format.");
-                            $(".displaytext").html("Error: Wrong CSV format.");
-                        }
-                    },
-                    error: function (jqXhr, textStatus, errorThrown) {
-                        console.log(textStatus);
-                        console.log(errorThrown);
-                        $(".displaytext").html("No file 'websites.csv' has been found. Please upload one.");
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "/websites",
+                success: function (data) {
+                    if (processCsv(data) === 0) {
+                        console.log("Processed CSV.");
+                        $(".displaytext").hide();
+                        $("#sitestable").DataTable().draw();
+                        $("#sitestable").show();
+                    } else {
+                        console.log("Error: Wrong CSV format.");
+                        $(".displaytext").html("Error: Wrong CSV format.");
                     }
-                });
-
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                    $(".displaytext").html("No file 'websites.csv' has been found. Please upload one.");
+                }
             });
+
         });
 
         function processCsv(data) {
@@ -62,15 +63,28 @@
     </script>
 </head>
 <body>
-    <h1>Site List</h1>
-    <form id="uploadcsvform" enctype="multipart/form-data" action="/sites" method="post">
-        <label id="upload-csv" ">Upload CSV:</label>
-        <input type="file" accept=".csv" name="uploadCsv" />
-        <input type="submit" value="Upload" />
-    </form>
+    <nav class="navbar navbar-inverse">
+        <ul class="nav navbar-nav">
+            <li><a class="navbar-brand" href="/">Modern.IE Local Scan</a></li>
+            <li><a href="/">Scan</a></li>
+            <li><a href="#" class="active">Site list</a></li>
+        </ul>
+    </nav>
+    <h1>Site list</h1>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <label for="uploadCsv">Upload CSV:</label>
+        </div>
+        <div class="panel-body">
+            <form enctype="multipart/form-data" action="/sites" method="post">
+                <input id="uploadCsv" type="file" accept=".csv" name="uploadCsv" />
+                <button type="submit" value="Upload" class="btn btn-primary">Upload</button>
+            </form>
+        </div>
+    </div>
     <div id="content">
         <div class="displaytext">Loading site list...</div>
-        <table id="sitestable" style="display: none">
+        <table class="table table-striped" id="sitestable" style="display: none">
             <thead>
                 <tr>
                     <th>Site URL</th>
