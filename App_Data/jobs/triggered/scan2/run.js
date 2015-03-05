@@ -167,6 +167,8 @@ function formater(data) {
         console.log('Checked - ' + data.url);
     } catch (err) {
         console.log(err);
+        console.log("data");
+        console.dir(data);
         content = ranks[data.url] + ', ' + areas[data.url] + ', ' + url + ', ' + tests.reduce(function (acum, item) {
             acum.push(0);
             return acum;
