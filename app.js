@@ -339,7 +339,29 @@ function handleRequest(req, response) {
  */
 function returnWebsites(req, res) {
     // TODO: get from azure storage
-    res.redirect('/websites.csv');
+    var json = {};
+    var data = [];
+    var filename = path.join(__dirname, "public", 'websites.csv');
+    fs.exists(filename, function (exists) {
+        if (!exists) {
+            sendInternalServerError("File nout found", res);
+        } else {
+            csv()
+                .from.stream(fs.createReadStream(filename))
+                .on('record', function (row) {
+                data.push(row);
+            })
+                .on('end', function () {
+                json['draw'] = req.query.draw;
+                json['recordsTotal'] = data.length;
+                json['recordsFiltered'] = data.length;
+                json['data'] = data.slice(req.query.start, parseInt(req.query.start) + parseInt(req.query.length));
+                res.write(JSON.stringify(json));
+                res.end();
+            });
+        }
+    });
+
 }
 
 /**

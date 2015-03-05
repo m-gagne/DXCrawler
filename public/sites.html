@@ -18,48 +18,23 @@
             $.ajax({
                 type: "GET",
                 url: "/websites",
-                success: function (data) {
-                    if (processCsv(data) === 0) {
-                        console.log("Processed CSV.");
-                        $(".displaytext").hide();
-                        $("#sitestable").DataTable().draw();
-                        $("#sitestable").show();
-                    } else {
-                        console.log("Error: Wrong CSV format.");
-                        $(".displaytext").html("Error: Wrong CSV format.");
-                    }
+                success: function () {
+                    $('#sitestable').DataTable({
+                        "processing": true,
+                        "serverSide": true,
+                        "ajax": "/websites"
+                    });
+                    $(".displaytext").hide();
+                    $("#sitestable").DataTable().draw();
+                    $("#sitestable").show();
                 },
-                error: function (jqXhr, textStatus, errorThrown) {
-                    console.log(textStatus);
-                    console.log(errorThrown);
+                error: function () {
+                    $('#sitestable').hide();
                     $(".displaytext").html("No file 'websites.csv' has been found. Please upload one.");
                 }
             });
 
         });
-
-        function processCsv(data) {
-            var table = $('#sitestable').DataTable();
-            var allTextLines = data.split(/\r\n|\n/);
-            for (var i = 0; i < allTextLines.length - 1; i++) {
-                var siteData = allTextLines[i].split(',');
-                if (siteData.length === 3) {
-                    var siteUrl = siteData[0];
-                    var siteRegion = siteData[1];
-                    var siteRank = siteData[2];
-                    console.log("Adding row: " + siteUrl + "region " + siteRegion + "rank " + siteRank);
-                    // Add URL data read from the CSV file
-                    table.row.add([
-                        siteUrl,
-                        siteRegion,
-                        siteRank
-                    ]);
-                } else {
-                    return -1;
-                }
-            }
-            return 0;
-        }
     </script>
 </head>
 <body>
