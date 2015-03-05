@@ -400,6 +400,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/api/v1/scan', handleRequest);
 app.post('/api/v1/package', handlePackage);
 app.get('/api/v2/scan', handleRequestV2);
+app.get('/test', function (req, res) {
+    res.write('test');
+    res.end();
+});
 app.listen(port);
 
 console.log('Server started on port ' + port);
