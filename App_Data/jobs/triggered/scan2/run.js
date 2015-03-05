@@ -138,24 +138,55 @@ console.log('processing ' + websites.length + ' sites');
 console.log('date/time', new Date());
 results += 'rank, area, url, ' + tests.join(', ') + ', comments\n';
 
+function getComment(body) {
+    if (body.results)
+        return "N/A";
+        
+    var result = "";
+        
+    if (body.statusCode)
+        result += "Status Code: " + body.statusCode;
+    if (body.message) {
+        if (result != "")
+            result += " ";
+        result += "Message: " + body.message;
+    }
+    
+    if (typeof body == "string")
+        result = body;
+    
+    if (result == "")
+        result = "Error retrieving results";
+        
+    return result.replace(",","");
+}
+
 function formater(data) {
     var content;
 
     try {
-        var body = JSON.parse(data.body);
+        var body;
+        
+        if (data.body && data.body.indexOf('{') < 0)
+            body = data.body;
+        else
+            body = JSON.parse(data.body);
+            
         var info = body.results;
         var url = data.url .replace(prefix, "");
+        var comment = getComment(body);
 
         content = ranks[data.url] + ', ' + areas[data.url] + ', ' + url + ', ' + tests.reduce(function (acum, item) {
             acum.push(info && info[item] && info[item].passed ? 1 : 0);
             return acum;
-        }, []).join(', ') + ', ' + (info)?'N/A':'Error retrieving results';
+        }, []).join(', ') + ', ' + comment;
         
         var row = { 
             rank: ranks[data.url], 
             area: areas[data.url],
             url: url,
-            tests: []
+            tests: [],
+            comment: comment
         }
         
         tests.forEach(function (item) {
@@ -165,6 +196,9 @@ function formater(data) {
         drows[data.url] = row;
 
         console.log('Checked - ' + data.url);
+
+        if (comment != "N/A")
+            console.log(comment);
     } catch (err) {
         console.log(err);
         console.log("data");
@@ -178,7 +212,8 @@ function formater(data) {
             rank: ranks[data.url], 
             area: areas[data.url],
             url: url,
-            tests: []
+            tests: [],
+            comment: err.toString()
         }
         
         tests.forEach(function (item) {
@@ -206,7 +241,7 @@ batch.onFinish = function () {
     for (var n in drows) {
         var row = drows[n];
         if (row.rank)
-            newresults += row.rank + ", " + row.area + ", " + row.url + ", " + row.tests.join(", ") + ", N/A\n";
+            newresults += row.rank + ", " + row.area + ", " + row.url + ", " + row.tests.join(", ") + ", " + row.comment + "\n";
     }
     
     saveDataToFile(outputResultsFile, newresults);
