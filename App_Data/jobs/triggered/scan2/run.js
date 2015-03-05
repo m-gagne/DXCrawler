@@ -147,9 +147,9 @@ function formater(data) {
         var url = data.url .replace(prefix, "");
 
         content = ranks[data.url] + ', ' + areas[data.url] + ', ' + url + ', ' + tests.reduce(function (acum, item) {
-            acum.push(info[item] && info[item].passed ? 1 : 0);
+            acum.push(info && info[item] && info[item].passed ? 1 : 0);
             return acum;
-        }, []).join(', ') + ', N/A';
+        }, []).join(', ') + ', ' + (info)?'N/A':'Error retrieving results';
         
         var row = { 
             rank: ranks[data.url], 
@@ -159,7 +159,7 @@ function formater(data) {
         }
         
         tests.forEach(function (item) {
-            row.tests.push(info[item] && info[item].passed ? 1 : 0);
+            row.tests.push(info && info[item] && info[item].passed ? 1 : 0);
         });
         
         drows[data.url] = row;
