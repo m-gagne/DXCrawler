@@ -15,6 +15,7 @@
         "use strict";
 
         function formatTestResult(td, cellData, rowData, row, col) {
+            // adds a glyphicon to a table cell depending on whether it contains a "1" or a "0"
             var testResult = (cellData.trimLeft() === "1") ? "Passed" : "Failed";
             if (testResult === "Failed") {
                 $(td)
@@ -31,15 +32,15 @@
             $('#sitestable').DataTable({
                 "processing": true,
                 "serverSide": true,
-                "deferRender": true,
                 "autoWidth": false,
-                "searching": false,
+                "searching": true,
                 "ordering": false,
                 "ajax": {
                     "url": "/scanresults",
                     "error": function () {
-                        $('#sitestable').hide();
+                        $('#sitestable_wrapper').hide();
                         $(".displaytext").html("No scan results found.");
+                        $(".displaytext").show();
                     }
                 },
                 "columns": [
@@ -57,7 +58,6 @@
             $("#sitestable").DataTable().draw();
             $("#sitestable").show();
         });
-
     </script>
 </head>
 <body>

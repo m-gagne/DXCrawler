@@ -32,6 +32,7 @@ var url = require('url'),
     tests = require('./lib/checks/loadchecks.js').tests,
     http = require('http'),
     csv = require('csv'),
+    jslinq = require('jslinq'),
     path = require('path'),
     zlib = require('zlib'),
     sanitize = require('validator').sanitize,
@@ -333,12 +334,16 @@ function returnScanResults(req, res) {
     var dir = "App_Data/jobs/triggered/scan2";
     var regex = new RegExp("^results.*.csv");
     var files = fs.readdirSync(dir);
+    var fileFound = false;
     files.forEach(function (file) {
         if (regex.test(file)) {
             parseCsv(req, res, dir, file);
-            return;
-        }
+            fileFound = true;
+        } 
     });
+    if (!fileFound) {
+        sendInternalServerError("File not found", res);
+    }
 }
 
 function parseCsv(req, res, dir, filename) {
@@ -354,16 +359,31 @@ function parseCsv(req, res, dir, filename) {
             csv()
                 .from.stream(fs.createReadStream(file))
                 .on('record', function (row) {
-                    data.push(row);
-                })
+                data.push(row.map(function (e) { return e.trimLeft().trimRight() }));
+            })
                 .on('end', function () {
-                    json['draw'] = req.query.draw;
-                    json['recordsTotal'] = data.length;
-                    json['recordsFiltered'] = data.length;
-                    json['data'] = data.slice(req.query.start, parseInt(req.query.start) + parseInt(req.query.length));
-                    res.write(JSON.stringify(json));
-                    res.end();
-                });
+                json['draw'] = req.query.draw;
+                json['data'] = data.slice(req.query.start, parseInt(req.query.start) + parseInt(req.query.length));
+                var resultset = jslinq(data)
+                                    .select(function (item) { return item })
+                                    .skip(1)
+                                    .where(function (array) {
+                                        if (req.query && req.query.search && req.query.search.value && req.query.search.value !== '') {
+                                            return array.some(function (element) { return new RegExp(req.query.search.value).test(element) });
+                                        } else {
+                                            return true;
+                                        }
+                                     })
+                                    .items;
+                json['data'] = jslinq(resultset)
+                                    .skip(req.query.start)
+                                    .take(req.query.length)
+                                    .items;
+                json['recordsTotal'] = data.length;
+                json['recordsFiltered'] = resultset.length;
+                res.write(JSON.stringify(json));
+                res.end();
+            });
         }
     });
 }
