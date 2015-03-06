@@ -14,36 +14,50 @@
     <script>
         "use strict";
 
-        $(document).ready(function () {
-            $.ajax({
-                type: "GET",
-                url: "/scanresults",
-                success: function () {
-                    $('#sitestable').DataTable({
-                        "processing": true,
-                        "serverSide": true,
-                        "ajax": "/scanresults",
-                        "columns": [
-                            { "data": 2 },
-                            { "data": 3 },
-                            { "data": 4 },
-                            { "data": 5 },
-                            { "data": 6 },
-                            { "data": 7 },
-                            { "data": 8 }
-                        ]
-                    });
-                    $(".displaytext").hide();
-                    $("#sitestable").DataTable().draw();
-                    $("#sitestable").show();
-                },
-                error: function () {
-                    $('#sitestable').hide();
-                    $(".displaytext").html("No scan results found.");
-                }
-            });
+        function formatTestResult(td, cellData, rowData, row, col) {
+            var testResult = (cellData.trimLeft() === "1") ? "Passed" : "Failed";
+            if (testResult === "Failed") {
+                $(td)
+                    .html("<span class='glyphicon glyphicon-remove danger' aria-hidden='true'></span>")
+                    .addClass("danger");
+            } else {
+                $(td)
+                    .html("<span class='glyphicon glyphicon-ok' aria-hidden='true'></span>")
+                    .addClass("success");
+            }
+        }
 
+        $(document).ready(function () {
+            $('#sitestable').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "deferRender": true,
+                "autoWidth": false,
+                "searching": false,
+                "ordering": false,
+                "ajax": {
+                    "url": "/scanresults",
+                    "error": function () {
+                        $('#sitestable').hide();
+                        $(".displaytext").html("No scan results found.");
+                    }
+                },
+                "columns": [
+                    // map CSV columns to datatable columns
+                    { "data": 2 },
+                    { "data": 3, "createdCell": formatTestResult },
+                    { "data": 4, "createdCell": formatTestResult },
+                    { "data": 5, "createdCell": formatTestResult },
+                    { "data": 6, "createdCell": formatTestResult },
+                    { "data": 7, "createdCell": formatTestResult },
+                    { "data": 8 }
+                ]
+            });
+            $(".displaytext").hide();
+            $("#sitestable").DataTable().draw();
+            $("#sitestable").show();
         });
+
     </script>
 </head>
 <body>

@@ -22,6 +22,9 @@
                     $('#sitestable').DataTable({
                         "processing": true,
                         "serverSide": true,
+                        "autoWidth": false,
+                        "searching": false,
+                        "ordering": false,
                         "ajax": "/websites"
                     });
                     $(".displaytext").hide();

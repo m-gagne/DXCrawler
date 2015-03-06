@@ -331,11 +331,12 @@ function returnWebsites(req, res) {
 
 function returnScanResults(req, res) {
     var dir = "App_Data/jobs/triggered/scan2";
+    var regex = new RegExp("^results.*.csv");
     var files = fs.readdirSync(dir);
     files.forEach(function (file) {
-        var regex = new RegExp("^results.*.csv");
         if (regex.test(file)) {
             parseCsv(req, res, dir, file);
+            return;
         }
     });
 }
