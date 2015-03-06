@@ -17,12 +17,21 @@
         $(document).ready(function () {
             $.ajax({
                 type: "GET",
-                url: "/websites",
+                url: "/scanresults",
                 success: function () {
                     $('#sitestable').DataTable({
                         "processing": true,
                         "serverSide": true,
-                        "ajax": "/websites"
+                        "ajax": "/scanresults",
+                        "columns": [
+                            { "data": 2 },
+                            { "data": 3 },
+                            { "data": 4 },
+                            { "data": 5 },
+                            { "data": 6 },
+                            { "data": 7 },
+                            { "data": 8 }
+                        ]
                     });
                     $(".displaytext").hide();
                     $("#sitestable").DataTable().draw();
@@ -30,7 +39,7 @@
                 },
                 error: function () {
                     $('#sitestable').hide();
-                    $(".displaytext").html("No file 'websites.csv' has been found. Please upload one.");
+                    $(".displaytext").html("No scan results found.");
                 }
             });
 
@@ -42,30 +51,23 @@
         <ul class="nav navbar-nav">
             <li><a class="navbar-brand" href="/">Modern.IE Local Scan</a></li>
             <li><a href="/">Scan</a></li>
-            <li><a href="#" class="active">Site list</a></li>
-            <li><a href="/results">Scan results</a></li>
+            <li><a href="/sites">Site list</a></li>
+            <li><a href="#">Scan results</a></li>
         </ul>
     </nav>
-    <h1>Site list</h1>
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <label for="uploadCsv">Upload CSV:</label>
-        </div>
-        <div class="panel-body">
-            <form enctype="multipart/form-data" action="/sites" method="post">
-                <input id="uploadCsv" type="file" accept=".csv" name="uploadCsv" />
-                <button type="submit" value="Upload" class="btn btn-primary">Upload</button>
-            </form>
-        </div>
-    </div>
+    <h1>Scan results</h1>
     <div id="content">
-        <div class="displaytext">Loading site list...</div>
+        <div class="displaytext">Loading scan results...</div>
         <table class="table table-striped" id="sitestable" style="display: none">
             <thead>
                 <tr>
                     <th>Site URL</th>
-                    <th>Region</th>
-                    <th>Rank</th>
+                    <th>Test: browserDetection</th>
+                    <th>Test: cssprefixes</th>
+                    <th>Test: edge</th>
+                    <th>Test: jslibs</th>
+                    <th>Test: pluginfree</th>
+                    <th>Comments</th>
                 </tr>
             </thead>
             <tbody></tbody>

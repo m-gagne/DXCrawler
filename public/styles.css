@@ -10,8 +10,16 @@ body {
     font-family: "Segoe UI", Verdana, Arial, sans-serif;
 }
 
+h1 {
+    margin-bottom: 20px;
+}
+
 p {
     margin: 0.5em 0;
+}
+
+input[type=file] {
+    margin-bottom: 10px;
 }
 
 pre {
@@ -43,7 +51,6 @@ label span {
 
 #content {
     float: left;
-    margin-left: 20px;
 }
 
 .displaytext, label {
@@ -56,10 +63,11 @@ label span {
 }
 
 .dataTables_wrapper {
-    width: 600px;
+    max-width: 900px;
 }
 
 .panel, .panel-primary, .panel-body {
     display: inline-block;
     float: left;
+    margin-right: 20px;
 }
