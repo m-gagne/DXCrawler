@@ -26,8 +26,9 @@
                 "ajax": {
                     "url": "/websites",
                     "error": function () {
-                        $('#sitestable').hide();
+                        $('#sitestable_wrapper').hide();
                         $(".displaytext").html("No file 'websites.csv' has been found. Please upload one.");
+                        $(".displaytext").show();
                     }
                 },
                 "columns": [
