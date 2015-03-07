@@ -359,31 +359,32 @@ function parseCsv(req, res, dir, filename) {
             csv()
                 .from.stream(fs.createReadStream(file))
                 .on('record', function (row) {
-                data.push(row.map(function (e) { return e.trimLeft().trimRight() }));
-            })
+                    data.push(row.map(function (e) { return e.trimLeft().trimRight() }));
+                })
                 .on('end', function () {
-                json['draw'] = req.query.draw;
-                json['data'] = data.slice(req.query.start, parseInt(req.query.start) + parseInt(req.query.length));
-                var resultset = jslinq(data)
+                    json['draw'] = req.query.draw;
+                    var resultset = jslinq(data)
                                     .select(function (item) { return item })
                                     .skip(1)
-                                    .where(function (array) {
-                                        if (req.query && req.query.search && req.query.search.value && req.query.search.value !== '') {
-                                            return array.some(function (element) { return new RegExp(req.query.search.value).test(element) });
-                                        } else {
-                                            return true;
-                                        }
-                                     })
                                     .items;
-                json['data'] = jslinq(resultset)
+                    var filteredResultSet = resultset;
+                    if (req.query.search && req.query.search.value && req.query.search.value !== '') {
+                        var regex = new RegExp(req.query.search.value);
+                        filteredResultSet = jslinq(resultset)
+                                            .where(function(array) {
+                                                return array.some(function(item) { return regex.test(item); })
+                                            })
+                                            .items;
+                    }
+                    json['data'] = jslinq(filteredResultSet)
                                     .skip(req.query.start)
                                     .take(req.query.length)
                                     .items;
-                json['recordsTotal'] = data.length;
-                json['recordsFiltered'] = resultset.length;
-                res.write(JSON.stringify(json));
-                res.end();
-            });
+                    json['recordsTotal'] = resultset.length;
+                    json['recordsFiltered'] = filteredResultSet.length;
+                    res.write(JSON.stringify(json));
+                    res.end();
+                });
         }
     });
 }
