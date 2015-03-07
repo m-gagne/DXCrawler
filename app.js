@@ -267,7 +267,7 @@ function processResponse(originalUrl) {
                 remoteErrorResponse(response, res ? res.statusCode : 'No response', 'Error found: ' + err);
             }
         };
-    }
+    };
 }
 
 /**
@@ -327,65 +327,61 @@ function handleRequest(req, response) {
  */
 function returnWebsites(req, res) {
     // TODO: get from azure storage
-    parseCsv(req, res, "public", "websites.csv");
+    var file = path.join(__dirname, "public", "websites.csv");
+    fs.exists(file, function (exists) {
+        if (!exists) {
+            sendInternalServerError("File not found", res);
+        } else {
+            parseCsv(req, res, file, false);
+        }
+    });
 }
 
 function returnScanResults(req, res) {
     var dir = "App_Data/jobs/triggered/scan2";
     var regex = new RegExp("^results.*.csv");
-    var files = fs.readdirSync(dir);
-    var fileFound = false;
-    files.forEach(function (file) {
-        if (regex.test(file)) {
-            parseCsv(req, res, dir, file);
-            fileFound = true;
-        } 
-    });
-    if (!fileFound) {
+    var file = fs.readdirSync(dir).filter(function (file) {
+            return regex.test(file);
+        })[0];
+    if (file) {
+        file = path.join(__dirname, dir, file);
+        parseCsv(req, res, file, true);
+    } else {
         sendInternalServerError("File not found", res);
     }
 }
 
-function parseCsv(req, res, dir, filename) {
+function parseCsv(req, res, file, skipFirstRow) {
     var json = {};
     var data = [];
-    
-    var file = path.join(__dirname, dir, filename);
-    
-    fs.exists(file, function (exists) {
-        if (!exists) {
-            sendInternalServerError("File not found", res);
-        } else {
-            csv()
-                .from.stream(fs.createReadStream(file))
-                .on('record', function (row) {
-                    data.push(row.map(function (e) { return e.trimLeft().trimRight() }));
-                })
-                .on('end', function () {
-                    json['draw'] = req.query.draw;
-                    var resultset = jslinq(data)
-                                    .select(function (item) { return item })
-                                    .skip(1)
+    csv()
+        .from.stream(fs.createReadStream(file))
+        .on('record', function (row) {
+            data.push(row.map(function (e) { return e.trimLeft().trimRight() }));
+        })
+        .on('end', function () {
+            json['draw'] = req.query.draw;
+            var resultset = jslinq(data)
+                            .select(function (item) { return item })
+                            .items;
+            resultset = skipFirstRow ? jslinq(resultset).skip(1).items : resultset;
+            var filteredResultSet = resultset;
+            if (req.query.search && req.query.search.value && req.query.search.value !== '') {
+                var regex = new RegExp(req.query.search.value);
+                filteredResultSet = jslinq(resultset)
+                                    .where(function (array) {
+                                        return array.some(function (item) { return regex.test(item); });
+                                    })
                                     .items;
-                    var filteredResultSet = resultset;
-                    if (req.query.search && req.query.search.value && req.query.search.value !== '') {
-                        var regex = new RegExp(req.query.search.value);
-                        filteredResultSet = jslinq(resultset)
-                                            .where(function(array) {
-                                                return array.some(function(item) { return regex.test(item); })
-                                            })
-                                            .items;
-                    }
-                    json['data'] = jslinq(filteredResultSet)
-                                    .skip(req.query.start)
-                                    .take(req.query.length)
-                                    .items;
-                    json['recordsTotal'] = resultset.length;
-                    json['recordsFiltered'] = filteredResultSet.length;
-                    res.write(JSON.stringify(json));
-                    res.end();
-                });
-        }
+            }
+            json['data'] = jslinq(filteredResultSet)
+                            .skip(req.query.start)
+                            .take(req.query.length)
+                            .items;
+            json['recordsTotal'] = resultset.length;
+            json['recordsFiltered'] = filteredResultSet.length;
+            res.write(JSON.stringify(json));
+            res.end();
     });
 }
 
@@ -396,7 +392,7 @@ function handleCsvUpload(req, res) {
     console.log("File to upload: " + req.files.uploadCsv.path);
     fs.readFile(req.files.uploadCsv.path, function (err, data) {
         if (err) {
-            console.log("Exception: " + exception);
+            console.log("Error uploading CSV file");
         } else {
             // TODO: save somewhere else
             var newPath = __dirname + "/public/websites.csv";

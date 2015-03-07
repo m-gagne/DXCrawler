@@ -16,7 +16,7 @@
 
         function formatTestResult(td, cellData, rowData, row, col) {
             // adds a glyphicon to a table cell depending on whether it contains a "1" or a "0"
-            var testResult = (cellData.trimLeft() === "1") ? "Passed" : "Failed";
+            var testResult = (cellData === "1") ? "Passed" : "Failed";
             if (testResult === "Failed") {
                 $(td).html("<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>")
                     .addClass("danger");
@@ -26,12 +26,14 @@
             }
         }
 
+        function formatUrl(td, cellData, rowData, row, col) {
+            $(td).html("<a href='http://" + cellData + "'" + ">" + cellData + "</a>");
+        }
+
         $(document).ready(function () {
             $('#sitestable').DataTable({
                 "processing": true,
                 "serverSide": true,
-                "autoWidth": false,
-                "searching": true,
                 "ordering": false,
                 "ajax": {
                     "url": "/scanresults",
@@ -43,7 +45,7 @@
                 },
                 "columns": [
                     // map CSV columns to datatable columns
-                    { "data": 2 },
+                    { "data": 2, "createdCell": formatUrl },
                     { "data": 3, "createdCell": formatTestResult },
                     { "data": 4, "createdCell": formatTestResult },
                     { "data": 5, "createdCell": formatTestResult },

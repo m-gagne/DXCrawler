@@ -14,29 +14,31 @@
     <script>
         "use strict";
 
-        $(document).ready(function () {
-            $.ajax({
-                type: "GET",
-                url: "/websites",
-                success: function () {
-                    $('#sitestable').DataTable({
-                        "processing": true,
-                        "serverSide": true,
-                        "autoWidth": false,
-                        "searching": true,
-                        "ordering": false,
-                        "ajax": "/websites"
-                    });
-                    $(".displaytext").hide();
-                    $("#sitestable").DataTable().draw();
-                    $("#sitestable").show();
-                },
-                error: function () {
-                    $('#sitestable').hide();
-                    $(".displaytext").html("No file 'websites.csv' has been found. Please upload one.");
-                }
-            });
+        function formatUrl(td, cellData, rowData, row, col) {
+            $(td).html("<a href='http://" + cellData + "'" + ">" + cellData + "</a>");
+        }
 
+        $(document).ready(function () {
+            $('#sitestable').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ordering": false,
+                "ajax": {
+                    "url": "/websites",
+                    "error": function () {
+                        $('#sitestable').hide();
+                        $(".displaytext").html("No file 'websites.csv' has been found. Please upload one.");
+                    }
+                },
+                "columns": [
+                    { "data": 0 ,"createdCell": formatUrl },
+                    { "data": 1 },
+                    { "data": 2}
+                ]
+            });
+            $(".displaytext").hide();
+            $("#sitestable").DataTable().draw();
+            $("#sitestable").show();
         });
     </script>
 </head>
@@ -56,7 +58,7 @@
         </div>
         <div class="panel-body">
             <form enctype="multipart/form-data" action="/sites" method="post">
-                <input id="uploadCsv" type="file" accept=".csv" name="uploadCsv" />
+                <input id="uploadCsv" type="file" accept=".csv" name="uploadCsv" required />
                 <button type="submit" value="Upload" class="btn btn-primary">Upload</button>
             </form>
         </div>

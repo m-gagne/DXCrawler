@@ -63,7 +63,7 @@ label span {
 }
 
 .dataTables_wrapper {
-    max-width: 900px;
+    width: 600px;
 }
 
 .panel, .panel-primary, .panel-body {
