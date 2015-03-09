@@ -53,7 +53,7 @@ function callbackWrapper(callback) {
             }
 
             process.nextTick(function () {
-                request(nextWebsite, callbacker(nextWebsite));
+                request({ url: nextWebsite, timeout: 480000 }, callbacker(nextWebsite));
             });
         };
     };
@@ -65,7 +65,7 @@ function start(max, webs, callback) {
     callbacker = callbackWrapper(callback);
 
     for (i = 0; i < connections; i++) {
-        request(websites[i], callbacker(websites[i]));
+        request({ url: websites[i], timeout: 480000 }, callbacker(websites[i]));
     }
 }
 

@@ -63,7 +63,7 @@ if (http.globalAgent.maxSockets < 100)
  * @param {Timestamp} start The start timestamp
  * @param {Array} resultsArray The results of all the tests
  * */
-function sendResults(res, start, resultsArray) {
+function sendResults(res, start, resultsArray, url) {
     var results = {};
     
     for (var i = 0; i < resultsArray.length; i++) {
@@ -73,8 +73,15 @@ function sendResults(res, start, resultsArray) {
         "Content-Type": "application/json",
         "X-Content-Type-Options": "nosniff"
     });
-    res.write(JSON.stringify({ url: { uri: (this && this.url && this.url.href) || 'http://private' }, processTime: (Date.now() - start) / 1000, results: results }));
+    
+    if (!url)
+        url = (this && this.url && this.url.href) || 'http://private';
+        
+    var time = (Date.now() - start) / 1000;
+        
+    res.write(JSON.stringify({ url: { uri: url }, processTime: time, results: results }));
     res.end();
+    console.log('response', url, 'time', time);
 }
 
 /**
@@ -322,7 +329,7 @@ function handleRequestV2(req, response) {
             return;
         }
         
-        sendResults(response, data.start, data.results);
+        sendResults(response, data.start, data.results, urlToAnalyze);
     });
 }
 
@@ -404,7 +411,9 @@ app.get('/test', function (req, res) {
     res.write('test');
     res.end();
 });
-app.listen(port);
+var server = app.listen(port);
+server.timeout = 480000;
+console.log('Server timeout', server.timeout);
 
 console.log('Server started on port ' + port);
 console.log('To scan a private url go to http://localhost:' + port + '/ and follow the instructions');
