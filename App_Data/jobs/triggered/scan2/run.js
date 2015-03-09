@@ -111,6 +111,9 @@ var saveDataToFile = function (filename, data) {
 var today = new Date();
 var dd = today.getDate();
 var mm = today.getMonth()+1;//January is 0!`
+var hours = today.getHours();
+var minutes = today.getMinutes();
+var seconds = today.getSeconds();
 
 var yyyy = today.getFullYear();
 if(dd<10){
@@ -121,7 +124,14 @@ if(mm<10){
     mm='0'+mm
 }
 
-var suffix = mm + '-' + dd + '-' + yyyy;
+if (hours < 10)
+    hours = '0' + hours;
+if (minutes < 10)
+    minutes = '0' + minutes;
+if (seconds < 10)
+    seconds = '0' + seconds;
+
+var suffix = mm + '-' + dd + '-' + yyyy + '_' + hours + '-' + minutes + '-' + seconds;
 var outputResultsFile = 'results' + suffix + '.csv';
 var outputOldResultsFile = 'oldresults' + suffix + '.csv';
 var outputErrorsFile = 'errors' + suffix + '.txt';
