@@ -19,6 +19,7 @@
 
 var cssprefixes = require('../lib/checks/check-cssprefixes.js'),
     url = require('url'),
+    config = require('../lib/checks/config.js'),
     cssloader = require('../lib/checks/loadcss.js'),
     request = require('request'),
     cheerio = require('cheerio'),
@@ -38,7 +39,7 @@ function checkPage(page, expected) {
         test.expect(tests);
 
         request({uri: uri,
-                headers: {'user-agent': 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0)'}},
+                headers: {'user-agent': config.user_agent}},
             function (error, response, content) {
                 var website = {
                     url: url.parse(uri),

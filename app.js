@@ -28,6 +28,7 @@ var url = require('url'),
     Deferred = require('promised-io').Deferred,
     promised = require("promised-io/promise"),
     cssLoader = require('./lib/checks/loadcss.js'),
+    config = require('./lib/checks/config.js'),
     jsLoader = require('./lib/checks/loadjs.js'),
     tests = require('./lib/checks/loadchecks.js').tests,
     http = require('http'),
@@ -49,8 +50,7 @@ request = request.defaults({
         'Accept': 'text/html, application/xhtml+xml, */*',
         'Accept-Encoding': 'gzip,deflate',
         'Accept-Language': 'en-US,en;q=0.5',
-        //            'User-Agent': 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0)'}}); //IE10
-        'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko'
+        'User-Agent': config.user_agent
     }
 }); //IE11
 
