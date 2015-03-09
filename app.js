@@ -78,8 +78,15 @@ function sendResults(res, start, resultsArray, url) {
         url = (this && this.url && this.url.href) || 'http://private';
         
     var time = (Date.now() - start) / 1000;
+    
+    var result = { url: { uri: url }, processTime: time };
+    
+    if (process.env.WEBSITE_INSTANCE_ID)
+        result.machine = process.env.WEBSITE_INSTANCE_ID;
         
-    res.write(JSON.stringify({ url: { uri: url }, processTime: time, results: results }));
+    result.results = results;
+        
+    res.write(JSON.stringify(result));
     res.end();
     console.log('response', url, 'time', time);
 }
