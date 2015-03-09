@@ -71,3 +71,7 @@ label span {
     float: left;
     margin-right: 20px;
 }
+
+td.danger, td.success {
+    text-align: center;
+}

@@ -18,10 +18,10 @@
             // adds a glyphicon to a table cell depending on whether it contains a "1" or a "0"
             var testResult = (cellData === "1") ? "Passed" : "Failed";
             if (testResult === "Failed") {
-                $(td).html("<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>")
+                $(td).html("<span class='glyphicon glyphicon-remove' style='color:darkred' aria-hidden='true'></span>")
                     .addClass("danger");
             } else {
-                $(td).html("<span class='glyphicon glyphicon-ok' aria-hidden='true'></span>")
+                $(td).html("<span class='glyphicon glyphicon-ok' style='color:green' aria-hidden='true'></span>")
                     .addClass("success");
             }
         }
