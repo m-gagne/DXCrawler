@@ -89,9 +89,6 @@ var tests = [
 //    'ariaTags',
 ];
 
-if (useazurestorage)
-    var blobSvc = azure.createBlobService("sitesscannerdev", "WYLY1df7AVnv5Kh0ed6UXD+z7dQzHsMGm5BAgNs2b0iH6CCMV1QK+rmIMHALKnFgRuE5hdx+0L4AQXKLVhYXjw==");
-
 var saveDataToAzureFile = function (filename, data) {
     blobSvc.createBlockBlobFromText('dailyscan', filename, data, function (error, result, response) {
         if (!error) {
@@ -138,128 +135,143 @@ console.log('processing ' + websites.length + ' sites');
 console.log('date/time', new Date());
 results += 'rank, area, url, ' + tests.join(', ') + ', comments\n';
 
-function getComment(body) {
-    if (body.results)
-        return "N/A";
-        
-    var result = "";
-        
-    if (body.statusCode)
-        result += "Status Code: " + body.statusCode;
-    if (body.message) {
-        if (result != "")
-            result += " ";
-        result += "Message: " + body.message;
-    }
-    
-    if (typeof body == "string")
-        result = body;
-    
-    if (result == "")
-        result = "Error retrieving results";
-        
-    return result.replace(",","");
-}
 
-function formater(data) {
-    var content;
-
-    try {
-        var body;
-        
-        if (data.body && data.body.indexOf('{') < 0)
-            body = data.body;
+if (useazurestorage) {
+    var blobSvc = azure.createBlobService("sitesscannerdev", "WYLY1df7AVnv5Kh0ed6UXD+z7dQzHsMGm5BAgNs2b0iH6CCMV1QK+rmIMHALKnFgRuE5hdx+0L4AQXKLVhYXjw==");
+    blobSvc.createContainerIfNotExists('dailyscan', { publicAccessLevel: 'blob' }, function (error, result, response) {
+        if (error)
+            console.log(error);
         else
-            body = JSON.parse(data.body);
-            
-        var info = body.results;
-        var url = data.url .replace(prefix, "");
-        var comment = getComment(body);
-
-        content = ranks[data.url] + ', ' + areas[data.url] + ', ' + url + ', ' + tests.reduce(function (acum, item) {
-            acum.push(info && info[item] && info[item].passed ? 1 : 0);
-            return acum;
-        }, []).join(', ') + ', ' + comment;
-        
-        var row = { 
-            rank: ranks[data.url], 
-            area: areas[data.url],
-            url: url,
-            tests: [],
-            comment: comment
-        }
-        
-        tests.forEach(function (item) {
-            row.tests.push(info && info[item] && info[item].passed ? 1 : 0);
-        });
-        
-        drows[data.url] = row;
-
-        console.log('Checked - ' + data.url);
-
-        if (comment != "N/A")
-            console.log(comment);
-    } catch (err) {
-        console.log(err);
-        console.log("data");
-        console.dir(data);
-        content = ranks[data.url] + ', ' + areas[data.url] + ', ' + url + ', ' + tests.reduce(function (acum, item) {
-            acum.push(0);
-            return acum;
-        }, []).join(', ') + ', ' + err;
-        
-        var row = { 
-            rank: ranks[data.url], 
-            area: areas[data.url],
-            url: url,
-            tests: [],
-            comment: err.toString()
-        }
-        
-        tests.forEach(function (item) {
-            row.tests.push(0);
-        });
-        
-        drows[data.url] = row;
-        
-        console.log('error - ' + data.url, err);
-    }
-
-    content += '\n';
-    return content;
+            doWork();
+    });
 }
+else
+    doWork();
 
-batch.onFinish = function () {
-    var ending = new Date();
-    console.log('ending date/time', ending);
-    
-    saveDataToFile(outputOldResultsFile, results);
-    saveDataToFile(outputErrorsFile, errors);
-    
-    var newresults = 'rank, area, url, ' + tests.join(', ') + ', comments\n';
-    
-    for (var n in drows) {
-        var row = drows[n];
-        if (row.rank)
-            newresults += row.rank + ", " + row.area + ", " + row.url + ", " + row.tests.join(", ") + ", " + row.comment + "\n";
+function doWork() {
+    function getComment(body) {
+        if (body.results)
+            return "N/A";
+            
+        var result = "";
+            
+        if (body.statusCode)
+            result += "Status Code: " + body.statusCode;
+        if (body.message) {
+            if (result != "")
+                result += " ";
+            result += "Message: " + body.message;
+        }
+        
+        if (typeof body == "string")
+            result = body;
+        
+        if (result == "")
+            result = "Error retrieving results";
+            
+        return result.replace(",","");
     }
-    
-    saveDataToFile(outputResultsFile, newresults);
 
-    console.log('Errors: ' + errorCount);
-    console.log('All websites finished. Thanks!');
-    
-    console.log('milliseconds', ending.getTime() - starting.getTime());
-};
+    function formater(data) {
+        var content;
 
-batch.onError = function (url, err) {
-    errorCount++;
-    console.log('error analyzing ' + url);
-    errors +='error analyzing ' + url;
-};
+        try {
+            var body;
+            
+            if (data.body && data.body.indexOf('{') < 0)
+                body = data.body;
+            else
+                body = JSON.parse(data.body);
+                
+            var info = body.results;
+            var url = data.url .replace(prefix, "");
+            var comment = getComment(body);
 
-batch.start(connections, websites, function (data) {
-    dresults.push(data);
-    var line = formater(data);
-    results += line;
-});
+            content = ranks[data.url] + ', ' + areas[data.url] + ', ' + url + ', ' + tests.reduce(function (acum, item) {
+                acum.push(info && info[item] && info[item].passed ? 1 : 0);
+                return acum;
+            }, []).join(', ') + ', ' + comment;
+            
+            var row = { 
+                rank: ranks[data.url], 
+                area: areas[data.url],
+                url: url,
+                tests: [],
+                comment: comment
+            }
+            
+            tests.forEach(function (item) {
+                row.tests.push(info && info[item] && info[item].passed ? 1 : 0);
+            });
+            
+            drows[data.url] = row;
+
+            console.log('Checked - ' + data.url);
+
+            if (comment != "N/A")
+                console.log(comment);
+        } catch (err) {
+            console.log(err);
+            console.log("data");
+            console.dir(data);
+            content = ranks[data.url] + ', ' + areas[data.url] + ', ' + url + ', ' + tests.reduce(function (acum, item) {
+                acum.push(0);
+                return acum;
+            }, []).join(', ') + ', ' + err;
+            
+            var row = { 
+                rank: ranks[data.url], 
+                area: areas[data.url],
+                url: url,
+                tests: [],
+                comment: err.toString()
+            }
+            
+            tests.forEach(function (item) {
+                row.tests.push(0);
+            });
+            
+            drows[data.url] = row;
+            
+            console.log('error - ' + data.url, err);
+        }
+
+        content += '\n';
+        return content;
+    }
+
+    batch.onFinish = function () {
+        var ending = new Date();
+        console.log('ending date/time', ending);
+        
+        saveDataToFile(outputOldResultsFile, results);
+        saveDataToFile(outputErrorsFile, errors);
+        
+        var newresults = 'rank, area, url, ' + tests.join(', ') + ', comments\n';
+        
+        for (var n in drows) {
+            var row = drows[n];
+            if (row.rank)
+                newresults += row.rank + ", " + row.area + ", " + row.url + ", " + row.tests.join(", ") + ", " + row.comment + "\n";
+        }
+        
+        saveDataToFile(outputResultsFile, newresults);
+
+        console.log('Errors: ' + errorCount);
+        console.log('All websites finished. Thanks!');
+        
+        console.log('milliseconds', ending.getTime() - starting.getTime());
+    };
+
+    batch.onError = function (url, err) {
+        errorCount++;
+        console.log('error analyzing ' + url);
+        errors +='error analyzing ' + url;
+    };
+
+    batch.start(connections, websites, function (data) {
+        dresults.push(data);
+        var line = formater(data);
+        results += line;
+    });
+}
