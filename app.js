@@ -91,7 +91,7 @@ function sendBadRequest(res) {
  * Responds with an internal server error
  * */
 function sendInternalServerError(error, res) {
-    res.writeHeader(500, { "Content-Type": "text/plain" });
+    res.writeHeader(/*500*/ 200 , { "Content-Type": "text/plain" });
     res.write(JSON.stringify(error) + '\n');
     res.end();
 }
