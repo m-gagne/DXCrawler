@@ -241,11 +241,11 @@ function handleCsvUpload(req, res) {
     var options = {
         contentType: 'text/csv',
         contentEncoding: 'utf-8',
-        contentLanguage: 'en-us',
+        contentLanguage: 'en-us'
     };
 
     var successCallback = function () { res.redirect('/sites.html'); };
-    var errorCallback = function() { sendError(e, res);};
+    var errorCallback = function() { sendError("Could not upload file to Azure.", res);};
     
     uploadFileToAzure(localPath, remoteFileName, options, successCallback, errorCallback);
 }
