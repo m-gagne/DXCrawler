@@ -14,13 +14,16 @@ console.dir(argv);
 
 var useazurestorage = false;
 
-if (argv.storage) {
+if (argv.storage || argv.source == 'azure') {
     useazurestorage = true;
     var azure = require('azure-storage');
 }
 
 if (!argv.file)
-    argv.file = './websites.csv';
+    if (argv.source == 'azure')
+        argv.file = 'websites.csv';
+    else
+        argv.file = './websites.csv';
 
 if (!argv.prefix && argv.azure)
     argv.prefix = 'http://sites-scanner.azurewebsites.net/?url=http://';
@@ -44,11 +47,6 @@ if (!argv.prefix)
     argv.prefix = 'http://localhost:1337/api/v1/scan?url=http://';
     
 var machines = {};
-
-var errorCount = 0;
-var lines = fs.readFileSync(argv.file, 'utf8').trim().split('\r\n');
-var prefix = argv.prefix;
-
 var connections;
 
 if (argv.connections)
@@ -59,23 +57,10 @@ else
 if (connections > http.globalAgent.maxSockets)
     http.globalAgent.maxSockets = connections;
 
-console.log(lines.length + ' to analyze');
-
+var errorCount = 0;
 var areas = [];
 var ranks = [];
 var drows = {};
-
-var websites = lines.map(function (line) {
-    var split = line.split(",");
-    var url = prefix + split[0];
-
-    areas[url] = split[1];
-    ranks[url] = split[2];
-    
-    drows[url] = {};
-
-    return url;
-});
 
 var tests = [
     //'browserbite',
@@ -90,6 +75,42 @@ var tests = [
 //    'altImg',
 //    'ariaTags',
 ];
+
+var prefix = argv.prefix;
+
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1;//January is 0!`
+var hours = today.getHours();
+var minutes = today.getMinutes();
+var seconds = today.getSeconds();
+
+var yyyy = today.getFullYear();
+if(dd<10)
+    dd='0'+dd;
+
+if(mm<10)
+    mm='0'+mm;
+
+if (hours < 10)
+    hours = '0' + hours;
+if (minutes < 10)
+    minutes = '0' + minutes;
+if (seconds < 10)
+    seconds = '0' + seconds;
+
+var suffix = mm + '-' + dd + '-' + yyyy + '_' + hours + '-' + minutes + '-' + seconds;
+var outputResultsFile = 'results' + suffix + '.csv';
+var outputOldResultsFile = 'oldresults' + suffix + '.csv';
+var outputErrorsFile = 'errors' + suffix + '.txt';
+var results = "";
+var dresults = [];
+var errors = "";
+
+
+var lines = fs.readFileSync(argv.file, 'utf8').trim().split('\r\n');
+
+doLines(lines);
 
 var saveDataToAzureFile = function (filename, data) {
     blobSvc.createBlockBlobFromText('dailyscan', filename, data, function (error, result, response) {
@@ -110,73 +131,60 @@ var saveDataToFile = function (filename, data) {
     console.log(filename + " created");
 }
 
-var today = new Date();
-var dd = today.getDate();
-var mm = today.getMonth()+1;//January is 0!`
-var hours = today.getHours();
-var minutes = today.getMinutes();
-var seconds = today.getSeconds();
+var starting;
 
-var yyyy = today.getFullYear();
-if(dd<10){
-    dd='0'+dd
-}
+function doLines(lines) {
+    console.log(lines.length + ' to analyze');
 
-if(mm<10){
-    mm='0'+mm
-}
+    var websites = lines.map(function (line) {
+        var split = line.split(",");
+        var url = prefix + split[0];
 
-if (hours < 10)
-    hours = '0' + hours;
-if (minutes < 10)
-    minutes = '0' + minutes;
-if (seconds < 10)
-    seconds = '0' + seconds;
-
-var suffix = mm + '-' + dd + '-' + yyyy + '_' + hours + '-' + minutes + '-' + seconds;
-var outputResultsFile = 'results' + suffix + '.csv';
-var outputOldResultsFile = 'oldresults' + suffix + '.csv';
-var outputErrorsFile = 'errors' + suffix + '.txt';
-var results = "";
-var dresults = [];
-var errors = "";
-
-var starting = new Date();
-console.log('starting date/time', starting);
-console.log('processing ' + websites.length + ' sites');
-console.log('date/time', new Date());
-results += 'rank, area, url, ' + tests.join(', ') + ', comments\n';
-
-var storageaccount = "sitesscannerdev";
-var storagekey = "WYLY1df7AVnv5Kh0ed6UXD+z7dQzHsMGm5BAgNs2b0iH6CCMV1QK+rmIMHALKnFgRuE5hdx+0L4AQXKLVhYXjw==";
-
-if (useazurestorage) {
-    if (process.env.Storage_AccountName) {
-        console.log('getting account name');
-        storageaccount = process.env.Storage_AccountName;
-    }
-    
-    if (process.env.Storage_AccessKey) {
-        console.log('getting access key');
-        storagekey = process.env.Storage_AccessKey;
-    }
-    
-    console.log('account name', storageaccount);
-    console.log('access key', storagekey);
+        areas[url] = split[1];
+        ranks[url] = split[2];
         
-    var blobSvc = azure.createBlobService(storageaccount, storagekey);
-    
-    blobSvc.createContainerIfNotExists('dailyscan', { publicAccessLevel: 'blob' }, function (error, result, response) {
-        if (error)
-            console.log(error);
-        else
-            doWork();
-    });
-}
-else
-    doWork();
+        drows[url] = {};
 
-function doWork() {
+        return url;
+    });
+
+    starting = new Date();
+    console.log('starting date/time', starting);
+    console.log('processing ' + websites.length + ' sites');
+    console.log('date/time', new Date());
+    results += 'rank, area, url, ' + tests.join(', ') + ', comments\n';
+
+    var storageaccount = "sitesscannerdev";
+    var storagekey = "WYLY1df7AVnv5Kh0ed6UXD+z7dQzHsMGm5BAgNs2b0iH6CCMV1QK+rmIMHALKnFgRuE5hdx+0L4AQXKLVhYXjw==";
+
+    if (useazurestorage) {
+        if (process.env.Storage_AccountName) {
+            console.log('getting account name');
+            storageaccount = process.env.Storage_AccountName;
+        }
+        
+        if (process.env.Storage_AccessKey) {
+            console.log('getting access key');
+            storagekey = process.env.Storage_AccessKey;
+        }
+        
+        console.log('account name', storageaccount);
+        console.log('access key', storagekey);
+            
+        var blobSvc = azure.createBlobService(storageaccount, storagekey);
+        
+        blobSvc.createContainerIfNotExists('dailyscan', { publicAccessLevel: 'blob' }, function (error, result, response) {
+            if (error)
+                console.log(error);
+            else
+                doWork(websites);
+        });
+    }
+    else
+        doWork(websites);
+}
+
+function doWork(websites) {
     function getComment(body) {
         if (body.results)
             return "N/A";
@@ -276,7 +284,6 @@ function doWork() {
     }
 
     batch.onFinish = function () {
-        try {
         var ending = new Date();
         console.log('ending date/time', ending);
         
@@ -298,11 +305,8 @@ function doWork() {
         
         console.log('milliseconds', ending.getTime() - starting.getTime());
         
-        for (var n in machines)
+        for (var n in machines) {
             console.log('machine', n, machines[n]);
-        }
-        catch (ex) {
-            console.log(ex);
         }
     };
 
