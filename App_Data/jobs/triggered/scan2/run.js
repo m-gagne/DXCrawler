@@ -42,6 +42,8 @@ if (!argv.prefix && argv.v2)
 
 if (!argv.prefix)
     argv.prefix = 'http://localhost:1337/api/v1/scan?url=http://';
+    
+var machines = {};
 
 var errorCount = 0;
 var lines = fs.readFileSync(argv.file, 'utf8').trim().split('\r\n');
@@ -193,6 +195,13 @@ function doWork() {
             else
                 body = JSON.parse(data.body);
                 
+                
+            if (body.machine) {
+                if (!machines[body.machine])
+                    machines[body.machine] = 0;
+                machines[body.machine] = machines[body.machine] + 1;
+            }
+                
             var info = body.results;
             var url = data.url .replace(prefix, "");
             var comment = getComment(body);
@@ -271,6 +280,9 @@ function doWork() {
         console.log('All websites finished. Thanks!');
         
         console.log('milliseconds', ending.getTime() - starting.getTime());
+        
+        for (var n in machines)
+            console.log('machine', n, machines[n]);
     };
 
     batch.onError = function (url, err) {
@@ -285,3 +297,4 @@ function doWork() {
         results += line;
     });
 }
+
