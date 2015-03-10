@@ -271,34 +271,9 @@ function processResponse(originalUrl) {
 }
 
 /**
- * Shows the list of websites in the CSV file
- */
-function showPublicPage(response, filename) {
-    fs.readFile(path.join(__dirname, "public", filename), function (err, data) {
-        if (!err) {
-            response.writeHeader(200, { "Content-Type": "text/html" });
-
-        } else {
-            response.writeHeader(500, { "Content-Type": "text/plain" });
-            data = "Server error: " + err + "\n";
-        }
-        response.write(data);
-        response.end();
-    });
-}
-
-/**
  * Decides what action needs to be done: show the main page or analyze a website
  * */
 function handleRequest(req, response) {
-    if (req.url === '/sites') {
-        showPublicPage(response, "sites.html");
-        return;
-    }
-    if (req.url === '/results') {
-        showPublicPage(response, "results.html");
-        return;
-    }
     var requestUrl = url.parse(req.url),
         parameters = querystring.parse(requestUrl.query),
         urlToAnalyze = sanitize(decodeURIComponent(parameters.url)).xss(),
@@ -510,8 +485,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/websites', returnWebsites);
 app.get('/scanresults', returnScanResults);
 
-app.get('/results', handleRequest);
-app.get('/sites', handleRequest);
 app.post('/sites', handleCsvUpload);
 
 app.get('/api/v1/scan', handleRequest);
