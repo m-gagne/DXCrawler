@@ -151,10 +151,18 @@ var storageaccount = "sitesscannerdev";
 var storagekey = "WYLY1df7AVnv5Kh0ed6UXD+z7dQzHsMGm5BAgNs2b0iH6CCMV1QK+rmIMHALKnFgRuE5hdx+0L4AQXKLVhYXjw==";
 
 if (useazurestorage) {
-    if (process.env.Storage_AccountName)
+    if (process.env.Storage_AccountName) {
+        console.log('getting account name');
         storageaccount = process.env.Storage_AccountName;
-    if (process.env.Storage_AccessKey)
+    }
+    
+    if (process.env.Storage_AccessKey) {
+        console.log('getting access key');
         storagekey = process.env.Storage_AccessKey;
+    }
+    
+    console.log('account name', storageaccount);
+    console.log('access key', accesskey);
         
     var blobSvc = azure.createBlobService(storageaccount, storagekey);
     
