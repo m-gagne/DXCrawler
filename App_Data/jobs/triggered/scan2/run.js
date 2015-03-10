@@ -106,11 +106,41 @@ var outputErrorsFile = 'errors' + suffix + '.txt';
 var results = "";
 var dresults = [];
 var errors = "";
+if (useazurestorage) {
+    var storageaccount = "sitesscannerdev";
+    var storagekey = "WYLY1df7AVnv5Kh0ed6UXD+z7dQzHsMGm5BAgNs2b0iH6CCMV1QK+rmIMHALKnFgRuE5hdx+0L4AQXKLVhYXjw==";
+    if (process.env.Storage_AccountName) {
+        console.log('getting account name');
+        storageaccount = process.env.Storage_AccountName;
+    }
 
+    if (process.env.Storage_AccessKey) {
+        console.log('getting access key');
+        storagekey = process.env.Storage_AccessKey;
+    }
 
-var lines = fs.readFileSync(argv.file, 'utf8').trim().split('\r\n');
+    console.log('account name', storageaccount);
+    console.log('access key', storagekey);
+}            
+        
+if (argv.source == 'azure') {
+    var blobSvc = azure.createBlobService(storageaccount, storagekey);
+    console.log('reading blob', argv.file);
+    blobSvc.getBlobToText('dailyscan', argv.file, function (err, text, blockBlob, response) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        
+        var lines = text.trim().split('\r\n');
+        doLines(lines);
+    });
+}
+else {
+    var lines = fs.readFileSync(argv.file, 'utf8').trim().split('\r\n');
 
-doLines(lines);
+    doLines(lines);
+}
 
 var saveDataToAzureFile = function (filename, data) {
     blobSvc.createBlockBlobFromText('dailyscan', filename, data, function (error, result, response) {
@@ -154,23 +184,7 @@ function doLines(lines) {
     console.log('date/time', new Date());
     results += 'rank, area, url, ' + tests.join(', ') + ', comments\n';
 
-    var storageaccount = "sitesscannerdev";
-    var storagekey = "WYLY1df7AVnv5Kh0ed6UXD+z7dQzHsMGm5BAgNs2b0iH6CCMV1QK+rmIMHALKnFgRuE5hdx+0L4AQXKLVhYXjw==";
-
     if (useazurestorage) {
-        if (process.env.Storage_AccountName) {
-            console.log('getting account name');
-            storageaccount = process.env.Storage_AccountName;
-        }
-        
-        if (process.env.Storage_AccessKey) {
-            console.log('getting access key');
-            storagekey = process.env.Storage_AccessKey;
-        }
-        
-        console.log('account name', storageaccount);
-        console.log('access key', storagekey);
-            
         var blobSvc = azure.createBlobService(storageaccount, storagekey);
         
         blobSvc.createContainerIfNotExists('dailyscan', { publicAccessLevel: 'blob' }, function (error, result, response) {
