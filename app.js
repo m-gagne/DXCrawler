@@ -131,14 +131,14 @@ function sendError(error, res) {
     res.end();
 }
 
-function downloadFileFromAzure(localPath, remoteFileName, callback) {
+function downloadFileFromAzure(localPath, remoteFileName, callback, errorCallback) {
     console.log("File to download from Azure: " + remoteFileName);
 
     var blobSvc = azure.createBlobService(config.storage_account_name, config.storage_account_key);
     
     blobSvc.getBlobToLocalFile(config.website_list_container_name, remoteFileName, localPath, function(error, result, response) {
         if (error) {
-            throw "Could not retrieve " + remoteFileName + " from Azure.";
+            errorCallback();
         } else {
             callback();
         }
@@ -151,14 +151,11 @@ function downloadFileFromAzure(localPath, remoteFileName, callback) {
 function returnWebsites(req, res) {
     var fileName = "websites.csv";
     var localPath = path.join(__dirname, fileName);
-    try {
-        downloadFileFromAzure(localPath, fileName, function() {
-            parseCsv(req, res, localPath, false);
-        });
-        
-    } catch (e) {
-        sendError(e, res);
-    }
+
+    var successCallback = function () { parseCsv(req, res, localPath, false); };
+    var errorCallback = function () { sendError("Could not retrieve file from Azure.", res); };
+    
+    downloadFileFromAzure(localPath, fileName, successCallback, errorCallback);
 }
 
 function returnScanResults(req, res) {
@@ -221,14 +218,16 @@ function parseCsv(req, res, file, skipFirstRow) {
     });
 }
 
-function uploadFileToAzure(localPath, remoteFileName, options) {
+function uploadFileToAzure(localPath, remoteFileName, options, callback, errorCallback) {
     console.log("File to upload to Azure: " + localPath);
     
     var blobSvc = azure.createBlobService(config.storage_account_name, config.storage_account_key);
     
     blobSvc.createBlockBlobFromLocalFile(config.website_list_container_name, remoteFileName, localPath, options, function (err, result, response) {
         if (err) {
-            throw 'Could not upload file ' + localPath + ' to Azure.';
+            errorCallback();
+        } else {
+            callback();
         }
     });
 }
@@ -244,13 +243,11 @@ function handleCsvUpload(req, res) {
         contentEncoding: 'utf-8',
         contentLanguage: 'en-us',
     };
-    try {
-        uploadFileToAzure(localPath, remoteFileName, options);
-        // refresh page after successful upload
-        res.redirect('/sites.html');
-    } catch (e) {
-        sendError(e, res);
-    }
+
+    var successCallback = function () { res.redirect('/sites.html'); };
+    var errorCallback = function() { sendError(e, res);};
+    
+    uploadFileToAzure(localPath, remoteFileName, options, successCallback, errorCallback);
 }
 
 /**
