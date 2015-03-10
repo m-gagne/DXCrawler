@@ -162,7 +162,7 @@ if (useazurestorage) {
     }
     
     console.log('account name', storageaccount);
-    console.log('access key', accesskey);
+    console.log('access key', storagekey);
         
     var blobSvc = azure.createBlobService(storageaccount, storagekey);
     
