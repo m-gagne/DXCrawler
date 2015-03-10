@@ -322,6 +322,12 @@ function handleRequest(req, response) {
     }
 }
 
+function sendError(error, res) {
+    res.writeHeader(500 , { "Content-Type": "text/plain" });
+    res.write(JSON.stringify(error) + '\n');
+    res.end();
+}
+
 /*
  * Returns the CSV file of the website list
  */
@@ -330,7 +336,7 @@ function returnWebsites(req, res) {
     var file = path.join(__dirname, "public", "websites.csv");
     fs.exists(file, function (exists) {
         if (!exists) {
-            sendInternalServerError("File not found", res);
+            sendError("File not found", res);
         } else {
             parseCsv(req, res, file, false);
         }
@@ -347,7 +353,7 @@ function returnScanResults(req, res) {
         file = path.join(__dirname, dir, file);
         parseCsv(req, res, file, true);
     } else {
-        sendInternalServerError("File not found", res);
+        sendError("File not found", res);
     }
 }
 
