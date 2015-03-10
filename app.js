@@ -40,7 +40,8 @@ var url = require('url'),
     charset = 'utf-8',
     querystring = require('querystring'),
     http = require('http'),
-    scanner = require('./lib/scanner');
+    scanner = require('./lib/scanner'),
+    azure = require('azure-storage');
 request = request.defaults({
     followAllRedirects: true,
     encoding: null,
@@ -135,6 +136,10 @@ function sendError(error, res) {
  */
 function returnWebsites(req, res) {
     // TODO: get from azure storage
+
+    
+
+
     var file = path.join(__dirname, "public", "websites.csv");
     fs.exists(file, function (exists) {
         if (!exists) {
@@ -205,23 +210,40 @@ function parseCsv(req, res, file, skipFirstRow) {
     });
 }
 
+function uploadFileToAzure(localPath, remoteFileName, options) {
+    console.log("File to upload to Azure: " + localPath);
+    
+    var storageccountname = config.storage_account_name;
+    var storageaccountkey = config.storage_account_key;
+    var container = config.website_list_container_name;
+    
+    var blobSvc = azure.createBlobService(storageccountname, storageaccountkey);
+    
+    blobSvc.createBlockBlobFromLocalFile(container, remoteFileName, localPath, options, function (err, result, response) {
+        if (err) {
+            throw 'Could not upload file ' + localPath + ' to Azure.';
+        }
+    });
+}
+
 /**
  * Handles the upload of a CSV file (overwrites existing file)
  */
 function handleCsvUpload(req, res) {
-    console.log("File to upload: " + req.files.uploadCsv.path);
-    fs.readFile(req.files.uploadCsv.path, function (err, data) {
-        if (err) {
-            console.log("Error uploading CSV file");
-        } else {
-            // TODO: save somewhere else
-            var newPath = __dirname + "/public/websites.csv";
-            fs.writeFile(newPath, data, function () {
-                // refresh page after successful upload
-                res.redirect('/sites.html');
-            });
-        }
-    });
+    var localPath = req.files.uploadCsv.path;
+    var remoteFileName = 'websites.csv';
+    var options = {
+        contentType: 'text/csv',
+        contentEncoding: 'utf-8',
+        contentLanguage: 'en-us',
+    };
+    try {
+        uploadFileToAzure(localPath, remoteFileName, options);
+        // refresh page after successful upload
+        res.redirect('/sites.html');
+    } catch (e) {
+        sendError(e);
+    }
 }
 
 /**
