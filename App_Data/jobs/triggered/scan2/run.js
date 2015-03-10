@@ -147,9 +147,17 @@ console.log('processing ' + websites.length + ' sites');
 console.log('date/time', new Date());
 results += 'rank, area, url, ' + tests.join(', ') + ', comments\n';
 
+var storageaccount = "sitesscannerdev";
+var storagekey = "WYLY1df7AVnv5Kh0ed6UXD+z7dQzHsMGm5BAgNs2b0iH6CCMV1QK+rmIMHALKnFgRuE5hdx+0L4AQXKLVhYXjw==";
 
 if (useazurestorage) {
-    var blobSvc = azure.createBlobService("sitesscannerdev", "WYLY1df7AVnv5Kh0ed6UXD+z7dQzHsMGm5BAgNs2b0iH6CCMV1QK+rmIMHALKnFgRuE5hdx+0L4AQXKLVhYXjw==");
+    if (process.env.Storage_AccountName)
+        storageaccount = process.env.Storage_AccountName;
+    if (process.env.Storage_AccessKey)
+        storagekey = process.env.Storage_AccessKey;
+        
+    var blobSvc = azure.createBlobService(storageaccount, storagekey);
+    
     blobSvc.createContainerIfNotExists('dailyscan', { publicAccessLevel: 'blob' }, function (error, result, response) {
         if (error)
             console.log(error);
