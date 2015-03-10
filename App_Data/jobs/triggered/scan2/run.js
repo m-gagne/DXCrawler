@@ -276,6 +276,7 @@ function doWork() {
     }
 
     batch.onFinish = function () {
+        try {
         var ending = new Date();
         console.log('ending date/time', ending);
         
@@ -299,6 +300,10 @@ function doWork() {
         
         for (var n in machines)
             console.log('machine', n, machines[n]);
+        }
+        catch (ex) {
+            console.log(ex);
+        }
     };
 
     batch.onError = function (url, err) {
