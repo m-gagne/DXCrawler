@@ -320,11 +320,23 @@ function returnWebsites(req, res) {
 
 function returnScanResults(req, res) {
     var dir = "App_Data/jobs/triggered/scan2";
-    var regex = new RegExp("^results.*.csv");
-    var file = fs.readdirSync(dir).filter(function (file) {
-            return regex.test(file);
+    var regex = new RegExp("^results(.*)-(.*)-(.*)_(.*)-(.*)-(.*).csv");
+    
+    // read "dir" and create an array with the files that match the given regex
+    var files = fs.readdirSync(dir).filter(function (file) {
+        return regex.test(file);
+    });
+    
+    if (files.length > 0) {
+        // sort files by date and then pick the most recent
+        var file = files.sort(function (a, b) {
+            var matchA = regex.exec(a);
+            var dateA = new Date(matchA[1], matchA[2], matchA[3], matchA[4], matchA[5], matchA[6], 0);
+            var matchB = regex.exec(b);
+            var dateB = new Date(matchB[1], matchB[2], matchB[3], matchB[4], matchB[5], matchB[6], 0);
+            return dateB - dateA;
         })[0];
-    if (file) {
+        
         file = path.join(__dirname, dir, file);
         parseCsv(req, res, file, true);
     } else {
