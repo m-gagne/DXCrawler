@@ -26,15 +26,12 @@ function onFinish() {
     console.log('finished processing all websites');
 }
 
-
-
 function onError(url, err) {
     console.log('Error - ' + url);
 }
 
 var getNext = function () {
-    i++;
-    return websites[i];
+    return websites[i++];
 };
 
 function callbackWrapper(callback) {
