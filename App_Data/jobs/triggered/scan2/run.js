@@ -101,7 +101,6 @@ if (seconds < 10)
 
 var suffix = mm + '-' + dd + '-' + yyyy + '_' + hours + '-' + minutes + '-' + seconds;
 var outputResultsFile = 'results' + suffix + '.csv';
-var outputOldResultsFile = 'oldresults' + suffix + '.csv';
 var outputErrorsFile = 'errors' + suffix + '.txt';
 var results = "";
 var dresults = [];
@@ -301,7 +300,6 @@ function doWork(websites) {
         var ending = new Date();
         console.log('ending date/time', ending);
         
-        saveDataToFile(outputOldResultsFile, results);
         saveDataToFile(outputErrorsFile, errors);
         
         var newresults = 'rank, area, url, ' + tests.join(', ') + ', comments\n';
