@@ -229,7 +229,6 @@ function doWork(websites) {
             else
                 body = JSON.parse(data.body);
                 
-                
             if (body.machine) {
                 if (!machines[body.machine])
                     machines[body.machine] = 0;

@@ -34,6 +34,12 @@ var getNext = function () {
     return websites[i++];
 };
 
+function requestPage(url) {
+    setTimeout( function () {
+        request({ url: url, timeout: 480000 }, callbacker(url));
+    }, 0);
+}
+
 function callbackWrapper(callback) {
     return function (url) {
         return function (err, response, body) {
@@ -49,9 +55,7 @@ function callbackWrapper(callback) {
                 return;
             }
 
-            process.nextTick(function () {
-                request({ url: nextWebsite, timeout: 480000 }, callbacker(nextWebsite));
-            });
+            requestPage(nextWebsite);
         };
     };
 }
@@ -61,11 +65,13 @@ function start(max, webs, callback) {
     connections = max;
     callbacker = callbackWrapper(callback);
 
-    for (i = 0; i < connections; i++) {
-        request({ url: websites[i], timeout: 480000 }, callbacker(websites[i]));
-    }
+    for (i = 0; i < connections; i++)
+        requestPage(websites[i]);
 }
 
-module.exports.start = start;
-module.exports.onFinish = onFinish;
-module.exports.onError = onError;
+module.exports = {
+    start: start,
+    onFinish: onFinish,
+    onError: onError,
+    requestPage: requestPage
+}
