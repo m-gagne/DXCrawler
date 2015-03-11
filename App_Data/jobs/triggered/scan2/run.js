@@ -13,9 +13,18 @@ else
 console.dir(argv);
 
 var useazurestorage = false;
+var useazureastarget = false;
+var useazureassource = false;
 
-if (argv.storage || argv.source == 'azure') {
+if (argv.target == 'azure') {
     useazurestorage = true;
+    useazureastarget = true;
+    var azure = require('azure-storage');
+}
+
+if (argv.source == 'azure') {
+    useazurestorage = true;
+    useazureassource = true;
     var azure = require('azure-storage');
 }
 
@@ -103,6 +112,7 @@ var suffix = mm + '-' + dd + '-' + yyyy + '_' + hours + '-' + minutes + '-' + se
 var outputResultsFile = 'results' + suffix + '.csv';
 var outputErrorsFile = 'errors' + suffix + '.txt';
 var errors = "";
+
 if (useazurestorage) {
     var storageaccount = "sitesscannerdev";
     var storagekey = "WYLY1df7AVnv5Kh0ed6UXD+z7dQzHsMGm5BAgNs2b0iH6CCMV1QK+rmIMHALKnFgRuE5hdx+0L4AQXKLVhYXjw==";
@@ -120,7 +130,7 @@ if (useazurestorage) {
     console.log('access key', storagekey);
 }            
         
-if (argv.source == 'azure') {
+if (useazureassource) {
     var blobSvc = azure.createBlobService(storageaccount, storagekey);
     console.log('reading blob', argv.file);
     blobSvc.getBlobToText('dailyscan', argv.file, function (err, text, blockBlob, response) {
@@ -149,7 +159,7 @@ var saveDataToAzureFile = function (filename, data) {
 }
 
 var saveDataToFile = function (filename, data) {
-    if (useazurestorage) {
+    if (useazureastarget) {
         saveDataToAzureFile(filename, data);
         return;
     }
@@ -255,6 +265,7 @@ function doWork(websites) {
 
             if (comment != "N/A") {
                 console.log(comment);
+                
                 if (data.url && (!drows[data.url] || !drows[data.url].url)) {
                     console.log('Retrying', data.url);
                     batch.requestPage(data.url);
@@ -309,9 +320,8 @@ function doWork(websites) {
         
         console.log('milliseconds', ending.getTime() - starting.getTime());
         
-        for (var n in machines) {
+        for (var n in machines)
             console.log('machine', n, machines[n]);
-        }
     };
 
     batch.onError = function (url, err) {
