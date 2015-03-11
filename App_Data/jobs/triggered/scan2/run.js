@@ -250,13 +250,18 @@ function doWork(websites) {
             tests.forEach(function (item) {
                 row.tests.push(info && info[item] && info[item].passed ? 1 : 0);
             });
-            
-            drows[data.url] = row;
 
             console.log('Checked - ' + data.url);
 
-            if (comment != "N/A")
+            if (comment != "N/A") {
                 console.log(comment);
+                if (data.url && (!drows[data.url] || !drows[data.url].url)) {
+                    console.log('Retrying', data.url);
+                    batch.requestPage(data.url);
+                }
+            }
+            
+            drows[data.url] = row;
         } catch (err) {
             console.log(err);
             console.log("data");
