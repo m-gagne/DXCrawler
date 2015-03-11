@@ -102,8 +102,6 @@ if (seconds < 10)
 var suffix = mm + '-' + dd + '-' + yyyy + '_' + hours + '-' + minutes + '-' + seconds;
 var outputResultsFile = 'results' + suffix + '.csv';
 var outputErrorsFile = 'errors' + suffix + '.txt';
-var results = "";
-var dresults = [];
 var errors = "";
 if (useazurestorage) {
     var storageaccount = "sitesscannerdev";
@@ -181,7 +179,6 @@ function doLines(lines) {
     console.log('starting date/time', starting);
     console.log('processing ' + websites.length + ' sites');
     console.log('date/time', new Date());
-    results += 'rank, area, url, ' + tests.join(', ') + ', comments\n';
 
     if (useazurestorage) {
         var blobSvc = azure.createBlobService(storageaccount, storagekey);
@@ -221,7 +218,7 @@ function doWork(websites) {
         return result.replace(",","");
     }
 
-    function formater(data) {
+    function processData(data) {
         var content;
 
         try {
@@ -243,11 +240,6 @@ function doWork(websites) {
             var url = data.url .replace(prefix, "");
             var comment = getComment(body);
 
-            content = ranks[data.url] + ', ' + areas[data.url] + ', ' + url + ', ' + tests.reduce(function (acum, item) {
-                acum.push(info && info[item] && info[item].passed ? 1 : 0);
-                return acum;
-            }, []).join(', ') + ', ' + comment;
-            
             var row = { 
                 rank: ranks[data.url], 
                 area: areas[data.url],
@@ -270,10 +262,6 @@ function doWork(websites) {
             console.log(err);
             console.log("data");
             console.dir(data);
-            content = ranks[data.url] + ', ' + areas[data.url] + ', ' + url + ', ' + tests.reduce(function (acum, item) {
-                acum.push(0);
-                return acum;
-            }, []).join(', ') + ', ' + err;
             
             var row = { 
                 rank: ranks[data.url], 
@@ -329,9 +317,7 @@ function doWork(websites) {
     };
 
     batch.start(connections, websites, function (data) {
-        dresults.push(data);
-        var line = formater(data);
-        results += line;
+        processData(data);
     });
 }
 
