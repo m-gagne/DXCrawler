@@ -28,9 +28,12 @@ var url = require('url'),
     Deferred = require('promised-io').Deferred,
     promised = require("promised-io/promise"),
     cssLoader = require('./lib/checks/loadcss.js'),
+    config = require('./lib/checks/config.js'),
     jsLoader = require('./lib/checks/loadjs.js'),
     tests = require('./lib/checks/loadchecks.js').tests,
     http = require('http'),
+    csv = require('csv'),
+    jslinq = require('jslinq'),
     path = require('path'),
     zlib = require('zlib'),
     sanitize = require('validator').sanitize,
@@ -38,20 +41,19 @@ var url = require('url'),
     querystring = require('querystring'),
     http = require('http'),
     scanner = require('./lib/scanner');
-    request = request.defaults({
-        followAllRedirects: true,
-        encoding: null,
-        jar: false,
-        proxy: process.env.HTTP_PROXY || process.env.http_proxy,
-        headers: {
-            'Accept': 'text/html, application/xhtml+xml, */*',
-            'Accept-Encoding': 'gzip,deflate',
-            'Accept-Language': 'en-US,en;q=0.5',
-            //            'User-Agent': 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0)'}}); //IE10
-            'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko'
-        }
-    }); //IE11
-    
+request = request.defaults({
+    followAllRedirects: true,
+    encoding: null,
+    jar: false,
+    proxy: process.env.HTTP_PROXY || process.env.http_proxy,
+    headers: {
+        'Accept': 'text/html, application/xhtml+xml, */*',
+        'Accept-Encoding': 'gzip,deflate',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'User-Agent': config.user_agent
+    }
+}); //IE11
+
 // Adjust the global agent maxSockets
 
 if (http.globalAgent.maxSockets < 100)
@@ -144,7 +146,7 @@ function decompress(body, type) {
                     body: data.toString(charset),
                     compression: 'deflate'
                 }
-);
+                );
             } else {
                 deferred.reject('Error found: can\'t deflate content' + err);
             }
@@ -265,31 +267,13 @@ function processResponse(originalUrl) {
                 remoteErrorResponse(response, res ? res.statusCode : 'No response', 'Error found: ' + err);
             }
         };
-    }
-}
-
-/**
- * Returns the local scan page
- * */
-function returnMainPage(response) {
-    fs.readFile(path.join(__dirname, "lib", "index.html"), function (err, data) {
-        if (!err) {
-            response.writeHeader(200, { "Content-Type": "text/html" });
-
-        } else {
-            response.writeHeader(500, { "Content-Type": "text/plain" });
-            data = "Server error: " + err + "\n";
-        }
-        response.write(data);
-        response.end();
-    });
+    };
 }
 
 /**
  * Decides what action needs to be done: show the main page or analyze a website
  * */
 function handleRequest(req, response) {
-    console.log(req.url);
     var requestUrl = url.parse(req.url),
         parameters = querystring.parse(requestUrl.query),
         urlToAnalyze = sanitize(decodeURIComponent(parameters.url)).xss(),
@@ -313,6 +297,94 @@ function handleRequest(req, response) {
     }
 }
 
+function sendError(error, res) {
+    res.writeHeader(500 , { "Content-Type": "text/plain" });
+    res.write(JSON.stringify(error) + '\n');
+    res.end();
+}
+
+/*
+ * Returns the CSV file of the website list
+ */
+function returnWebsites(req, res) {
+    // TODO: get from azure storage
+    var file = path.join(__dirname, "public", "websites.csv");
+    fs.exists(file, function (exists) {
+        if (!exists) {
+            sendError("File not found", res);
+        } else {
+            parseCsv(req, res, file, false);
+        }
+    });
+}
+
+function returnScanResults(req, res) {
+    var dir = "App_Data/jobs/triggered/scan2";
+    var regex = new RegExp("^results.*.csv");
+    var file = fs.readdirSync(dir).filter(function (file) {
+            return regex.test(file);
+        })[0];
+    if (file) {
+        file = path.join(__dirname, dir, file);
+        parseCsv(req, res, file, true);
+    } else {
+        sendError("File not found", res);
+    }
+}
+
+function parseCsv(req, res, file, skipFirstRow) {
+    var json = {};
+    var data = [];
+    csv()
+        .from.stream(fs.createReadStream(file))
+        .on('record', function (row) {
+            data.push(row.map(function (e) { return e.trimLeft().trimRight() }));
+        })
+        .on('end', function () {
+            json['draw'] = req.query.draw;
+            var resultset = jslinq(data)
+                            .select(function (item) { return item })
+                            .items;
+            resultset = skipFirstRow ? jslinq(resultset).skip(1).items : resultset;
+            var filteredResultSet = resultset;
+            if (req.query.search && req.query.search.value && req.query.search.value !== '') {
+                var regex = new RegExp(req.query.search.value);
+                filteredResultSet = jslinq(resultset)
+                                    .where(function (array) {
+                                        return array.some(function (item) { return regex.test(item); });
+                                    })
+                                    .items;
+            }
+            json['data'] = jslinq(filteredResultSet)
+                            .skip(req.query.start)
+                            .take(req.query.length)
+                            .items;
+            json['recordsTotal'] = resultset.length;
+            json['recordsFiltered'] = filteredResultSet.length;
+            res.write(JSON.stringify(json));
+            res.end();
+    });
+}
+
+/**
+ * Handles the upload of a CSV file (overwrites existing file)
+ */
+function handleCsvUpload(req, res) {
+    console.log("File to upload: " + req.files.uploadCsv.path);
+    fs.readFile(req.files.uploadCsv.path, function (err, data) {
+        if (err) {
+            console.log("Error uploading CSV file");
+        } else {
+            // TODO: save somewhere else
+            var newPath = __dirname + "/public/websites.csv";
+            fs.writeFile(newPath, data, function () {
+                // refresh page after successful upload
+                res.redirect('/sites');
+            });
+        }
+    });
+}
+
 /**
  * Decides what action needs to be done: show the main page or analyze a website (version 2)
  * */
@@ -325,8 +397,8 @@ function handleRequestV2(req, response) {
         password = sanitize(decodeURIComponent(parameters.password)).xss(),
         deep = (parameters.deep && parameters.deep === 'true'),
         auth;
-        
-        
+    
+    
     if (!deep)
         deep = false;
     
@@ -407,13 +479,18 @@ var allowCrossDomain = function (req, res, next) {
     }
 };
 app.use(allowCrossDomain);
-
 app.use(express.bodyParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/websites', returnWebsites);
+app.get('/scanresults', returnScanResults);
+
+app.post('/sites', handleCsvUpload);
 
 app.get('/api/v1/scan', handleRequest);
 app.post('/api/v1/package', handlePackage);
 app.get('/api/v2/scan', handleRequestV2);
+
 app.get('/test', function (req, res) {
     res.write('test');
     res.end();
