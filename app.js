@@ -135,8 +135,10 @@ function downloadFileFromAzure(localPath, remoteFileName, callback, errorCallbac
     console.log("File to download from Azure: " + remoteFileName);
 
     var blobSvc = azure.createBlobService(config.storage_account_name, config.storage_account_key);
+
+    var writestream = fs.createWriteStream(localPath);
     
-    blobSvc.getBlobToLocalFile(config.website_list_container_name, remoteFileName, localPath, function(error, result, response) {
+    blobSvc.getBlobToStream(config.website_list_container_name, remoteFileName, writestream, function(error, result, response) {
         if (error) {
             errorCallback();
         } else {
@@ -244,7 +246,9 @@ function handleCsvUpload(req, res) {
         contentLanguage: 'en-us'
     };
 
-    var successCallback = function () { res.redirect('/sites.html'); };
+    var successCallback = function() {
+         res.redirect('/sites.html');
+    };
     var errorCallback = function() { sendError("Could not upload file to Azure.", res);};
     
     uploadFileToAzure(localPath, remoteFileName, options, successCallback, errorCallback);
