@@ -360,7 +360,7 @@ function parseCsv(req, res, file, skipFirstRow) {
             resultset = skipFirstRow ? jslinq(resultset).skip(1).items : resultset;
             var filteredResultSet = resultset;
             if (req.query.search && req.query.search.value && req.query.search.value !== '') {
-                var regex = new RegExp(req.query.search.value);
+                var regex = new RegExp(req.query.search.value, "gi"); //ignore case
                 filteredResultSet = jslinq(resultset)
                                     .where(function (array) {
                                         return array.some(function (item) { return regex.test(item); });
@@ -391,7 +391,7 @@ function handleCsvUpload(req, res) {
             var newPath = __dirname + "/public/websites.csv";
             fs.writeFile(newPath, data, function () {
                 // refresh page after successful upload
-                res.redirect('/sites');
+                res.redirect('/sites.html');
             });
         }
     });
