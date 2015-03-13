@@ -263,12 +263,12 @@ function doWork(websites) {
 
             console.log('Checked - ' + data.url);
 
-            if (comment != "N/A") {
+            if (comment != "N/A" && comment) {
                 console.log(comment);
                 
-                if (data.url && (!drows[data.url] || !drows[data.url].url)) {
-                    console.log('Retrying', data.url);
-                    batch.requestPage(data.url);
+                if (comment.indexOf("ENOTFOUND") < 0 && data.url && (!drows[data.url] || !drows[data.url].url)) {
+                    console.log('To Retry', data.url);
+                    batch.pushRequestPage(data.url);
                 }
             }
             
@@ -290,9 +290,14 @@ function doWork(websites) {
                 row.tests.push(0);
             });
             
-            drows[data.url] = row;
-            
             console.log('error - ' + data.url, err);
+            
+            if (data && data.body == '' && data.url && (!drows[data.url] || !drows[data.url].url)) {
+                console.log('To Retry', data.url);
+                batch.pushRequestPage(data.url);
+            }
+            
+            drows[data.url] = row;
         }
 
         content += '\n';

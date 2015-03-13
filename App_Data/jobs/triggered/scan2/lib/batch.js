@@ -40,6 +40,10 @@ function requestPage(url) {
     }, 0);
 }
 
+function pushRequestPage(url) {
+    websites.push(url);
+};
+
 function callbackWrapper(callback) {
     return function (url) {
         return function (err, response, body) {
@@ -73,5 +77,6 @@ module.exports = {
     start: start,
     onFinish: onFinish,
     onError: onError,
-    requestPage: requestPage
+    requestPage: requestPage,
+    pushRequestPage: pushRequestPage
 }
