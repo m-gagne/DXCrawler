@@ -115,10 +115,13 @@ function sendInternalServerError(error, res) {
 /**
  * Responds with the error and message passed as parameters
  * */
-function remoteErrorResponse(response, statusCode, message) {
+function remoteErrorResponse(response, statusCode, message, url) {
     response.writeHead(200, { "Content-Type": "application/json" });
     response.write(JSON.stringify({ statusCode: statusCode, message: message }));
     response.end();
+    
+    if (url)
+        console.log('error', url, message);
 }
 
 /**
@@ -416,7 +419,7 @@ function handleRequestV2(req, response) {
     
     scanner.scan(urlToAnalyze, user, password, deep, function (err, data) {
         if (err) {
-            remoteErrorResponse(response, err.statusCode ? err.statusCode : 'No response', err.message);
+            remoteErrorResponse(response, err.statusCode ? err.statusCode : 'No response', err.message, urlToAnalyze);
             return;
         }
         
@@ -507,6 +510,9 @@ app.get('/test', function (req, res) {
     res.write('test');
     res.end();
 });
+
+require('events').EventEmitter.defaultMaxListeners = 0;
+
 var server = app.listen(port);
 server.timeout = 480000;
 console.log('Server timeout', server.timeout);
