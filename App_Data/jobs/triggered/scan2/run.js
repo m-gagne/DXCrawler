@@ -150,6 +150,7 @@ else {
 }
 
 var saveDataToAzureFile = function (filename, data) {
+    var blobSvc = azure.createBlobService(storageaccount, storagekey);
     blobSvc.createBlockBlobFromText('dailyscan', filename, data, function (error, result, response) {
         if (!error) {
             // file uploaded
