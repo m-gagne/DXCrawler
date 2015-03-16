@@ -40,7 +40,8 @@ var url = require('url'),
     charset = 'utf-8',
     querystring = require('querystring'),
     http = require('http'),
-    scanner = require('./lib/scanner');
+    scanner = require('./lib/scanner'),
+    azure = require('azure-storage');
 request = request.defaults({
     followAllRedirects: true,
     encoding: null,
@@ -130,19 +131,33 @@ function sendError(error, res) {
     res.end();
 }
 
+function downloadFileFromAzure(localPath, remoteFileName, callback, errorCallback) {
+    console.log("File to download from Azure: " + remoteFileName);
+
+    var blobSvc = azure.createBlobService(config.storage_account_name, config.storage_account_key);
+
+    var writestream = fs.createWriteStream(localPath);
+    
+    blobSvc.getBlobToStream(config.website_list_container_name, remoteFileName, writestream, function(error, result, response) {
+        if (error) {
+            errorCallback();
+        } else {
+            callback();
+        }
+    });
+}
+
 /*
  * Returns the CSV file of the website list
  */
 function returnWebsites(req, res) {
-    // TODO: get from azure storage
-    var file = path.join(__dirname, "public", "websites.csv");
-    fs.exists(file, function (exists) {
-        if (!exists) {
-            sendError("File not found", res);
-        } else {
-            parseCsv(req, res, file, false);
-        }
-    });
+    var fileName = "websites.csv";
+    var localPath = path.join(__dirname, fileName);
+
+    var successCallback = function () { parseCsv(req, res, localPath, false); };
+    var errorCallback = function () { sendError("Could not retrieve file from Azure.", res); };
+    
+    downloadFileFromAzure(localPath, fileName, successCallback, errorCallback);
 }
 
 function returnScanResults(req, res) {
@@ -205,23 +220,38 @@ function parseCsv(req, res, file, skipFirstRow) {
     });
 }
 
+function uploadFileToAzure(localPath, remoteFileName, options, callback, errorCallback) {
+    console.log("File to upload to Azure: " + localPath);
+    
+    var blobSvc = azure.createBlobService(config.storage_account_name, config.storage_account_key);
+    
+    blobSvc.createBlockBlobFromLocalFile(config.website_list_container_name, remoteFileName, localPath, options, function (err, result, response) {
+        if (err) {
+            errorCallback();
+        } else {
+            callback();
+        }
+    });
+}
+
 /**
  * Handles the upload of a CSV file (overwrites existing file)
  */
 function handleCsvUpload(req, res) {
-    console.log("File to upload: " + req.files.uploadCsv.path);
-    fs.readFile(req.files.uploadCsv.path, function (err, data) {
-        if (err) {
-            console.log("Error uploading CSV file");
-        } else {
-            // TODO: save somewhere else
-            var newPath = __dirname + "/public/websites.csv";
-            fs.writeFile(newPath, data, function () {
-                // refresh page after successful upload
-                res.redirect('/sites.html');
-            });
-        }
-    });
+    var localPath = req.files.uploadCsv.path;
+    var remoteFileName = 'websites.csv';
+    var options = {
+        contentType: 'text/csv',
+        contentEncoding: 'utf-8',
+        contentLanguage: 'en-us'
+    };
+
+    var successCallback = function() {
+         res.redirect('/');
+    };
+    var errorCallback = function() { sendError("Could not upload file to Azure.", res);};
+    
+    uploadFileToAzure(localPath, remoteFileName, options, successCallback, errorCallback);
 }
 
 /**

@@ -27,7 +27,7 @@
         }
 
         function formatUrl(td, cellData, rowData, row, col) {
-            $(td).html("<a href='http://" + cellData + "'" + ">" + cellData + "</a>");
+            $(td).html("<a target='_blank' href='http://" + cellData + "'" + ">" + cellData + "</a>");
         }
 
         $(document).ready(function () {
@@ -63,9 +63,8 @@
 <body>
     <nav class="navbar navbar-inverse">
         <ul class="nav navbar-nav">
-            <li><a class="navbar-brand" href="/">Modern.IE Local Scan</a></li>
-            <li><a href="/">Scan</a></li>
-            <li><a href="/sites.html">Site list</a></li>
+            <li><a class="navbar-brand" href="/">Sites scanner - Results</a></li>
+            <li><a href="/">Site list</a></li>
             <li><a href="#">Scan results</a></li>
         </ul>
     </nav>
