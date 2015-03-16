@@ -28,6 +28,13 @@ if (argv.source == 'azure') {
     var azure = require('azure-storage');
 }
 
+var issimulation = false;
+
+if (argv.simulation) {
+    var jsonresponse = JSON.stringify(require('./response.json'));
+    issimulation = true;
+}
+
 if (!argv.file)
     if (argv.source == 'azure')
         argv.file = 'websites.csv';
@@ -140,7 +147,7 @@ else {
     doLines(lines);
 }
 
-var saveDataToAzureFile = function (filename, data) {
+function saveDataToAzureFile(filename, data) {
     var blobSvc = azure.createBlobService(storageaccount, storagekey);
     blobSvc.createBlockBlobFromText('dailyscan', filename, data, function (error, result, response) {
         if (!error) {
@@ -150,7 +157,7 @@ var saveDataToAzureFile = function (filename, data) {
     });
 }
 
-var saveDataToFile = function (filename, data) {
+function saveDataToFile(filename, data) {
     if (useazureastarget) {
         saveDataToAzureFile(filename, data);
         return;
@@ -327,8 +334,17 @@ function doWork(websites) {
         errors +='error analyzing ' + url;
     };
 
-    batch.start(connections, websites, function (data) {
-        processData(data);
-    });
+    if (issimulation) {
+        websites.forEach(function (website) {
+            var data = { url: website, body: jsonresponse };
+            processData(data);
+        });
+        
+        batch.onFinish();
+    }
+    else   
+        batch.start(connections, websites, function (data) {
+            processData(data);
+        });
 }
 
