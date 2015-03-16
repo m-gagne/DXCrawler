@@ -1,5 +1,11 @@
 ﻿{
-    "whitelist": [
-        "transform"
+    "whitelist": [ ],
+    "whitelist_microsoft.com": [
+        "animation",
+        "animation-duration",
+        "appearance",
+        "box-sizing",
+        "text-size-adjust",
+        "transition"
     ]
 }
