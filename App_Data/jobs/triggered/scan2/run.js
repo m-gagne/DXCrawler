@@ -315,7 +315,7 @@ function doWork(websites) {
             var row = drows[n];
             if (row.rank)
                 newresults += row.rank + ", " + row.area + ", " + row.url + ", " + row.tests.join(", ") + ", " + row.comment + "\n";
-            else
+            else if (row.tests)
                 newresults += ", , " + row.url + ", " + row.tests.join(", ") + ", " + row.comment + "\n";
         }
         
