@@ -315,6 +315,8 @@ function doWork(websites) {
             var row = drows[n];
             if (row.rank)
                 newresults += row.rank + ", " + row.area + ", " + row.url + ", " + row.tests.join(", ") + ", " + row.comment + "\n";
+            else
+                newresults += ", , " + row.url + ", " + row.tests.join(", ") + ", " + row.comment + "\n";
         }
         
         saveDataToFile(outputResultsFile, newresults);
