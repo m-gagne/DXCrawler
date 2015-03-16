@@ -247,7 +247,7 @@ function handleCsvUpload(req, res) {
     };
 
     var successCallback = function() {
-         res.redirect('/sites.html');
+         res.redirect('/');
     };
     var errorCallback = function() { sendError("Could not upload file to Azure.", res);};
     

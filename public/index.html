@@ -1,168 +1,80 @@
-﻿<!doctype html>
-<!--
- * Main HTML file interface for Modern.IE local scans. Prompts the user for a URL
- * to scan, sends the URL to the local service, and retrieves the JSON results.
- * The user can then submit the results to the Modern.IE site for a report.
- *
- * Copyright (c) Microsoft Corporation; All rights reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
- * file except in compliance with the License. You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * THIS CODE IS PROVIDED AS IS BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, EITHER
- * EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED WARRANTIES OR CONDITIONS
- * OF TITLE, FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABLITY OR NON-INFRINGEMENT.
- *
- * See the Apache Version 2.0 License for specific language governing permissions
- * and limitations under the License.
--->
+﻿<!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <title>Modern.ie Local Scan</title>
+    <title>Site List</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.5/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css" />
-    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
     <script>
-        $(function () {
-            $("#step2").hide();
+        "use strict";
 
-            $("#scanform").on("submit", function (event) {
-                var url = $("#url").val(),
-					user = $("#user").val(),
-					password = $("#password").val(),
-					data;
+        function formatUrl(td, cellData, rowData, row, col) {
+            $(td).html("<a target='_blank' href='http://" + cellData + "'" + ">" + cellData + "</a>");
+        }
 
-                if (url.length < 4) {
-                    alert("Please enter a URL.");
-                    return false;
-                }
-
-                if (/^\/\//i.test(url)) {
-                    url = "http:" + url;
-                } else if (!/^http/i.test(url)) {
-                    url = "http://" + url;
-                }
-
-                if (user && password) {
-                    data = {
-                        url: url,
-                        user: user,
-                        password: password
-                    };
-                } else {
-                    data = {
-                        url: url,
-                        //deep: 'true'
-                    };
-                }
-
-                event.preventDefault();
-                $("#step1status").text("Scanning " + url + "...");
-
-                var apiurl = $("#scanform").attr('action');
-
-                $.ajax({
-                    method: "get",
-                    url: apiurl,
-                    data: data,
-                    dataType: "text"
-                })
-				.done(function (results) {
-				    var resobj;
-				    try {
-				        resobj = JSON.parse(results);
-				        delete resobj.url.auth;
-				        results = JSON.stringify(resobj);
-				    } catch (ex) {
-				    }
-				    $("#step1").hide();
-				    $("#step1status").text("");
-				    $("#step2").show();
-				    $("#json").val(results);
-				    $("#scanresults").hide().text(results);
-				    try {
-				        $("#scanresults").text(JSON.stringify(resobj, null, "  "));
-				    } catch (ex) {
-				    }
-				})
-				.fail(function (xhr) {
-				    alert("Failed: " + xhr.status + " " + xhr.responseText);
-				});
+        $(document).ready(function () {
+            $('#sitestable').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ordering": false,
+                "ajax": {
+                    "url": "/websites",
+                    "error": function () {
+                        $('#sitestable_wrapper').hide();
+                        $(".displaytext").html("No file 'websites.csv' has been found. Please upload one.");
+                        $(".displaytext").show();
+                    }
+                },
+                "columns": [
+                    { "data": 0, "createdCell": formatUrl },
+                    { "data": 1, "defaultContent": "N/A" },
+                    { "data": 2, "defaultContent": "N/A" }
+                ]
             });
-
-            $("#newscan").on("click", function () {
-                $("#step2").hide();
-                $("#step1").show();
-            });
-            $("#viewresults").on("click", function () {
-                $("#scanresults").show();
-                $("#viewresults").hide();
-                return false;
-            });
+            $(".displaytext").hide();
+            $("#sitestable").DataTable().draw();
+            $("#sitestable").show();
         });
     </script>
 </head>
 <body>
     <nav class="navbar navbar-inverse">
         <ul class="nav navbar-nav">
-            <li><a class="navbar-brand" href="/">Modern.IE Local Scan</a></li>
-            <li><a href="#">Scan</a></li>
-            <li><a href="/sites.html">Site list</a></li>
+            <li><a class="navbar-brand" href="/">Sites scanner - Sites list</a></li>
+            <li><a href="#" class="active">Site list</a></li>
             <li><a href="/results.html">Scan results</a></li>
         </ul>
     </nav>
-
-    <div id="step1">
-	<h1>Scan a page (v2)</h1>
-
-        <form id="scanform" action="/api/v2/scan">
-            <div class="form-group">
-                <label for="url">URL to scan</label>
-                <input type="url" name="url" id="url" size="70">
-            </div>
-
-            <p>If the page requires authentication for access, enter below the username and password; otherwise leave the fields blank.</p>
-            <p>HTTP Basic and Digest authentication methods are supported.</p>
-            <div class="form-group">
-                <label for="user">Username</label>
-                <input type="text" name="user" id="user" size="20">
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" size="20">
-            </div>
-            <button type="submit" name="scan" id="scan" class="btn btn-primary">Scan</button>
-            <p id="step1status"></p>
-        </form>
-    </div>
-
-    <div id="step2">
-        <h1>Generate report</h1>
-
-        <p>
-            The scan is complete and the report is ready to be generated.
-            Press the button below to submit the scan data to the Modern.ie site and create the report.
-        </p>
-
-        <form id="reportform" action="http://www.modern.ie/report/local" method="post">
-            <input type="submit" id="report" value="Create Report">
-            <input type="hidden" name="local_test_results" id="json" value="">
-        </form>
-
-        <p>
-            <a href="" id="viewresults">See what will be submitted</a>
-        </p>
-        <pre id="scanresults"></pre>
-
-        <div>
-            <button id="newscan" class="btn btn-primary">New Scan</button>
+    <h1>Site list</h1>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <label for="uploadCsv">Upload CSV:</label>
+        </div>
+        <div class="panel-body">
+            <form enctype="multipart/form-data" action="/sites" method="post">
+                <input id="uploadCsv" type="file" accept=".csv" name="uploadCsv" required />
+                <button type="submit" value="Upload" class="btn btn-primary">Upload</button>
+            </form>
         </div>
     </div>
-
+    <div id="content">
+        <div class="displaytext">Loading site list...</div>
+        <table class="table table-striped" id="sitestable" style="display: none">
+            <thead>
+                <tr>
+                    <th>Site URL</th>
+                    <th>Region</th>
+                    <th>Rank</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
 </body>
 </html>
