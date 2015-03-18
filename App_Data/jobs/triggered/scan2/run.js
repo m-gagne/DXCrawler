@@ -224,7 +224,7 @@ function doWork(websites) {
         if (result == "")
             result = "Error retrieving results";
             
-        return result.replace(",","");
+        return result.replace(",","").replace("\n", "");
     }
 
     function processData(data) {

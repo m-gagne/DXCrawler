@@ -307,6 +307,9 @@ app.get('/scanresults', returnScanResults);
 app.post('/sites', handleCsvUpload);
 
 app.get('/api/v2/scan', handleRequestV2);
+app.get('/api/v2/error', function (req, res) {
+    sendError('Custom Error', res);
+});
 
 app.get('/test', function (req, res) {
     res.write('test');
