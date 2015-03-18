@@ -264,6 +264,7 @@ function doWork(websites) {
 
             if (comment != "N/A" && comment) {
                 console.log(comment);
+                batch.onError(data.url, comment);
                 
                 if (comment.indexOf("ENOTFOUND") < 0 && data.url && (!drows[data.url] || !drows[data.url].url)) {
                     console.log('To Retry', data.url);
@@ -290,6 +291,7 @@ function doWork(websites) {
             });
             
             console.log('error - ' + data.url, err);
+            batch.onError(data.url, err);
             
             if (data && data.body == '' && data.url && (!drows[data.url] || !drows[data.url].url)) {
                 console.log('To Retry', data.url);
@@ -333,7 +335,10 @@ function doWork(websites) {
     batch.onError = function (url, err) {
         errorCount++;
         console.log('error analyzing ' + url);
-        errors +='error analyzing ' + url;
+        errors += url + ", " + err + "\n";
+        
+        if (errorCount % 100 == 0)
+            saveDataToFile(outputErrorsFile, errors);
     };
 
     if (issimulation) {
