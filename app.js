@@ -161,7 +161,7 @@ function returnWebsites(req, res) {
 }
 
 function returnScanResults(req, res) {
-    var dir = "App_Data/jobs/triggered/scan2";
+    var dir = "App_Data/jobs/triggered/scan";
     var regex = new RegExp("^results(.*)-(.*)-(.*)_(.*)-(.*)-(.*).csv");
     
     // read "dir" and create an array with the files that match the given regex
