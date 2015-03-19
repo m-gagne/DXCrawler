@@ -27,8 +27,9 @@ var cssprefixes = require('../lib/checks/check-cssprefixes.js'),
     testUrl = 'http://localhost:' + testServer.port + '/cssprefixes-';
 
 
-function checkPage(page, expected) {
+function checkPage(page, expected, whitelistedProperties) {
     return function (test) {
+        cssprefixes.whitelist(whitelistedProperties);
         var uri = page.indexOf('http') === 0 ? page : testUrl + page,
             tests = 1;
 
@@ -83,5 +84,7 @@ module.exports['CSS Prefixes'] = {
     'Imports using url(), inline': checkPage("17.html", {passed: false}),
     'Imports using single, included': checkPage("18.html", {passed: false}),
     'Imports using quoted url(), included': checkPage("19.html", {passed: false}),
-    'Cycle import': checkPage("20.html", {passed: false})
+    'Cycle import': checkPage("20.html", { passed: false }),
+    'Missing prefix but whitelisted property': checkPage("9.html", { passed: true }, ["transform"]),
+    'Missing prefix, non whitelisted property': checkPage("9.html", { passed: false }, [])
 };
