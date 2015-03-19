@@ -42,7 +42,7 @@ if (!argv.file)
         argv.file = './websites.csv';
 
 if (!argv.prefix && argv.azure)
-    argv.prefix = 'http://sites-scanner.azurewebsites.net/?url=http://';
+    argv.prefix = 'http://sites-scanner.azurewebsites.net/api/v2/scan?url=http://';
 
 if (!argv.prefix && argv.azuredev)
     argv.prefix = 'http://sites-scanner-dev.azurewebsites.net/api/v2/scan?url=http://';
