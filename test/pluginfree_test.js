@@ -25,7 +25,7 @@ var pluginChecker = require('../lib/checks/check-pluginfree.js'),
     testUrl = 'http://localhost:' + testServer.port + '/plugin-';
 
 
-function checkPage(page, expected) {
+function checkPage(page, expected, options) {
     return function (test) {
         var uri = page.indexOf('http') === 0 ? page : testUrl + page,
             tests = 1;
@@ -43,7 +43,7 @@ function checkPage(page, expected) {
                 $: cheerio.load(content, { lowerCaseTags: true, lowerCaseAttributeNames: true })
             };
 
-            pluginChecker.check(website).then(function (result) {
+            pluginChecker.check(website, options).then(function (result) {
                 test.equal(result.passed, expected.passed, uri + " passed: " + result.passed + " !== " + expected.passed);
                 if (expected.data) {
                     for (var key in expected.data) {
@@ -85,10 +85,14 @@ module.exports['Plugin Free'] = {
             lineNumber: 11
         }
     }),
+    'Silverlight': checkPage('13.html', {passed: true}),
     'Blocked website in CV List': checkPage('http://aardman.com',{passed:false,
     data:{
         activex: false,
         cvlist: true
     }}),
-    'Embed tag with SVG instead flash ( http://doulosdiscovery.org)': checkPage('http://doulosdiscovery.org', {passed: true})
+    'Embed tag with SVG instead flash ( http://doulosdiscovery.org)': checkPage('http://doulosdiscovery.org', {passed: true}),
+    'Flash embed tag not allowed': checkPage('2.html', {passed: false}, { allowFlash: false }),
+    'Silverlight not allowed': checkPage('13.html', {passed: false}, { allowSilverlight: false }),
+    //'Stop server': function (test) { testServer.close(); test.done(); }
 };

@@ -15,7 +15,7 @@ var mimeTypes = {
     "js": "text/javascript",
     "css": "text/css"};
 
-http.createServer(function(req, res) {
+var server = http.createServer(function(req, res) {
     var uri = url.parse(req.url).pathname;
     var filename = path.join(process.cwd(),'static', uri);
     fs.exists(filename, function(exists) {
@@ -32,6 +32,9 @@ http.createServer(function(req, res) {
         var fileStream = fs.createReadStream(filename);
         fileStream.pipe(res);
     }); //end path.exists
-}).listen(port);
+});
+
+server.listen(port);
 
 module.exports.port = port;
+module.exports.close = function () { server.close(); };
