@@ -59,7 +59,7 @@ var connections;
 if (argv.connections)
     connections = argv.connections;
 else
-    connections = 5;
+    connections = 20;
     
 if (connections > http.globalAgent.maxSockets)
     http.globalAgent.maxSockets = connections;
