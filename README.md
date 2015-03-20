@@ -1,18 +1,4 @@
-# Distributed Scan
-
-## Configuration
-
-## Deployment
-
-## How it works
-
-The scan job can be launched....
-
-## Installation and configuration
-
-## Testing
-
-The project contains a set of unit tests in the `/test/` directory. To run the unit tests, type `grunt nodeunit`.
+# Distributed Scan Configuration
 
 ## Plugins 
 
