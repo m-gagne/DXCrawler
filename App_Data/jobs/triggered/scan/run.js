@@ -16,13 +16,13 @@ var useazurestorage = false;
 var useazureastarget = false;
 var useazureassource = false;
 
-if (argv.target == 'azure') {
+if (!argv.target || argv.target == 'azure') {
     useazurestorage = true;
     useazureastarget = true;
     var azure = require('azure-storage');
 }
 
-if (argv.source == 'azure') {
+if (!argv.source || argv.source == 'azure') {
     useazurestorage = true;
     useazureassource = true;
     var azure = require('azure-storage');
