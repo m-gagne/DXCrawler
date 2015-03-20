@@ -16,6 +16,8 @@ The project contains a set of unit tests in the `/test/` directory. To run the u
 
 ## Plugins 
 
+The file `lib\checks\check-pluginfree.json`:
+
 ```json
 {
     "allowFlash": true,
@@ -28,7 +30,7 @@ If you modify this file, you should restart the service to take the changes into
 
 ## Whitelist
 
-TBD
+The file `lib\checks\whitelisted-properties.json`:
 
 ```json
 {
