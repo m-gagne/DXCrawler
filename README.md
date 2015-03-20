@@ -1,20 +1,49 @@
-# Distributed Scan Configuration
+#Sites-Scanner website
 
-## Plugins 
 
-The file `lib\checks\check-pluginfree.json`:
+##Scan API endpoint
 
-```json
-{
-    "allowFlash": true,
-    "allowSilverlight": true,
-    "allowOthers": false
-}
-```
+The core functionality of the sites-scanner sites is the scan endpoint which is mainly a ported version of the modern.ie static code scan [repository](https://github.com/InternetExplorer/modern.IE-static-code-scan/).
 
-If you modify this file, you should restart the service to take the changes into account.
+We changed the original route to `/api/v2/scan` (in order to be able to test multiple version of the scanner)
 
-## Whitelist
+For instance: `https://sites-scanner-test.azurewebsites.net/api/v2/scan?url=http://www.microsoft.com/`
+
+It returns a JSON content as the original code.
+
+##Webjob
+
+The webjob takes batches of websites from the configured list and sends requests to the Scan API endpoint. It collects results and errors and store them in two files prefixed with 'results' and 'errors'.
+In order to obtain early feedback, the process dumps the errors file each 100 error messages.
+
+###Parameters
+
+The webjob could be parametrized from command line or by reading the `ScanJob_Arguments` App Setting (configurable from the Azure Website portal).
+
+ * `--source=<source>`: If the value is  `azure` it would use Azure storage and read the list of websites from the _websites.csv_ blob file. For any other value it will use file system instead. (Default value: _blank_ i.e. file system storage)
+ * `--target=<target>`: This one works similar to the _--target_ parameter and it is used to control _results_ and _errors_ output files storage.  (Default value: _blank_ i.e. file system storage)
+ * `--file=<filename>`: Used to control the input file name. (Default value: `websites.csv`) Depending on `source`, the name refers to local filesystem or to Azure storage.
+ * `--prefix=<urlprefix>`: This parameter allow to change the Scan API endpoint url to use. We used it for development and testing purposes and can be used to redirect the load to any other environment. We now defaulted to the _production_ environment: `http://sites-scanner.azurewebsites.net/api/v2/scan?url=http://`
+ * `--connections=<noconnections>`: This paremeter controls the amount of simultaneous connection the webjob can execute to the Scan API. We find this useful while improving the scalability aspect of the solution. (Default value: 20 connections)
+
+##Websites and Results pages
+
+We removed the original feature to enter and scan a single url. We replaced it with the ability to upload a website list in CSV format that will be displayed  and another page to view the results (both using jQuery Datatables.)
+
+
+##Deployment
+
+Deployment can be done in three different flavors:
+* Repository integration - You can upload the entire repo to the Azure website repository and it will use the `.deployment` file to deploy only the dev\ folder.
+ * Deployment script - You can drop your publish setting file, rename it to `sites-scanner.PublishSettings` and run the ´deploy.cmd´ script. This script uses the [WAWSDeploy](https://github.com/davidebbo/WAWSDeploy) tool to upload all required files using WebDeploy.
+ * Manually - As usual you can go ahead and upload the entire dev\ folder to the remote site\wwwroot\ folder via FTP.
+
+###App Settings
+
+Only three app settings are used by the website and the webjob
+
+##Configurable Checks
+###CSS Prefixes
 
 The file `lib\checks\whitelisted-properties.json`:
 
@@ -34,14 +63,17 @@ The file `lib\checks\whitelisted-properties.json`:
 
 If you modify this file, you should restart the service to take the changes into account.
 
-## Scan Job Arguments
 
-TBD
+###Plugin free
 
-- `--file=<filename>`: the file with the web site list to process. Depending on `source`, the name refers to local filesystem or to Azure storage. Default value: `websites.csv`
-- `--prefix=<urlprefix>`: the URL to use as prefix to service entry point. Example: `http://sites-scanner-test.azurewebsites.net/api/v2/scan?url=http://`
-- `--source=<source>`: if source=azure, the web site list is retrieved from Azure storage, from `dailyscan` container. In other case, the filename refers to local filesystem, current directory is the scan job one. Default value: `azure`
-- `--target=<target>`: if target=azure, the results and errors files are saved on Azure storage. In other case, they are saved on local filesystem. Default value: `azure`
-- `--target=<target>`: if target=azure, the results and errors files are saved on Azure storage. In other case, they are saved on local filesystem. Default value: `azure`
-- `--connections=<noconnections>`: number of simultaneous request sent by scan job to scan API. It should adjusted to the number of machines in your subscription. Default value: `20`
+The file `lib\checks\check-pluginfree.json`:
 
+```json
+{
+    "allowFlash": true,
+    "allowSilverlight": true,
+    "allowOthers": false
+}
+```
+
+If you modify this file, you should restart the service to take the changes into account.
