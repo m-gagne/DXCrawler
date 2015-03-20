@@ -14,17 +14,34 @@ The scan job can be launched....
 
 The project contains a set of unit tests in the `/test/` directory. To run the unit tests, type `grunt nodeunit`.
 
-## JSON output
+## Plugins 
 
-Once the scan completes, it produces a set of scan results in JSON format:
-```js
+```json
 {
-    "testName" : {
-        "testName": "Short description of the test",
-        "passed" : true/false,
-        "data": { /* optional data describing the results found */ }
-    }
+    "allowFlash": true,
+    "allowSilverlight": true,
+    "allowOthers": false
 }
 ```
 
-The `data` property will vary depending on the test, but will generally provide further detail about any issues found.
+## Whitelist
+
+TBD
+
+```json
+{
+    "whitelist": [ ],
+    "whitelist_microsoft.com": [
+        "animation",
+        "animation-duration",
+        "appearance",
+        "box-sizing",
+        "text-size-adjust",
+        "transition"
+    ]
+}
+```
+
+## Scan Job Arguments
+
+TBD
