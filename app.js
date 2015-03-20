@@ -131,6 +131,29 @@ function sendError(error, res) {
     res.end();
 }
 
+function getResultListFromAzure(callback, errorCallback) {
+    console.log("Retrieving Result List from Azure");
+
+    var blobSvc = azure.createBlobService(config.storage_account_name, config.storage_account_key);
+    
+    blobSvc.listBlobsSegmented('dailyscan', null, function(error, result, response) {
+        if (error) {
+            console.log(error);
+            return;
+        }
+        
+        var names = [];
+        
+        if (result.entries)
+            result.entries.forEach(function (entry) {
+                if (entry.name && entry.name.length == 30 && entry.name.substring(0, 7) == 'results')
+                    names.push(entry.name);
+            });
+        
+        callback(names);
+    });
+}
+
 function downloadFileFromAzure(localPath, remoteFileName, callback, errorCallback) {
     console.log("File to download from Azure: " + remoteFileName);
 
@@ -161,28 +184,45 @@ function returnWebsites(req, res) {
 }
 
 function returnScanResults(req, res) {
-    var dir = "App_Data/jobs/triggered/scan";
-    var regex = new RegExp("^results(.*)-(.*)-(.*)_(.*)-(.*)-(.*).csv");
+    var successCallback = function (names) { 
+        console.log('Result list retrieved'); 
+        processNames(names);
+    };
     
-    // read "dir" and create an array with the files that match the given regex
-    var files = fs.readdirSync(dir).filter(function (file) {
-        return regex.test(file);
-    });
+    var errorCallback = function () { sendError("Could not retrieve result list from Azure.", res); };
     
-    if (files.length > 0) {
-        // sort files by date and then pick the most recent
-        var file = files.sort(function (a, b) {
-            var matchA = regex.exec(a);
-            var dateA = new Date(matchA[1], matchA[2], matchA[3], matchA[4], matchA[5], matchA[6], 0);
-            var matchB = regex.exec(b);
-            var dateB = new Date(matchB[1], matchB[2], matchB[3], matchB[4], matchB[5], matchB[6], 0);
-            return dateB - dateA;
-        })[0];
+    getResultListFromAzure(successCallback, errorCallback);
+    
+    function processNames(files) {
+        var dir = "App_Data/jobs/triggered/scan";
+        var regex = new RegExp("^results(.*)-(.*)-(.*)_(.*)-(.*)-(.*).csv");
         
-        file = path.join(__dirname, dir, file);
-        parseCsv(req, res, file, true);
-    } else {
-        sendError("File not found", res);
+        if (files.length > 0) {
+            // sort files by date and then pick the most recent
+            var file = files.sort(function (a, b) {
+                var matchA = regex.exec(a);
+                var dateA = matchA[3] + matchA[2] + matchA[1] + matchA[4] + matchA[5] + matchA[6];
+                var matchB = regex.exec(b);
+                var dateB = matchB[3] + matchB[2] + matchB[1] + matchB[4] + matchB[5] + matchB[6];
+                if (dateA < dateB)
+                    return 1;
+                if (dateA > dateB)
+                    return -1;
+                return 0;
+            })[0];
+            
+            var localPath = path.join(__dirname, file);
+
+            var successCallback = function () { 
+                parseCsv(req, res, localPath, true);
+            };
+            
+            var errorCallback = function () { sendError("Could not retrieve file from Azure.", res); };
+    
+            downloadFileFromAzure(localPath, file, successCallback, errorCallback);
+        } else {
+            sendError("File not found", res);
+        }
     }
 }
 

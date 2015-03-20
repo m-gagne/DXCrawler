@@ -9,8 +9,8 @@ console.dir(argv);
 
 var azure = require('azure-storage');
 
-var storageaccount = "sitesscannertest";
-var storagekey = "if83B5HbSJu32vnlKbIdbF7TQKekog05ZUgMhMjvZk1ju/vc7phVHTIgJTeobA7fX7pv2Mwlxl7ZMqKEiEe4fg==";
+var storageaccount = "sitesscannerdev";
+var storagekey = "WYLY1df7AVnv5Kh0ed6UXD+z7dQzHsMGm5BAgNs2b0iH6CCMV1QK+rmIMHALKnFgRuE5hdx+0L4AQXKLVhYXjw==";
 
 if (process.env.Storage_AccountName)
     storageaccount = process.env.Storage_AccountName;
