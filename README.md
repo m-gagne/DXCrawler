@@ -45,3 +45,8 @@ TBD
 ## Scan Job Arguments
 
 TBD
+
+- `--file=<filename>` 
+- `--prefix=<urlprefix>`
+- `--source=<source>`
+- `--target=<target>`
