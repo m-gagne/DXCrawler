@@ -51,7 +51,7 @@ if (!argv.prefix && argv.azuretest)
     argv.prefix = 'http://sites-scanner-test.azurewebsites.net/api/v2/scan?url=http://';
     
 if (!argv.prefix)
-    argv.prefix = 'http://localhost:1337/api/v2/scan?url=http://';
+    argv.prefix = 'http://sites-scanner.azurewebsites.net/api/v2/scan?url=http://';
     
 var machines = {};
 var connections;
