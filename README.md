@@ -7,7 +7,7 @@ The core functionality of the sites-scanner sites is the scan endpoint which is 
 
 We changed the original route to `/api/v2/scan` (in order to be able to test multiple version of the scanner)
 
-For instance: `https://sites-scanner-test.azurewebsites.net/api/v2/scan?url=http://www.microsoft.com/`
+For instance: `http://sites-scanner.azurewebsites.net/api/v2/scan?url=http://www.microsoft.com/`
 
 It returns a JSON content as the original code.
 
@@ -34,9 +34,9 @@ We removed the original feature to enter and scan a single url. We replaced it w
 ##Deployment
 
 Deployment can be done in three different flavors:
-* Repository integration - You can upload the entire repo to the Azure website repository and it will use the `.deployment` file to deploy only the dev\ folder.
+ * Repository integration - You can upload the entire repo to the Azure website repository.
  * Deployment script - You can drop your publish setting file, rename it to `sites-scanner.PublishSettings` and run the ´deploy.cmd´ script. This script uses the [WAWSDeploy](https://github.com/davidebbo/WAWSDeploy) tool to upload all required files using WebDeploy.
- * Manually - As usual you can go ahead and upload the entire dev\ folder to the remote site\wwwroot\ folder via FTP.
+ * Manually - As usual you can go ahead and upload the entire repository to the remote site\wwwroot\ folder via FTP.
 
 ###App Settings
 
