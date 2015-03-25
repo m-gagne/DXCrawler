@@ -68,6 +68,7 @@ var errorCount = 0;
 var areas = [];
 var ranks = [];
 var drows = {};
+var nrows = 0;
 
 var tests = [
     //'browserbite',
@@ -273,6 +274,22 @@ function doWork(websites) {
             }
             
             drows[data.url] = row;
+            nrows++;
+            
+            if (nrows % 1000 == 0) {
+                var newresults = 'rank, area, url, ' + tests.join(', ') + ', comments\n';
+                
+                for (var n in drows) {
+                    var row = drows[n];
+                    if (row.rank)
+                        newresults += row.rank + ", " + row.area + ", " + row.url + ", " + row.tests.join(", ") + ", " + row.comment + "\n";
+                    else if (row.tests)
+                        newresults += ", , " + row.url + ", " + row.tests.join(", ") + ", " + row.comment + "\n";
+                }
+                
+                saveDataToFile(outputResultsFile, newresults);
+                newresults = null;
+            }
         } catch (err) {
             console.log(err);
             console.log("data");
