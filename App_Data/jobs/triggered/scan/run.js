@@ -276,7 +276,7 @@ function doWork(websites) {
             drows[data.url] = row;
             nrows++;
             
-            if (nrows % 10000 == 0) {
+            if (nrows % 1000 == 0) {
                 var newresults = 'rank, area, url, ' + tests.join(', ') + ', comments\n';
                 
                 for (var n in drows) {
