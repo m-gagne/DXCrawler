@@ -295,6 +295,12 @@ function doWork(websites) {
             console.log("data");
             console.dir(data);
             
+            if (!url && data.url)
+                try {
+                    url = data.url.replace(prefix, "");
+                }
+                catch (err) { }
+            
             var row = { 
                 rank: ranks[data.url], 
                 area: areas[data.url],
