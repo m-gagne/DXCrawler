@@ -225,7 +225,7 @@ function doWork(websites) {
         if (result == "")
             result = "Error retrieving results";
             
-        return result.replace(",", "").replace("\n", "");
+        return result.replace(",", "").replace("\n", " ").replace("\r", " ");
     }
 
     function processData(data) {
@@ -295,6 +295,8 @@ function doWork(websites) {
             console.log("data");
             console.dir(data);
             
+            var comment = err.toString().replace(",", "").replace("\n", " ").replace("\r"," ");
+            
             if (!url && data.url)
                 try {
                     url = data.url.replace(prefix, "");
@@ -358,7 +360,7 @@ function doWork(websites) {
     batch.onError = function (url, err) {
         errorCount++;
         console.log('error analyzing ' + url);
-        errors += url + ", " + err + "\n";
+        errors += url + ", " + err.toString().replace(",","").replace("\n"," ").replace("\r"," ") + "\n";
         
         if (errorCount % 100 == 0)
             saveDataToFile(outputErrorsFile, errors);
