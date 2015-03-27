@@ -35,6 +35,7 @@ var getNext = function () {
 };
 
 function requestPage(url) {
+    console.log('request page', url);
     setTimeout( function () {
         request({ url: url, timeout: 480000 }, callbacker(url));
     }, 0);
@@ -70,7 +71,8 @@ function start(max, webs, callback) {
     callbacker = callbackWrapper(callback);
 
     for (i = 0; i < connections; i++)
-        requestPage(websites[i]);
+        if (websites[i])
+            requestPage(websites[i]);
 }
 
 module.exports = {
