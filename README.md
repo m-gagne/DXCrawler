@@ -3,7 +3,7 @@
 
 ##Scan API endpoint
 
-The core functionality of the sites-scanner sites is the **scan** endpoint which is mainly a ported version of the modern.ie static code scan [repository](https://github.com/InternetExplorer/modern.IE-static-code-scan/).
+The core functionality of the sites-scanner sites is the **scan** endpoint which is mainly a ported version of the [modern.ie static code scan repository](https://github.com/InternetExplorer/modern.IE-static-code-scan/).
 
 We changed the original route to `/api/v2/scan` (in order to be able to test multiple version of the scanner). For instance: `http://sites-scanner.azurewebsites.net/api/v2/scan?url=http://www.microsoft.com/`
 
@@ -11,10 +11,10 @@ It returns a JSON content as the original code.
 
 ##Webjob
 
-The webjob takes batches of websites from the configured list and sends requests to the Scan API endpoint. It collects results and errors and stores them in two files prefixed with 'results' and 'errors'.
+The webjob takes batches of websites from the configured list and sends requests to the Scan API endpoint. It collects results and errors and stores them in two files prefixed with `results` and `errors`.
 In order to obtain early feedback, the process dumps the results after 1000 checks and the errors after every 100 error messages.
 
-###Parameters
+###<a name="parameters"></a>Parameters
 
 The webjob could be parameterized from command line or by reading the `ScanJob_Arguments` App Setting (configurable from the Azure Website portal).
 
@@ -39,7 +39,11 @@ Deployment can be done in three different flavors:
 
 ###App Settings
 
-Only three app settings are used by the website and the webjob
+Three app settings are used by the website and the webjob:
+
+- `Storage_AccountName`: the name of the storage account where the results are stored.
+- `Storage_AccessKey`: the access key to the storage account where the results are stored.
+- `ScanJob_Arguments`: list of arguments to the webjob, as described in the WebJob's [Parameters](#parameters) section above.
 
 ##Configurable Checks
 ###CSS Prefixes
