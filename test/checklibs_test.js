@@ -162,6 +162,27 @@ module.exports['JS Libraries'] = {
             passed: true
         });
     },
+    'several libraries updated but banned version': function (test) {
+        checkPage('12.html', test, {
+            passed: false,
+            data: [
+                {
+                    version: "1.4.1",
+                    bannedVersion: "1.4.1",
+                    name: "jQuery cookie"
+                }
+            ]
+        },
+        [
+            {
+                name: "jQuery cookie",
+                bannedVersions: [
+                    "1.4.1"
+                ]
+            }
+        ]
+        );
+    },
     'several libraries outdated': function (test) {
         checkPage('13.html', test, {
             passed: false,
