@@ -1,0 +1,28 @@
+[
+    {
+        "name": "Mootools",
+        "minVersions": [
+            { "major": "1.2.", "minor": "7" },
+            { "major": "1.4.", "minor": "6" },
+            { "major": "1.5.", "minor": "1" }
+        ]
+    },
+    {
+        "name": "Prototype",
+        "match": "Prototype JavaScript framework, version (\\d+\\.\\d+\\.\\d+)",
+        "minVersions": [
+            { "major": "1.7.", "minor": "2" }
+        ]
+    },
+    {
+        "name": "jQuery",
+        "bannedVersions": [ 
+            "2.0.1",
+            "2.0.3"
+        ]
+    },
+    {
+        "name": "Modernizr",
+        "skip": true
+    }
+]
