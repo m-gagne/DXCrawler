@@ -26,7 +26,7 @@ var checklibs = require('../lib/checks/check-libs.js'),
     testUrl = 'http://localhost:' + testServer.port + '/libs-';
 
 
-function checkPage(page, test, expected) {
+function checkPage(page, test, expected, config) {
     var uri = testUrl + page,
         dataKeys = [],
         tests = 1;
@@ -45,6 +45,9 @@ function checkPage(page, test, expected) {
             $: cheerio.load(content)
         };
 
+        if (config)
+            checklibs.merge(config);
+
         jsloader.loadjsFiles(website)
             .then(checklibs.check)
             .then(function (result) {
@@ -57,6 +60,9 @@ function checkPage(page, test, expected) {
                     }
                 }
 
+                if (config)
+                    checklibs.merge(null);
+                    
                 test.done();
             });
     });
@@ -189,8 +195,60 @@ module.exports['JS Libraries'] = {
                     version: "2.0.1",
                     minVersion: "2.0.2",
                     name: "hammer js"
-                }
-            ]
+                }            
+                ]
         });
+    },
+    'several libraries outdated with config': function (test) {
+        checkPage('14.html', test, {
+            passed: false,
+            data: [
+                {
+                    version: "1.4.0",
+                    minVersion: "1.4.1",
+                    name: "jQuery cookie"
+                },
+                {
+                    version: "3.1.10",
+                    minVersion: "3.1.12",
+                    name: "jQuery mousewheel"
+                },
+                {
+                    version: "1.8.0",
+                    minVersion: "1.8.1",
+                    name: "hoverIntent"
+                },
+                {
+                    version: "1.5.1",
+                    minVersion: "1.5.2",
+                    name: "underscore"
+                },
+                {
+                    version: "1.4.2",
+                    minVersion: "1.4.3",
+                    name: "jQuery mobile"
+                },
+                {
+                    version: "2.0.1",
+                    minVersion: "2.0.2",
+                    name: "hammer js"
+                },
+                {
+                    version: "1.2.3",
+                    minVersion: "1.2.4",
+                    name: "mytools"
+                }            
+                ]
+        },
+        [
+            {
+                name: "mytools",
+                match: "mytools.(\\d+\\.\\d+\\.\\d+)",
+                minVersions: [
+                    { major: "1.2.", minor: "4" }
+                ]
+            }
+        ]
+        );
     }
 };
