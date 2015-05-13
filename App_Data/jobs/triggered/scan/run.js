@@ -258,7 +258,14 @@ function doWork(websites) {
             }
             
             tests.forEach(function (item) {
-                row.tests.push(info && info[item] && info[item].passed ? 1 : 0);
+                var testResult = "N/A";
+                if (info && info[item]) {
+                    if (info[item].passed)
+                        testResult = 1;
+                    else
+                        testResult = 0;
+                }
+                row.tests.push(testResult);
             });
 
             console.log('Checked - ' + data.url);
@@ -276,6 +283,7 @@ function doWork(websites) {
             drows[data.url] = row;
             nrows++;
             
+            // dump partial results every 1000 checks
             if (nrows % 1000 == 0) {
                 var newresults = 'rank, area, url, ' + tests.join(', ') + ', comments\n';
                 
@@ -362,6 +370,7 @@ function doWork(websites) {
         console.log('error analyzing ' + url);
         errors += url + ", " + err.toString().replace(",","").replace("\n"," ").replace("\r"," ") + "\n";
         
+        // dump error results every 100 errors
         if (errorCount % 100 == 0)
             saveDataToFile(outputErrorsFile, errors);
     };
