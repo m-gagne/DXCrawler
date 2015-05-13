@@ -199,6 +199,45 @@ module.exports['JS Libraries'] = {
                 ]
         });
     },
+    'several libraries outdated skip jQuery cookie': function (test) {
+        checkPage('13.html', test, {
+            passed: false,
+            data: [
+                {
+                    version: "3.1.10",
+                    minVersion: "3.1.12",
+                    name: "jQuery mousewheel"
+                },
+                {
+                    version: "1.8.0",
+                    minVersion: "1.8.1",
+                    name: "hoverIntent"
+                },
+                {
+                    version: "1.5.1",
+                    minVersion: "1.5.2",
+                    name: "underscore"
+                },
+                {
+                    version: "1.4.2",
+                    minVersion: "1.4.3",
+                    name: "jQuery mobile"
+                },
+                {
+                    version: "2.0.1",
+                    minVersion: "2.0.2",
+                    name: "hammer js"
+                }            
+                ]
+        },
+        [
+                {
+                    name: "jQuery cookie",
+                    skip: true
+                }
+        ]
+        );
+    },
     'several libraries outdated with config': function (test) {
         checkPage('14.html', test, {
             passed: false,
