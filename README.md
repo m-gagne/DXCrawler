@@ -23,6 +23,7 @@ The webjob could be parameterized from command line or by reading the `ScanJob_A
  * `--file=<filename>`: Used to set the input file name. (Default value: `websites.csv`) Depending on `source`, the name refers to local file system or to Azure storage.
  * `--prefix=<urlprefix>`: Used to set the Scan API endpoint URL to use. We used it for development and testing purposes and can be used to redirect the load to any other environment. We now defaulted to the _production_ environment: `http://sites-scanner.azurewebsites.net/api/v2/scan?url=http://`
  * `--connections=<noconnections>`: Used to set the amount of simultaneous connection the webjob can execute to the Scan API. We found this useful while improving the scalability of the solution. (Default value: 20 connections).
+ * `--simulation`: flag that reads the test results from a file `results.json` stored in the webjob's folder. This file must be pre populated with the results of a scan.
 
 ##Websites and Results pages
 
