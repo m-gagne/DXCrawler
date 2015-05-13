@@ -3,28 +3,26 @@
 
 ##Scan API endpoint
 
-The core functionality of the sites-scanner sites is the scan endpoint which is mainly a ported version of the modern.ie static code scan [repository](https://github.com/InternetExplorer/modern.IE-static-code-scan/).
+The core functionality of the sites-scanner sites is the **scan** endpoint which is mainly a ported version of the modern.ie static code scan [repository](https://github.com/InternetExplorer/modern.IE-static-code-scan/).
 
-We changed the original route to `/api/v2/scan` (in order to be able to test multiple version of the scanner)
-
-For instance: `http://sites-scanner.azurewebsites.net/api/v2/scan?url=http://www.microsoft.com/`
+We changed the original route to `/api/v2/scan` (in order to be able to test multiple version of the scanner). For instance: `http://sites-scanner.azurewebsites.net/api/v2/scan?url=http://www.microsoft.com/`
 
 It returns a JSON content as the original code.
 
 ##Webjob
 
-The webjob takes batches of websites from the configured list and sends requests to the Scan API endpoint. It collects results and errors and store them in two files prefixed with 'results' and 'errors'.
-In order to obtain early feedback, the process dumps the errors file each 100 error messages.
+The webjob takes batches of websites from the configured list and sends requests to the Scan API endpoint. It collects results and errors and stores them in two files prefixed with 'results' and 'errors'.
+In order to obtain early feedback, the process dumps the errors after every 100 error messages.
 
 ###Parameters
 
 The webjob could be parametrized from command line or by reading the `ScanJob_Arguments` App Setting (configurable from the Azure Website portal).
 
- * `--source=<source>`: If the value is  `azure` it would use Azure storage and read the list of websites from the _websites.csv_ blob file. For any other value it will use file system instead. (Default value: _blank_ i.e. file system storage)
- * `--target=<target>`: This one works similar to the _--target_ parameter and it is used to control _results_ and _errors_ output files storage.  (Default value: _blank_ i.e. file system storage)
- * `--file=<filename>`: Used to control the input file name. (Default value: `websites.csv`) Depending on `source`, the name refers to local filesystem or to Azure storage.
- * `--prefix=<urlprefix>`: This parameter allow to change the Scan API endpoint url to use. We used it for development and testing purposes and can be used to redirect the load to any other environment. We now defaulted to the _production_ environment: `http://sites-scanner.azurewebsites.net/api/v2/scan?url=http://`
- * `--connections=<noconnections>`: This paremeter controls the amount of simultaneous connection the webjob can execute to the Scan API. We find this useful while improving the scalability aspect of the solution. (Default value: 20 connections)
+ * `--source=<source>`: If the value is  `azure` it will use Azure storage and read the list of websites from the _websites.csv_ blob file. For any other value it will use file system instead. (Default value: _blank_ i.e. file system storage)
+ * `--target=<target>`:  If the value is  `azure` it will store the results and errors in Azure blob storage. For any other value it will use file system instead. (Default value: _blank_ i.e. file system storage)
+ * `--file=<filename>`: Used to set the input file name. (Default value: `websites.csv`) Depending on `source`, the name refers to local filesystem or to Azure storage.
+ * `--prefix=<urlprefix>`: Used to set the Scan API endpoint url to use. We used it for development and testing purposes and can be used to redirect the load to any other environment. We now defaulted to the _production_ environment: `http://sites-scanner.azurewebsites.net/api/v2/scan?url=http://`
+ * `--connections=<noconnections>`: Used to set the amount of simultaneous connection the webjob can execute to the Scan API. We found this useful while improving the scalability of the solution. (Default value: 20 connections).
 
 ##Websites and Results pages
 
