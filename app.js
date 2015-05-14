@@ -312,8 +312,14 @@ function handleRequestV2(req, response) {
         deep = false;
     
     scanner.scan(urlToAnalyze, user, password, deep, function (err, data) {
+        var errorMessage;
         if (err) {
-            remoteErrorResponse(response, err.statusCode ? err.statusCode : 'No response', err.message, urlToAnalyze);
+            if (err.message) {
+                errorMessage = err.message;
+            } else {
+                errorMessage = err;
+            }
+            remoteErrorResponse(response, err.statusCode ? err.statusCode : 'No response', errorMessage, urlToAnalyze);
             return;
         }
         
