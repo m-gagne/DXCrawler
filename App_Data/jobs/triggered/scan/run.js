@@ -212,7 +212,7 @@ function doWork(websites) {
         var result = "";
             
         if (body.statusCode)
-            result += "Status Code: " + body.statusCode;
+            result += "WARNING - Status Code: " + body.statusCode;
         if (body.message) {
             if (result != "")
                 result += " ";
