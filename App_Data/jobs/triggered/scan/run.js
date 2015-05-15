@@ -236,7 +236,7 @@ function doWork(websites) {
         try {
             var body;
             
-            if (data.body && data.body.indexOf('{') < 0)
+            if (typeof data.body != 'undefined' && data.body.indexOf('{') < 0)
                 body = data.body;
             else
                 body = JSON.parse(data.body);
