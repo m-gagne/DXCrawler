@@ -210,17 +210,19 @@ function doWork(websites) {
             return "N/A";
             
         var result = "";
-            
+        
+        // remote site failure
         if (body.statusCode)
-            result += "WARNING - Status Code: " + body.statusCode;
+            result += "WARNING - Remote site Status Code: " + body.statusCode;
         if (body.message) {
             if (result != "")
                 result += " ";
             result += "Message: " + body.message;
         }
         
+        // scanner failure
         if (typeof body == "string")
-            result = body;
+            result = "ERROR - " + body;
         
         if (result == "")
             result = "Error retrieving results";
