@@ -1,6 +1,5 @@
 ﻿{
-    "whitelist": [ ],
-    "whitelist_microsoft.com": [
+    "whitelist": [
         "animation",
         "animation-duration",
         "appearance",
