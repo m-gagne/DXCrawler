@@ -264,12 +264,17 @@ function uploadFileToAzure(localPath, remoteFileName, options, callback, errorCa
     console.log("File to upload to Azure: " + localPath);
     
     var blobSvc = azure.createBlobService(config.storage_account_name, config.storage_account_key);
-    
-    blobSvc.createBlockBlobFromLocalFile(config.website_list_container_name, remoteFileName, localPath, options, function (err, result, response) {
+    blobSvc.createContainerIfNotExists(config.website_list_container_name, { publicAccessLevel : 'blob' }, function (err, result, response) {
         if (err) {
-            errorCallback();
+            errorCallBack();
         } else {
-            callback();
+            blobSvc.createBlockBlobFromLocalFile(config.website_list_container_name, remoteFileName, localPath, options, function (err, result, response) {
+                if (err) {
+                    errorCallback();
+                } else {
+                    callback();
+                }
+            });
         }
     });
 }
