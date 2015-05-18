@@ -198,11 +198,7 @@
     <Compile Include="test\responsive_test.js" />
     <Compile Include="test\touch_test.js" />
     <Compile Include="App_Data\jobs\triggered\scan\run.js" />
-    <Compile Include="App_Data\jobs\triggered\scan2\listblobs.js" />
-    <Compile Include="App_Data\jobs\triggered\scan2\run.js" />
-    <Compile Include="App_Data\jobs\triggered\scan2\uploadblob.js" />
     <Compile Include="App_Data\jobs\triggered\scan\lib\batch.js" />
-    <Compile Include="App_Data\jobs\triggered\scan2\lib\batch.js" />
     <Compile Include="lib\checks\check-browser-detection.js" />
     <Compile Include="lib\checks\check-browserbite.js" />
     <Compile Include="lib\checks\check-cssprefixes.js" />
@@ -291,8 +287,6 @@
     <Folder Include="App_Data\jobs\triggered\scan\node_modules\http-agent\node_modules" />
     <Folder Include="App_Data\jobs\triggered\scan\node_modules\http-agent\node_modules\request" />
     <Folder Include="App_Data\jobs\triggered\scan\node_modules\http-agent\node_modules\request\tests" />
-    <Folder Include="App_Data\jobs\triggered\scan2" />
-    <Folder Include="App_Data\jobs\triggered\scan2\lib" />
     <Folder Include="bin" />
     <Folder Include="lib" />
     <Folder Include="lib\checks" />
