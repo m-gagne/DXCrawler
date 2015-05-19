@@ -324,7 +324,7 @@ function handleRequestV2(req, response) {
             } else {
                 errorMessage = err;
             }
-            remoteErrorResponse(response, err.statusCode ? err.statusCode : 'No response', errorMessage, urlToAnalyze);
+            remoteErrorResponse(response, err.statusCode, errorMessage, urlToAnalyze);
             return;
         }
         
