@@ -212,8 +212,8 @@ function doWork(websites) {
         var result = "";
         
         // remote site failure
-        if (body.statusCode)
-            result += "WARNING - Remote site Status Code: " + body.statusCode;
+        result += "WARNING - " + (body.statusCode ? "Remote site Status Code: " + body.statusCode : "");
+
         if (body.message) {
             if (result != "")
                 result += " ";
