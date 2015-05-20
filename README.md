@@ -18,8 +18,8 @@ In order to obtain early feedback, the process dumps the results after 1000 chec
 
 The webjob could be parameterized from command line or by reading the `ScanJob_Arguments` App Setting (configurable from the Azure Website portal).
 
- * `--source=<source>`: If the value is  `azure` it will use Azure storage and read the list of websites from the _websites.csv_ blob file. For any other value it will use file system instead. (Default value: _blank_ i.e. file system storage)
- * `--target=<target>`:  If the value is  `azure` it will store the results and errors in Azure blob storage. For any other value it will use file system instead. (Default value: _blank_ i.e. file system storage)
+ * `--source=<source>`: If the value is  `azure` it will use Azure storage and read the list of websites from the _websites.csv_ blob file. For any other value it will use file system instead. (Default value: _azure_)
+ * `--target=<target>`:  If the value is  `azure` it will store the results and errors in Azure blob storage. For any other value it will use file system instead. (Default value: _azure_)
  * `--file=<filename>`: Used to set the input file name. (Default value: `websites.csv`) Depending on `source`, the name refers to local file system or to Azure storage.
  * `--prefix=<urlprefix>`: Used to set the Scan API endpoint URL to use. We used it for development and testing purposes and can be used to redirect the load to any other environment. We now defaulted to the _production_ environment: `http://sites-scanner.azurewebsites.net/api/v2/scan?url=http://`
  * `--connections=<noconnections>`: Used to set the amount of simultaneous connection the webjob can execute to the Scan API. We found this useful while improving the scalability of the solution. (Default value: 20 connections).
