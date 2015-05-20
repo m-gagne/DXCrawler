@@ -1,4 +1,5 @@
 var batch = require('./lib/batch.js');
+var config = require('../../../../lib/checks/config.js');
 var fs = require('fs');
 var parseArgs = require('minimist');
 var http = require('http');
@@ -51,7 +52,7 @@ if (!argv.prefix && argv.azuretest)
     argv.prefix = 'http://sites-scanner-test.azurewebsites.net/api/v2/scan?url=http://';
     
 if (!argv.prefix)
-    argv.prefix = 'http://sites-scanner.azurewebsites.net/api/v2/scan?url=http://';
+    argv.prefix = config.prefix;
     
 var machines = {};
 var connections;
