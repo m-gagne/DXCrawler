@@ -222,11 +222,12 @@ function doWork(websites) {
         }
         
         // scanner failure
-        if (typeof body == "string")
-            result = "ERROR - " + body;
+        if (typeof body == "string") {
+            result = body;
+        }
         
         if (result == "")
-            result = "Error retrieving results";
+            result = "ERROR - Empty response from the Scan API";
             
         return result.replace(",", "").replace("\n", " ").replace("\r", " ");
     }
