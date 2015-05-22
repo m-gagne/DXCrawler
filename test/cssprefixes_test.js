@@ -79,7 +79,6 @@ module.exports['CSS Prefixes'] = {
     'Transitions': checkPage("6.html", {passed: true}),
     'Gradients': checkPage("7.html", {passed: true}),
     'Animations': checkPage("8.html", {passed: true}),
-    'Contains Standard Gradients': checkPage("11.html", { passed: true }),
     'Gradients + Transforms': checkPage("13.html", { passed: true }),
     'Embed All + Standard Transform': checkPage("15.html", { passed: true }),
     'Embed Webkit + Standard Transform': checkPage("16.html", { passed: true }),
@@ -87,7 +86,8 @@ module.exports['CSS Prefixes'] = {
     'Missing Standard Transform': checkPage("9.html", {passed: false}),
     'Missing Standard Transitions': checkPage("10.html", {passed: false}),
     'Missing Standard Animations': checkPage("12.html", {passed: false}),
-    'Gradients + Missing Transforms': checkPage("14.html", {passed: false}),
+    'Missing Standard Gradients': checkPage("11.html", { passed: false }),
+    'Gradients + Missing Transforms': checkPage("14.html", { passed: false }),
     /* Whitelisted properties */
     'Missing prefixes but whitelisted all': checkPage("22.html", { passed: true }, ["transform", "animation"]),
     'Missing prefixes, none whitelisted': checkPage("22.html", { passed: false }, []),
