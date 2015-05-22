@@ -21,7 +21,6 @@
     <Content Include="hostingstart.html" />
     <Content Include="browserbite.json" />
     <Content Include="browserbiteresults.json" />
-    <Content Include="cvlists.json" />
     <Content Include="lib\checks\whitelisted-properties.json" />
     <Content Include="package.json" />
     <Content Include="README.md" />
@@ -90,6 +89,7 @@
     <Content Include="static\cssprefixes-19.html" />
     <Content Include="static\cssprefixes-2.html" />
     <Content Include="static\cssprefixes-20.html" />
+    <Content Include="static\cssprefixes-22.html" />
     <Content Include="static\cssprefixes-21.html" />
     <Content Include="static\cssprefixes-3.html" />
     <Content Include="static\cssprefixes-4.html" />
@@ -233,7 +233,6 @@
     <Content Include="static\css\minWidthComplexSpectrum.css" />
     <Content Include="static\css\minWidthComplexSpectrum2.css" />
     <Content Include="static\css\missingAnimations.css" />
-    <Content Include="static\css\missingGradients.css" />
     <Content Include="static\css\missingTransforms.css" />
     <Content Include="static\css\missingTransitions.css" />
     <Content Include="static\css\msTouch.css" />

@@ -66,25 +66,30 @@ function checkPage(page, expected, whitelistedProperties) {
 
 module.exports['CSS Prefixes'] = {
     'No CSS': checkPage("1.html", {passed: true}),
-    'Simple CSS with no CSS3': checkPage("2.html", {passed: true}),
+    'Simple CSS with no CSS3': checkPage("2.html", { passed: true }),
+    /* Imported CSS files */
+    'Imports using url(), inline': checkPage("17.html", { passed: true }),
+    'Imports using single quote, included': checkPage("18.html", { passed: true }),
+    'Imports using quoted url(), included': checkPage("19.html", { passed: true }),
+    'Cycle import': checkPage("20.html", { passed: true }),
+    /* Only standard properties, no webkit, no whitelist */
     'Unprefixed version of rules': checkPage("3.html", {passed: true}),
     'Simple CSS + Unprefixed version': checkPage("4.html", {passed: true}),
     'Transform': checkPage("5.html", {passed: true}),
     'Transitions': checkPage("6.html", {passed: true}),
     'Gradients': checkPage("7.html", {passed: true}),
     'Animations': checkPage("8.html", {passed: true}),
+    'Contains Standard Gradients': checkPage("11.html", { passed: true }),
+    'Gradients + Transforms': checkPage("13.html", { passed: true }),
+    'Embed All + Standard Transform': checkPage("15.html", { passed: true }),
+    'Embed Webkit + Standard Transform': checkPage("16.html", { passed: true }),
+    /* Only webkit properties, no standard, no whitelist */
     'Missing Standard Transform': checkPage("9.html", {passed: false}),
     'Missing Standard Transitions': checkPage("10.html", {passed: false}),
-    'Missing Standard Gradients': checkPage("11.html", {passed: false}),
     'Missing Standard Animations': checkPage("12.html", {passed: false}),
-    'Gradients + Transforms': checkPage("13.html", {passed: true}),
     'Gradients + Missing Transforms': checkPage("14.html", {passed: false}),
-    'Embed Transform': checkPage("15.html", {passed: true}),
-    'Embed Missing Transform': checkPage("16.html", {passed: false}),
-    'Imports using url(), inline': checkPage("17.html", {passed: false}),
-    'Imports using single, included': checkPage("18.html", {passed: false}),
-    'Imports using quoted url(), included': checkPage("19.html", {passed: false}),
-    'Cycle import': checkPage("20.html", { passed: false }),
-    'Missing prefix but whitelisted property': checkPage("9.html", { passed: true }, ["transform"]),
-    'Missing prefix, non whitelisted property': checkPage("9.html", { passed: false }, [])
+    /* Whitelisted properties */
+    'Missing prefixes but whitelisted all': checkPage("22.html", { passed: true }, ["transform", "animation"]),
+    'Missing prefixes, none whitelisted': checkPage("22.html", { passed: false }, []),
+    'Missing prefixes, only one whitelisted': checkPage("22.html", { passed: false }, ["transform"]),
 };
