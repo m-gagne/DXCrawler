@@ -114,8 +114,8 @@ var outputErrorsFile = 'errors' + suffix + '.txt';
 var errors = "";
 
 if (useazurestorage) {
-    var storageaccount = "sitesscannerdev";
-    var storagekey = "WYLY1df7AVnv5Kh0ed6UXD+z7dQzHsMGm5BAgNs2b0iH6CCMV1QK+rmIMHALKnFgRuE5hdx+0L4AQXKLVhYXjw==";
+    var storageaccount = "sitesscannertest";
+    var storagekey = "UWsqiL6p4I23OHCvv49qikhm8YwqruuqML/b5EEH1TK5IUhsGjRQKOccHhQ8C1MiR2GUc4Gm12NAIYLOfwrZow==";
     if (process.env.Storage_AccountName) {
         console.log('getting account name');
         storageaccount = process.env.Storage_AccountName;

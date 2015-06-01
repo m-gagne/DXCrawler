@@ -40,7 +40,7 @@ function checkPage(page, expected) {
         test.expect(tests);
 
         request({uri: uri,
-                headers: {'user-agent': config.user_agent}},
+                headers: {'user-agent': config.user_agent_edge}},
             function (error, response, content) {
                 var website = {
                     url: url.parse(uri),

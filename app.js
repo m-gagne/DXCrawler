@@ -51,9 +51,9 @@ request = request.defaults({
         'Accept': 'text/html, application/xhtml+xml, */*',
         'Accept-Encoding': 'gzip,deflate',
         'Accept-Language': 'en-US,en;q=0.5',
-        'User-Agent': config.user_agent
+        'User-Agent': config.user_agent_edge
     }
-}); //IE11
+}); //Edge
 
 // Adjust the global agent maxSockets
 
