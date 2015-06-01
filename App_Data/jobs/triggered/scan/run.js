@@ -80,6 +80,7 @@ var tests = [
     //'touch',
     'edge',
     'jslibs',
+    'markup',
     'pluginfree'
 //    'altImg',
 //    'ariaTags',
