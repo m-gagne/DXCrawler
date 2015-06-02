@@ -115,24 +115,12 @@ var outputErrorsFile = 'errors' + suffix + '.txt';
 var errors = "";
 
 if (useazurestorage) {
-    var storageaccount = "sitesscannertest";
-    var storagekey = "UWsqiL6p4I23OHCvv49qikhm8YwqruuqML/b5EEH1TK5IUhsGjRQKOccHhQ8C1MiR2GUc4Gm12NAIYLOfwrZow==";
-    if (process.env.Storage_AccountName) {
-        console.log('getting account name');
-        storageaccount = process.env.Storage_AccountName;
-    }
-
-    if (process.env.Storage_AccessKey) {
-        console.log('getting access key');
-        storagekey = process.env.Storage_AccessKey;
-    }
-
-    console.log('account name', storageaccount);
-    console.log('access key', storagekey);
+    console.log('account name', config.storage_account_name);
+    console.log('access key', config.storage_account_key);
 }            
         
 if (useazureassource) {
-    var blobSvc = azure.createBlobService(storageaccount, storagekey);
+    var blobSvc = azure.createBlobService(config.storage_account_name, config.storage_account_key);
     console.log('reading blob', argv.file);
     blobSvc.getBlobToText('dailyscan', argv.file, function (err, text, blockBlob, response) {
         if (err) {
@@ -151,7 +139,7 @@ else {
 }
 
 function saveDataToAzureFile(filename, data) {
-    var blobSvc = azure.createBlobService(storageaccount, storagekey);
+    var blobSvc = azure.createBlobService(config.storage_account_name, config.storage_account_key);
     blobSvc.createBlockBlobFromText('dailyscan', filename, data, function (error, result, response) {
         if (!error) {
             // file uploaded
@@ -193,7 +181,7 @@ function doLines(lines) {
     console.log('date/time', new Date());
 
     if (useazurestorage) {
-        var blobSvc = azure.createBlobService(storageaccount, storagekey);
+        var blobSvc = azure.createBlobService(config.storage_account_name, config.storage_account_key);
         
         blobSvc.createContainerIfNotExists('dailyscan', { publicAccessLevel: 'blob' }, function (error, result, response) {
             if (error)
