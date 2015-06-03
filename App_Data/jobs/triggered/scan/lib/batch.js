@@ -67,7 +67,7 @@ function callbackWrapper(callback) {
 
 function start(max, webs, callback) {
     websites = webs;
-    connections = max;
+    connections = Math.min(max, webs.length);
     callbacker = callbackWrapper(callback);
 
     for (i = 0; i < connections; i++)
