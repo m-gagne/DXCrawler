@@ -112,7 +112,7 @@ if (useazurestorage) {
 if (useazureassource) {
     var blobSvc = azure.createBlobService(config.storage_account_name, config.storage_account_key);
     console.log('reading blob', argv.file);
-    blobSvc.getBlobToText('dailyscan', argv.file, function (err, text, blockBlob, response) {
+    blobSvc.getBlobToText(config.website_list_container_name, argv.file, function (err, text, blockBlob, response) {
         if (err) {
             console.log(err);
             return;
@@ -130,7 +130,7 @@ else {
 
 function saveDataToAzureFile(filename, data) {
     var blobSvc = azure.createBlobService(config.storage_account_name, config.storage_account_key);
-    blobSvc.createBlockBlobFromText('dailyscan', filename, data, function (error, result, response) {
+    blobSvc.createBlockBlobFromText(config.website_list_container_name, filename, data, function (error, result, response) {
         if (!error) {
             // file uploaded
             console.log(filename + " created");
@@ -173,7 +173,7 @@ function doLines(lines) {
     if (useazurestorage) {
         var blobSvc = azure.createBlobService(config.storage_account_name, config.storage_account_key);
         
-        blobSvc.createContainerIfNotExists('dailyscan', { publicAccessLevel: 'blob' }, function (error, result, response) {
+        blobSvc.createContainerIfNotExists(config.website_list_container_name, { publicAccessLevel: 'blob' }, function (error, result, response) {
             if (error)
                 console.log(error);
             else

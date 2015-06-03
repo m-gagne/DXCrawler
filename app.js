@@ -136,7 +136,7 @@ function getResultListFromAzure(callback, errorCallback) {
 
     var blobSvc = azure.createBlobService(config.storage_account_name, config.storage_account_key);
     
-    blobSvc.listBlobsSegmented('dailyscan', null, function(error, result, response) {
+    blobSvc.listBlobsSegmented(config.website_list_container_name, null, function(error, result, response) {
         if (error) {
             console.log(error);
             return;
