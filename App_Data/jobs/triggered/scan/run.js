@@ -212,8 +212,45 @@ function doWork(websites) {
         return result.replace(",", "").replace("\n", " ").replace("\r", " ");
     }
     
-    function getSummary(testName, testData) {
-        return '""';
+    function getMarkupTestSummary(testResult) {
+        if (!!testResult.passed && (!!testResult.excluded || !!testResult.transient)) {
+            return testResult.data;
+        }
+
+        var summary = '"';
+        if (!testResult.passed && !!testResult.data) {
+            for (var i = 0; i < testResult.data.length; i++) {
+                var rule = testResult.data[i];
+                if (!rule.passed) {
+                    if (summary.length > 1) {
+                        summary += "\n";
+                    }
+                    
+                    summary += "The number of '" + rule.element + "' element tags is different. Edge: " + rule.edgeCount + " and Chrome: " + rule.chromeCount + " (threshold: " + rule.threshold + ")";
+                }
+            }
+        }
+
+        summary += '"';
+
+        return summary;
+    }
+
+    function getSummary(testName, testResult) {
+        var summary = null;
+
+        switch (testName) {
+            case 'markup':
+                summary = getMarkupTestSummary(testResult);
+
+                break;
+            default:
+                summary = '""';
+                
+                break;
+        }
+
+        return summary;
     }
 
     function processData(data) {
@@ -252,7 +289,7 @@ function doWork(websites) {
                 if (info && info[item]) {
                     var result = info[item];
                     testResult = result.passed ? 1 : 0;
-                    testSummary = getSummary(item, result.data);
+                    testSummary = getSummary(item, result);
                 }
 
                 row.tests.push(testResult);
