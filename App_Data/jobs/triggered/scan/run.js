@@ -212,11 +212,31 @@ function doWork(websites) {
         return result.replace(",", "").replace("\n", " ").replace("\r", " ");
     }
     
+    function getBrowserDetectionTestSummary(testResult) {
+        // TODO
+        return '""';;
+    }
+    
+    function getCssPrefixesTestSummary(testResult) {
+        // TODO
+        return '""';;
+    }
+    
+    function getEdgeTestSummary(testResult) {
+        // TODO
+        return '""';;
+    }
+    
+    function getJsLibsTestSummary(testResult) {
+        // TODO
+        return '""';;
+    }
+    
     function getMarkupTestSummary(testResult) {
         if (!!testResult.passed && (!!testResult.excluded || !!testResult.transient)) {
             return testResult.data;
         }
-
+        
         var summary = '"';
         if (!testResult.passed && !!testResult.data) {
             for (var i = 0; i < testResult.data.length; i++) {
@@ -230,23 +250,41 @@ function doWork(websites) {
                 }
             }
         }
-
+        
         summary += '"';
-
+        
         return summary;
+    }
+    
+    function getPluginFreeTestSummary(testResult) {
+        // TODO
+        return '""';;
     }
 
     function getSummary(testName, testResult) {
         var summary = null;
 
         switch (testName) {
+            case 'browserDetection':
+                summary = getBrowserDetectionTestSummary(testResult);
+                break;
+            case 'cssprefixes':
+                summary = getCssPrefixesTestSummary(testResult);
+                break;
+            case 'edge':
+                summary = getEdgeTestSummary(testResult);
+                break;
+            case 'jslibs':
+                summary = getJsLibsTestSummary(testResult);
+                break;
             case 'markup':
                 summary = getMarkupTestSummary(testResult);
-
+                break;
+            case 'pluginfree':
+                summary = getPluginFreeTestSummary(testResult);
                 break;
             default:
                 summary = '""';
-                
                 break;
         }
 
