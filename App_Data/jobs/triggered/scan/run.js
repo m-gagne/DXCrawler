@@ -102,6 +102,7 @@ if(mm<10)
 var suffix = mm + '-' + dd + '-' + yyyy + '_';
 var outputResultsFile = 'results' + suffix + '.csv';
 var outputErrorsFile = 'errors' + suffix + '.txt';
+var summaryErrorsFile = 'summary' + suffix + '.csv';
 var errors = "";
 
 if (useazurestorage) {
@@ -210,6 +211,10 @@ function doWork(websites) {
             
         return result.replace(",", "").replace("\n", " ").replace("\r", " ");
     }
+    
+    function getSummary(testName, testData) {
+        return '""';
+    }
 
     function processData(data) {
         var content;
@@ -237,18 +242,21 @@ function doWork(websites) {
                 area: areas[data.url],
                 url: url,
                 tests: [],
+                summary: [],
                 comment: comment
             }
             
             tests.forEach(function (item) {
                 var testResult = "N/A";
+                var testSummary = "N/A";
                 if (info && info[item]) {
-                    if (info[item].passed)
-                        testResult = 1;
-                    else
-                        testResult = 0;
+                    var result = info[item];
+                    testResult = result.passed ? 1 : 0;
+                    testSummary = getSummary(item, result.data);
                 }
+
                 row.tests.push(testResult);
+                row.summary.push(testSummary);
             });
 
             console.log('Checked - ' + data.url);
@@ -268,18 +276,25 @@ function doWork(websites) {
             
             // dump partial results every 1000 checks
             if (nrows % 1000 == 0) {
-                var newresults = 'rank, area, url, ' + tests.join(', ') + ', comments\n';
+                var newresults = 'rank,area,url,' + tests.join(',') + ',comments\n';
+                var newsummary = 'rank,area,url,' + tests.join(',') + '\n';
                 
                 for (var n in drows) {
                     var row = drows[n];
-                    if (row.rank)
-                        newresults += row.rank + ", " + row.area + ", " + row.url + ", " + row.tests.join(", ") + ", " + row.comment + "\n";
-                    else if (row.tests)
-                        newresults += ", , " + row.url + ", " + row.tests.join(", ") + ", " + row.comment + "\n";
+                    if (row.rank) {
+                        newresults += row.rank + "," + row.area + "," + row.url + "," + row.tests.join(",") + "," + row.comment + "\n";
+                        newsummary += row.rank + "," + row.area + "," + row.url + "," + row.summary.join(",") + "\n";
+                    } else if (row.tests && row.summary) {
+                        newresults += ",," + row.url + "," + row.tests.join(",") + "," + row.comment + "\n";
+                        newsummary += ",," + row.url + "," + row.summary.join(",") + "\n";
+                    }
                 }
                 
                 saveDataToFile(outputResultsFile, newresults);
+                saveDataToFile(summaryErrorsFile, newsummary);
+
                 newresults = null;
+                newsummary = null;
             }
         } catch (err) {
             console.log(err);
@@ -299,11 +314,13 @@ function doWork(websites) {
                 area: areas[data.url],
                 url: url,
                 tests: [],
+                summary: [],
                 comment: err.toString()
             }
             
             tests.forEach(function (item) {
                 row.tests.push(0);
+                row.summary.push("");
             });
             
             console.log('error - ' + data.url, err);
@@ -327,17 +344,22 @@ function doWork(websites) {
         
         saveDataToFile(outputErrorsFile, errors);
         
-        var newresults = 'rank, area, url, ' + tests.join(', ') + ', comments\n';
+        var newresults = 'rank,area,url,' + tests.join(',') + ',comments\n';
+        var newsummary = 'rank,area,url,' + tests.join(',') + '\n';
         
         for (var n in drows) {
             var row = drows[n];
-            if (row.rank)
-                newresults += row.rank + ", " + row.area + ", " + row.url + ", " + row.tests.join(", ") + ", " + row.comment + "\n";
-            else if (row.tests)
-                newresults += ", , " + row.url + ", " + row.tests.join(", ") + ", " + row.comment + "\n";
+            if (row.rank) {
+                newresults += row.rank + "," + row.area + "," + row.url + "," + row.tests.join(",") + "," + row.comment + "\n";
+                newsummary += row.rank + "," + row.area + "," + row.url + "," + row.summary.join(",") + "\n";
+            } else if (row.tests && row.summary) {
+                newresults += ",," + row.url + "," + row.tests.join(",") + "," + row.comment + "\n";
+                newsummary += ",," + row.url + "," + row.summary.join(",") + "\n";
+            }
         }
         
         saveDataToFile(outputResultsFile, newresults);
+        saveDataToFile(summaryErrorsFile, newsummary);
 
         console.log('Errors: ' + errorCount);
         console.log('All websites finished. Thanks!');
