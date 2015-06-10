@@ -257,8 +257,22 @@ function doWork(websites) {
     }
     
     function getPluginFreeTestSummary(testResult) {
-        // TODO
-        return '""';;
+        var summary = '"';
+        if (!testResult.passed && !!testResult.data) {
+            for (var property in testResult.data) {
+                if (testResult.data.hasOwnProperty(property)) {
+                    if (summary.length > 1) {
+                        summary += "; ";
+                    }
+
+                    summary += "'" + property + "': '" + testResult.data[property] + "'";
+                }
+            }
+        }
+        
+        summary += '"';
+        
+        return summary;
     }
 
     function getSummary(testName, testResult) {
