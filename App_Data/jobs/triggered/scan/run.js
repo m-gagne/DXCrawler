@@ -247,8 +247,32 @@ function doWork(websites) {
     }
     
     function getJsLibsTestSummary(testResult) {
-        // TODO
-        return '""';;
+        var summary = '"';
+        if (!testResult.passed && !!testResult.data) {
+            for (var i = 0; i < testResult.data.length; i++) {
+                if (summary.length > 1) {
+                    summary += "\n";
+                }
+                
+                var rule = testResult.data[i];
+                var semicolon = false;
+                for (var property in rule) {
+                    if (rule.hasOwnProperty(property)) {
+                        if (semicolon) {
+                            summary += "; ";
+                        }
+                        
+                        var value = rule[property];
+                        summary += "'" + property + "': '" + (Array.isArray(value) ? value.join(';') : value) + "'";
+                        semicolon = true;
+                    }
+                }
+            }
+        }
+        
+        summary += '"';
+        
+        return summary;
     }
     
     function getMarkupTestSummary(testResult) {
@@ -368,7 +392,7 @@ function doWork(websites) {
             nrows++;
             
             // dump partial results every 1000 checks
-            if (nrows % 1000 == 0) {
+            if (nrows % 20 == 0) {
                 var newresults = 'rank,area,url,' + tests.join(',') + ',comments\n';
                 var newsummary = 'rank,area,url,' + tests.join(',') + '\n';
                 
