@@ -212,6 +212,26 @@ function doWork(websites) {
         return result.replace(",", "").replace("\n", " ").replace("\r", " ");
     }
     
+    function getDataPropertiesSummary(testResult) {
+        var summary = '"';
+        if (!testResult.passed && !!testResult.data) {
+            for (var property in testResult.data) {
+                if (testResult.data.hasOwnProperty(property)) {
+                    if (summary.length > 1) {
+                        summary += "; ";
+                    }
+                    
+                    var value = testResult.data[property];
+                    summary += "'" + property + "': '" + (Array.isArray(value) ? value.join(';') : value) + "'";
+                }
+            }
+        }
+        
+        summary += '"';
+        
+        return summary;
+    }
+    
     function getBrowserDetectionTestSummary(testResult) {
         // TODO
         return '""';;
@@ -223,8 +243,7 @@ function doWork(websites) {
     }
     
     function getEdgeTestSummary(testResult) {
-        // TODO
-        return '""';;
+        return getDataPropertiesSummary(testResult);
     }
     
     function getJsLibsTestSummary(testResult) {
@@ -257,22 +276,7 @@ function doWork(websites) {
     }
     
     function getPluginFreeTestSummary(testResult) {
-        var summary = '"';
-        if (!testResult.passed && !!testResult.data) {
-            for (var property in testResult.data) {
-                if (testResult.data.hasOwnProperty(property)) {
-                    if (summary.length > 1) {
-                        summary += "; ";
-                    }
-
-                    summary += "'" + property + "': '" + testResult.data[property] + "'";
-                }
-            }
-        }
-        
-        summary += '"';
-        
-        return summary;
+        return getDataPropertiesSummary(testResult);
     }
 
     function getSummary(testName, testResult) {
