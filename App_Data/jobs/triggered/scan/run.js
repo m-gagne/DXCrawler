@@ -295,8 +295,40 @@ function doWork(websites) {
     }
     
     function getCssPrefixesTestSummary(testResult) {
-        // TODO
-        return '""';;
+        var summary = '"';
+        if (!testResult.passed && !!testResult.data) {
+            var endline = false;
+            for (var i = 0; i < testResult.data.length; i++) {                
+                var rule = testResult.data[i];
+                for (var j = 0; j < rule.selectors.length; j++) {
+                    if (endline) {
+                        summary += "\n";
+                    }
+                    
+                    var selector = rule.selectors[j];
+                    var semicolon = false;
+                    for (var property in selector) {
+                        if (selector.hasOwnProperty(property)) {
+                            if (semicolon) {
+                                summary += "; ";
+                            } else {
+                                summary += "'cssFile': '" + rule.cssFile + "'; ";
+                            }
+                            
+                            var value = selector[property];
+                            summary += "'" + property + "': '" + (Array.isArray(value) ? value.join(';') : value) + "'";
+                            semicolon = true;
+                        }
+                    }
+                    
+                    endline = true;
+                }
+            }
+        }
+        
+        summary += '"';
+        
+        return summary;
     }
     
     function getEdgeTestSummary(testResult) {
