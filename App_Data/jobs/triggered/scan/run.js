@@ -212,6 +212,14 @@ function doWork(websites) {
         return result.replace(",", "").replace("\n", " ").replace("\r", " ");
     }
     
+    function updateQuotes(value) {
+        if (!!value && typeof value === 'string') {
+            value = value.replace(/"/g, "'");
+        }
+
+        return value;
+    }
+    
     function getDataObjectSummary(testResult, prefix) {
         var summary = "";
         if (!testResult.passed && !!testResult.data) {
@@ -227,7 +235,7 @@ function doWork(websites) {
                     }
                     
                     var value = testResult.data[property];
-                    summary += "'" + property + "': '" + (Array.isArray(value) ? value.join(';') : value) + "'";
+                    summary += "'" + property + "': '" + updateQuotes(Array.isArray(value) ? value.join(';') : value) + "'";
                     semicolon = true;
                 }
             }
@@ -258,7 +266,7 @@ function doWork(websites) {
                         }
                         
                         var value = rule[property];
-                        summary += "'" + property + "': '" + (Array.isArray(value) ? value.join(';') : value) + "'";
+                        summary += "'" + property + "': '" + updateQuotes(Array.isArray(value) ? value.join(';') : value) + "'";
                         semicolon = true;
                     }
                 }
@@ -316,7 +324,7 @@ function doWork(websites) {
                             }
                             
                             var value = selector[property];
-                            summary += "'" + property + "': '" + (Array.isArray(value) ? value.join(';') : value) + "'";
+                            summary += "'" + property + "': '" + updateQuotes(Array.isArray(value) ? value.join(';') : value) + "'";
                             semicolon = true;
                         }
                     }
