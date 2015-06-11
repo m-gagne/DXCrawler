@@ -212,46 +212,41 @@ function doWork(websites) {
         return result.replace(",", "").replace("\n", " ").replace("\r", " ");
     }
     
-    function getDataPropertiesSummary(testResult) {
-        var summary = '"';
+    function getDataObjectSummary(testResult, prefix) {
+        var summary = "";
         if (!testResult.passed && !!testResult.data) {
+            if (!!prefix) {
+                summary += prefix + " ";
+            }
+            
+            var semicolon = false;
             for (var property in testResult.data) {
                 if (testResult.data.hasOwnProperty(property)) {
-                    if (summary.length > 1) {
+                    if (semicolon) {
                         summary += "; ";
                     }
                     
                     var value = testResult.data[property];
                     summary += "'" + property + "': '" + (Array.isArray(value) ? value.join(';') : value) + "'";
+                    semicolon = true;
                 }
             }
         }
         
-        summary += '"';
-        
         return summary;
     }
     
-    function getBrowserDetectionTestSummary(testResult) {
-        // TODO
-        return '""';;
-    }
-    
-    function getCssPrefixesTestSummary(testResult) {
-        // TODO
-        return '""';;
-    }
-    
-    function getEdgeTestSummary(testResult) {
-        return getDataPropertiesSummary(testResult);
-    }
-    
-    function getJsLibsTestSummary(testResult) {
-        var summary = '"';
+    function getDataArraySummary(testResult, prefix) {
+        var summary = "";
         if (!testResult.passed && !!testResult.data) {
+            var endline = false;
             for (var i = 0; i < testResult.data.length; i++) {
-                if (summary.length > 1) {
+                if (endline) {
                     summary += "\n";
+                }
+                
+                if (!!prefix) {
+                    summary += prefix + " ";
                 }
                 
                 var rule = testResult.data[i];
@@ -267,12 +262,82 @@ function doWork(websites) {
                         semicolon = true;
                     }
                 }
+
+                endline = true;
+            }
+        }
+        
+        return summary;
+    }
+    
+    function getBrowserDetectionTestSummary(testResult) {
+        var summary = '"';
+        if (!testResult.passed && !!testResult.data) {
+            if (!!testResult.data.javascript) {
+                var javaScriptSumary = getDataArraySummary(testResult.data.javascript, "[JavaScript]");
+                summary += javaScriptSumary;
+            }
+            
+            if (!!testResult.data.comments) {
+                var commentsSumary = getDataObjectSummary(testResult.data.comments, "[Comments]");
+
+                if (summary.length > 1 && commentsSumary.length > 0) {
+                    summary += "\n";
+                }
+                
+                summary += commentsSumary;
             }
         }
         
         summary += '"';
         
         return summary;
+    }
+    
+    function getCssPrefixesTestSummary(testResult) {
+        var summary = '"';
+        if (!testResult.passed && !!testResult.data) {
+            var endline = false;
+            for (var i = 0; i < testResult.data.length; i++) {                
+                var rule = testResult.data[i];
+                for (var j = 0; j < rule.selectors.length; j++) {
+                    if (endline) {
+                        summary += "\n";
+                    }
+                    
+                    var selector = rule.selectors[j];
+                    var semicolon = false;
+                    for (var property in selector) {
+                        if (selector.hasOwnProperty(property)) {
+                            if (semicolon) {
+                                summary += "; ";
+                            } else {
+                                summary += "'cssFile': '" + rule.cssFile + "'; ";
+                            }
+                            
+                            var value = selector[property];
+                            summary += "'" + property + "': '" + (Array.isArray(value) ? value.join(';') : value) + "'";
+                            semicolon = true;
+                        }
+                    }
+                    
+                    endline = true;
+                }
+            }
+        }
+        
+        summary += '"';
+        
+        return summary;
+    }
+    
+    function getEdgeTestSummary(testResult) {
+        return '"' + getDataObjectSummary(testResult) + '"';
+    }
+    
+    function getJsLibsTestSummary(testResult) {
+        return '"' + getDataArraySummary(testResult) + '"';
+
     }
     
     function getMarkupTestSummary(testResult) {
@@ -300,7 +365,7 @@ function doWork(websites) {
     }
     
     function getPluginFreeTestSummary(testResult) {
-        return getDataPropertiesSummary(testResult);
+        return '"' + getDataObjectSummary(testResult) + '"';
     }
 
     function getSummary(testName, testResult) {
@@ -392,7 +457,7 @@ function doWork(websites) {
             nrows++;
             
             // dump partial results every 1000 checks
-            if (nrows % 20 == 0) {
+            if (nrows % 1000 == 0) {
                 var newresults = 'rank,area,url,' + tests.join(',') + ',comments\n';
                 var newsummary = 'rank,area,url,' + tests.join(',') + '\n';
                 
