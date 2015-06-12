@@ -47,13 +47,13 @@ if (!argv.prefix && argv.azure)
 
 if (!argv.prefix && argv.azuredev)
     argv.prefix = 'http://sites-scanner-dev.azurewebsites.net/api/v2/scan?url=http://';
-    
+
 if (!argv.prefix && argv.azuretest)
     argv.prefix = 'http://sites-scanner-test.azurewebsites.net/api/v2/scan?url=http://';
-    
+
 if (!argv.prefix)
     argv.prefix = config.prefix;
-    
+
 var machines = {};
 var connections;
 
@@ -61,7 +61,7 @@ if (argv.connections)
     connections = argv.connections;
 else
     connections = 20;
-    
+
 if (connections > http.globalAgent.maxSockets)
     http.globalAgent.maxSockets = connections;
 
@@ -90,14 +90,14 @@ var prefix = argv.prefix;
 
 var today = new Date();
 var dd = today.getDate();
-var mm = today.getMonth()+1;//January is 0!`
+var mm = today.getMonth() + 1;//January is 0!`
 
 var yyyy = today.getFullYear();
-if(dd<10)
-    dd='0'+dd;
+if (dd < 10)
+    dd = '0' + dd;
 
-if(mm<10)
-    mm='0'+mm;
+if (mm < 10)
+    mm = '0' + mm;
 
 var suffix = mm + '-' + dd + '-' + yyyy + '_';
 var outputResultsFile = 'results' + suffix + '.csv';
@@ -108,8 +108,8 @@ var errors = "";
 if (useazurestorage) {
     console.log('account name', config.storage_account_name);
     console.log('access key', config.storage_account_key);
-}            
-        
+}
+
 if (useazureassource) {
     var blobSvc = azure.createBlobService(config.storage_account_name, config.storage_account_key);
     console.log('reading blob', argv.file);
@@ -125,7 +125,7 @@ if (useazureassource) {
 }
 else {
     var lines = fs.readFileSync(argv.file, 'utf8').trim().split('\r\n');
-
+    
     doLines(lines);
 }
 
@@ -153,24 +153,24 @@ var starting;
 
 function doLines(lines) {
     console.log(lines.length + ' to analyze');
-
+    
     var websites = lines.map(function (line) {
         var split = line.split(",");
         var url = prefix + split[0];
-
+        
         areas[url] = split[1];
         ranks[url] = split[2];
         
         drows[url] = {};
-
+        
         return url;
     });
-
+    
     starting = new Date();
     console.log('starting date/time', starting);
     console.log('processing ' + websites.length + ' sites');
     console.log('date/time', new Date());
-
+    
     if (useazurestorage) {
         var blobSvc = azure.createBlobService(config.storage_account_name, config.storage_account_key);
         
@@ -189,12 +189,12 @@ function doWork(websites) {
     function getComment(body) {
         if (body.results)
             return "N/A";
-            
+        
         var result = "";
         
         // remote site failure
         result += "WARNING - " + (body.statusCode ? "Remote site Status Code: " + body.statusCode : "");
-
+        
         if (body.message) {
             if (result != "")
                 result += " ";
@@ -208,7 +208,7 @@ function doWork(websites) {
         
         if (result == "")
             result = "ERROR - Empty response from the Scan API";
-            
+        
         return result.replace(",", "").replace("\n", " ").replace("\r", " ");
     }
     
@@ -216,7 +216,16 @@ function doWork(websites) {
         if (!!value && typeof value === 'string') {
             value = value.replace(/"/g, "'");
         }
-
+        
+        return value;
+    }
+    
+    function truncateForExcel(value) {
+        var MAX_CHARACTERS_PER_CELL = 32767;
+        if (!!value && typeof value === 'string' && value.length >= MAX_CHARACTERS_PER_CELL) {
+            value = value.substring(0, MAX_CHARACTERS_PER_CELL - 1);
+        }
+        
         return value;
     }
     
@@ -270,7 +279,7 @@ function doWork(websites) {
                         semicolon = true;
                     }
                 }
-
+                
                 endline = true;
             }
         }
@@ -288,7 +297,7 @@ function doWork(websites) {
             
             if (!!testResult.data.comments) {
                 var commentsSumary = getDataObjectSummary(testResult.data.comments, "[Comments]");
-
+                
                 if (summary.length > 1 && commentsSumary.length > 0) {
                     summary += "\n";
                 }
@@ -297,7 +306,7 @@ function doWork(websites) {
             }
         }
         
-        summary += '"';
+        summary = truncateForExcel(summary) + '"';
         
         return summary;
     }
@@ -306,7 +315,7 @@ function doWork(websites) {
         var summary = '"';
         if (!testResult.passed && !!testResult.data) {
             var endline = false;
-            for (var i = 0; i < testResult.data.length; i++) {                
+            for (var i = 0; i < testResult.data.length; i++) {
                 var rule = testResult.data[i];
                 for (var j = 0; j < rule.selectors.length; j++) {
                     if (endline) {
@@ -334,18 +343,17 @@ function doWork(websites) {
             }
         }
         
-        summary += '"';
+        summary = truncateForExcel(summary) + '"';
         
         return summary;
     }
     
     function getEdgeTestSummary(testResult) {
-        return '"' + getDataObjectSummary(testResult) + '"';
+        return '"' + truncateForExcel(getDataObjectSummary(testResult)) + '"';
     }
     
     function getJsLibsTestSummary(testResult) {
-        return '"' + getDataArraySummary(testResult) + '"';
-
+        return '"' + truncateForExcel(getDataArraySummary(testResult)) + '"';
     }
     
     function getMarkupTestSummary(testResult) {
@@ -367,18 +375,17 @@ function doWork(websites) {
             }
         }
         
-        summary += '"';
+        summary = truncateForExcel(summary) + '"';
         
         return summary;
     }
     
     function getPluginFreeTestSummary(testResult) {
-        return '"' + getDataObjectSummary(testResult) + '"';
+        return '"' + truncateForExcel(getDataObjectSummary(testResult)) + '"';
     }
-
+    
     function getSummary(testName, testResult) {
         var summary = null;
-
         switch (testName) {
             case 'browserDetection':
                 summary = getBrowserDetectionTestSummary(testResult);
@@ -402,13 +409,13 @@ function doWork(websites) {
                 summary = '""';
                 break;
         }
-
+        
         return summary;
     }
-
+    
     function processData(data) {
         var content;
-
+        
         try {
             var body;
             
@@ -416,18 +423,18 @@ function doWork(websites) {
                 body = data.body;
             else
                 body = JSON.parse(data.body);
-                
+            
             if (body.machine) {
                 if (!machines[body.machine])
                     machines[body.machine] = 0;
                 machines[body.machine] = machines[body.machine] + 1;
             }
-                
+            
             var info = body.results;
-            var url = data.url .replace(prefix, "");
+            var url = data.url.replace(prefix, "");
             var comment = getComment(body);
-
-            var row = { 
+            
+            var row = {
                 rank: ranks[data.url], 
                 area: areas[data.url],
                 url: url,
@@ -444,13 +451,13 @@ function doWork(websites) {
                     testResult = result.passed ? 1 : 0;
                     testSummary = getSummary(item, result);
                 }
-
+                
                 row.tests.push(testResult);
                 row.summary.push(testSummary);
             });
-
+            
             console.log('Checked - ' + data.url);
-
+            
             if (comment != "N/A" && comment) {
                 console.log(comment);
                 batch.onError(data.url, comment);
@@ -482,7 +489,7 @@ function doWork(websites) {
                 
                 saveDataToFile(outputResultsFile, newresults);
                 saveDataToFile(summaryErrorsFile, newsummary);
-
+                
                 newresults = null;
                 newsummary = null;
             }
@@ -491,7 +498,7 @@ function doWork(websites) {
             console.log("data");
             console.dir(data);
             
-            var comment = err.toString().replace(",", "").replace("\n", " ").replace("\r"," ");
+            var comment = err.toString().replace(",", "").replace("\n", " ").replace("\r", " ");
             
             if (!url && data.url)
                 try {
@@ -499,7 +506,7 @@ function doWork(websites) {
                 }
                 catch (err) { }
             
-            var row = { 
+            var row = {
                 rank: ranks[data.url], 
                 area: areas[data.url],
                 url: url,
@@ -523,11 +530,11 @@ function doWork(websites) {
             
             drows[data.url] = row;
         }
-
+        
         content += '\n';
         return content;
     }
-
+    
     batch.onFinish = function () {
         var ending = new Date();
         console.log('ending date/time', ending);
@@ -550,7 +557,7 @@ function doWork(websites) {
         
         saveDataToFile(outputResultsFile, newresults);
         saveDataToFile(summaryErrorsFile, newsummary);
-
+        
         console.log('Errors: ' + errorCount);
         console.log('All websites finished. Thanks!');
         
@@ -559,17 +566,17 @@ function doWork(websites) {
         for (var n in machines)
             console.log('machine', n, machines[n]);
     };
-
+    
     batch.onError = function (url, err) {
         errorCount++;
         console.log('error analyzing ' + url);
-        errors += url + ", " + err.toString().replace(",","").replace("\n"," ").replace("\r"," ") + "\n";
+        errors += url + ", " + err.toString().replace(",", "").replace("\n", " ").replace("\r", " ") + "\n";
         
         // dump error results every 100 errors
         if (errorCount % 100 == 0)
             saveDataToFile(outputErrorsFile, errors);
     };
-
+    
     if (issimulation) {
         websites.forEach(function (website) {
             var data = { url: website, body: jsonresponse };
@@ -578,7 +585,7 @@ function doWork(websites) {
         
         batch.onFinish();
     }
-    else   
+    else
         batch.start(connections, websites, function (data) {
             processData(data);
         });
