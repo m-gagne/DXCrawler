@@ -135,19 +135,20 @@ function saveDataToAzureFile(filename, data) {
     // Write local file
     fs.writeFile(filename, data, function (err) {
         if (!err) {
-
             // Update to blob storage from local file
             blobSvc.createBlockBlobFromLocalFile(config.website_list_container_name, filename, filename, function (error) {
                 if (!error) {
                     // file uploaded
                     console.log(filename + " created");
+                } else {
+                    console.log("error uploading '" + filename + "' blob. ", error);
                 }
                 
                 // Remove local file
-                fs.unlink(filename, function () {
-                    var a = 0;
-                });
+                fs.unlink(filename, function () { });
             });
+        } else {
+            console.log("error saving local '" + filename + "' file. ", err);
         }
     });
 }
