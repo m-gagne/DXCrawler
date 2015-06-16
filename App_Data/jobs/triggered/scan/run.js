@@ -131,10 +131,23 @@ else {
 
 function saveDataToAzureFile(filename, data) {
     var blobSvc = azure.createBlobService(config.storage_account_name, config.storage_account_key);
-    blobSvc.createBlockBlobFromText(config.website_list_container_name, filename, data, function (error, result, response) {
-        if (!error) {
-            // file uploaded
-            console.log(filename + " created");
+
+    // Write local file
+    fs.writeFile(filename, data, function (err) {
+        if (!err) {
+
+            // Update to blob storage from local file
+            blobSvc.createBlockBlobFromLocalFile(config.website_list_container_name, filename, filename, function (error) {
+                if (!error) {
+                    // file uploaded
+                    console.log(filename + " created");
+                }
+                
+                // Remove local file
+                fs.unlink(filename, function () {
+                    var a = 0;
+                });
+            });
         }
     });
 }
@@ -486,10 +499,10 @@ function doWork(websites) {
                         newsummary += ",," + row.url + "," + row.summary.join(",") + "\n";
                     }
                 }
-                
-                saveDataToFile(outputResultsFile, newresults);
+
                 saveDataToFile(summaryErrorsFile, newsummary);
-                
+                saveDataToFile(outputResultsFile, newresults);
+
                 newresults = null;
                 newsummary = null;
             }
@@ -555,9 +568,9 @@ function doWork(websites) {
             }
         }
         
-        saveDataToFile(outputResultsFile, newresults);
         saveDataToFile(summaryErrorsFile, newsummary);
-        
+        saveDataToFile(outputResultsFile, newresults);
+                
         console.log('Errors: ' + errorCount);
         console.log('All websites finished. Thanks!');
         
