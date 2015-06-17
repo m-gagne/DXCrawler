@@ -484,7 +484,7 @@ function doWork(websites) {
             nrows++;
             
             // dump partial results every 1000 checks
-            if (nrows % 30 == 0) {
+            if (nrows % 1000 == 0) {
                 var newresults = 'rank,area,url,' + tests.join(',') + ',comments\n';
                 var newsummary = 'rank,area,url,' + tests.join(',') + '\n';
                 
