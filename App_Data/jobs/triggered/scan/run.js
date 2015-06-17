@@ -133,23 +133,21 @@ function saveDataToAzureFile(filename, data) {
     var blobSvc = azure.createBlobService(config.storage_account_name, config.storage_account_key);
 
     // Write local file
-    fs.writeFile(filename, data, function (err) {
-        if (!err) {
-            // Update to blob storage from local file
-            blobSvc.createBlockBlobFromLocalFile(config.website_list_container_name, filename, filename, function (error) {
-                if (!error) {
-                    // file uploaded
-                    console.log(filename + " created");
-                } else {
-                    console.log("error uploading '" + filename + "' blob. ", error);
-                }
-                
-                // Remove local file
-                fs.unlink(filename, function () { });
-            });
+    fs.writeFileSync(filename, data);
+    console.log("'" + filename + "' local file created");
+
+    // Upload to blob storage from local file
+    blobSvc.createBlockBlobFromLocalFile(config.website_list_container_name, filename, filename, function (error) {
+        if (!error) {
+            // File uploaded
+            console.log("'" + filename + "' blob uploaded");
         } else {
-            console.log("error saving local '" + filename + "' file. ", err);
+            console.log("error uploading '" + filename + "' blob. ", error);
         }
+
+        // Remove local file
+        fs.unlinkSync(filename);
+        console.log("'" + filename + "' local file removed");
     });
 }
 
@@ -486,7 +484,7 @@ function doWork(websites) {
             nrows++;
             
             // dump partial results every 1000 checks
-            if (nrows % 1000 == 0) {
+            if (nrows % 30 == 0) {
                 var newresults = 'rank,area,url,' + tests.join(',') + ',comments\n';
                 var newsummary = 'rank,area,url,' + tests.join(',') + '\n';
                 
