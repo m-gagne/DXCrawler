@@ -138,9 +138,10 @@ function saveDataToAzureFile(filename, data) {
             console.log("'" + filename + "' local file opened.");
 
             // Write local file
-            fs.write(fd, new Buffer(data), 0, data.length, 0, function (err2, written) {
+            var buffer = new Buffer(data);
+            fs.write(fd, buffer, 0, buffer.length, 0, function (err2, written) {
                 if (!err2) {
-                    console.log("'" + filename + "' local file written (" + written + "/" + data.length + ").");
+                    console.log("'" + filename + "' local file written (" + written + "/" + buffer.length + ").");
 
                     // Close local file
                     fs.close(fd, function (err3) {
