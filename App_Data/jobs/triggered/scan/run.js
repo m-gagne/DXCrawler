@@ -132,22 +132,49 @@ else {
 function saveDataToAzureFile(filename, data) {
     var blobSvc = azure.createBlobService(config.storage_account_name, config.storage_account_key);
 
-    // Write local file
-    fs.writeFileSync(filename, data);
-    console.log("'" + filename + "' local file created");
+    // Open local file
+    fs.open(filename, 'w', function (err1, fd) {
+        if (!err1) {
+            console.log("'" + filename + "' local file opened.");
 
-    // Upload to blob storage from local file
-    blobSvc.createBlockBlobFromLocalFile(config.website_list_container_name, filename, filename, function (error) {
-        if (!error) {
-            // File uploaded
-            console.log("'" + filename + "' blob uploaded");
+            // Write local file
+            fs.write(fd, new Buffer(data), 0, data.length, 0, function (err2, written) {
+                if (!err2) {
+                    console.log("'" + filename + "' local file written (" + written + "/" + data.length + ").");
+
+                    // Close local file
+                    fs.close(fd, function (err3) {
+                        if (!err3) {
+                            console.log("'" + filename + "' local file closed.");
+                        } else {
+                            console.log("error closing '" + filename + "' local file. ", err3);
+                        }
+
+                        // Upload to blob storage from local file
+                        blobSvc.createBlockBlobFromLocalFile(config.website_list_container_name, filename, filename, function (err4) {
+                            if (!err4) {
+                                console.log("'" + filename + "' blob uploaded.");
+                            } else {
+                                console.log("error uploading '" + filename + "' blob. ", err4);
+                            }
+
+                            // Remove local file
+                            fs.unlink(filename, function (err5) {
+                                if (!err5) {
+                                    console.log("'" + filename + "' local file deleted.");
+                                } else {
+                                    console.log("error deleting '" + filename + "' local file. ", err5);
+                                }
+                            });
+                        });
+                    });
+                } else {
+                    console.log("error writing '" + filename + "' local file. ", err2);
+                }
+            });
         } else {
-            console.log("error uploading '" + filename + "' blob. ", error);
+            console.log("error opening '" + filename + "' local file. ", err1);
         }
-
-        // Remove local file
-        fs.unlinkSync(filename);
-        console.log("'" + filename + "' local file removed");
     });
 }
 
