@@ -131,18 +131,18 @@ else {
 
 function saveDataToAzureFile(filename, data, callback) {
     var blobSvc = azure.createBlobService(config.storage_account_name, config.storage_account_key);
-
+    
     // Open local file
     fs.open(filename, 'w', function (err1, fd) {
         if (!err1) {
             console.log("'" + filename + "' local file opened.");
-
+            
             // Write local file
             var buffer = new Buffer(data);
             fs.write(fd, buffer, 0, buffer.length, 0, function (err2, written) {
                 if (!err2) {
                     console.log("'" + filename + "' local file written (" + written + "/" + buffer.length + ").");
-
+                    
                     // Close local file
                     fs.close(fd, function (err3) {
                         if (!err3) {
@@ -150,7 +150,7 @@ function saveDataToAzureFile(filename, data, callback) {
                         } else {
                             console.log("error closing '" + filename + "' local file. ", err3);
                         }
-
+                        
                         // Upload to blob storage from local file
                         blobSvc.createBlockBlobFromLocalFile(config.website_list_container_name, filename, filename, function (err4) {
                             if (!err4) {
@@ -158,7 +158,7 @@ function saveDataToAzureFile(filename, data, callback) {
                             } else {
                                 console.log("error uploading '" + filename + "' blob. ", err4);
                             }
-
+                            
                             if (!!callback) {
                                 callback();
                             }
@@ -182,7 +182,7 @@ function saveDataToFile(filename, data, callback) {
     
     fs.writeFileSync(filename, data);
     console.log(filename + " created");
-
+    
     if (!!callback) {
         callback();
     }
@@ -525,10 +525,10 @@ function doWork(websites) {
                         newsummary += ",," + row.url + "," + row.summary.join(",") + "\n";
                     }
                 }
-
+                
                 saveDataToFile(summaryErrorsFile, newsummary);
                 saveDataToFile(outputResultsFile, newresults);
-
+                
                 newresults = null;
                 newsummary = null;
             }
@@ -578,7 +578,12 @@ function doWork(websites) {
         var ending = new Date();
         console.log('ending date/time', ending);
         
-        saveDataToFile(outputErrorsFile, errors);
+        saveDataToFile(outputErrorsFile, errors, function () {
+            if (useazureastarget) {
+                // Remove local file
+                fs.unlinkSync(outputErrorsFile);
+            }
+        });
         
         var newresults = 'rank,area,url,' + tests.join(',') + ',comments\n';
         var newsummary = 'rank,area,url,' + tests.join(',') + '\n';
@@ -606,7 +611,7 @@ function doWork(websites) {
                 fs.unlinkSync(outputResultsFile);
             }
         });
-
+        
         console.log('Errors: ' + errorCount);
         console.log('All websites finished. Thanks!');
         
