@@ -129,7 +129,7 @@ else {
     doLines(lines);
 }
 
-function saveDataToAzureFile(filename, data) {
+function saveDataToAzureFile(filename, data, callback) {
     var blobSvc = azure.createBlobService(config.storage_account_name, config.storage_account_key);
 
     // Open local file
@@ -159,14 +159,9 @@ function saveDataToAzureFile(filename, data) {
                                 console.log("error uploading '" + filename + "' blob. ", err4);
                             }
 
-                            // Remove local file
-                            fs.unlink(filename, function (err5) {
-                                if (!err5) {
-                                    console.log("'" + filename + "' local file deleted.");
-                                } else {
-                                    console.log("error deleting '" + filename + "' local file. ", err5);
-                                }
-                            });
+                            if (!!callback) {
+                                callback();
+                            }
                         });
                     });
                 } else {
@@ -179,14 +174,18 @@ function saveDataToAzureFile(filename, data) {
     });
 }
 
-function saveDataToFile(filename, data) {
+function saveDataToFile(filename, data, callback) {
     if (useazureastarget) {
-        saveDataToAzureFile(filename, data);
+        saveDataToAzureFile(filename, data, callback);
         return;
     }
     
     fs.writeFileSync(filename, data);
     console.log(filename + " created");
+
+    if (!!callback) {
+        callback();
+    }
 }
 
 var starting;
@@ -595,9 +594,19 @@ function doWork(websites) {
             }
         }
         
-        saveDataToFile(summaryErrorsFile, newsummary);
-        saveDataToFile(outputResultsFile, newresults);
-                
+        saveDataToFile(summaryErrorsFile, newsummary, function () {
+            if (useazureastarget) {
+                // Remove local file
+                fs.unlinkSync(summaryErrorsFile);
+            }
+        });
+        saveDataToFile(outputResultsFile, newresults, function () {
+            if (useazureastarget) {
+                // Remove local file
+                fs.unlinkSync(outputResultsFile);
+            }
+        });
+
         console.log('Errors: ' + errorCount);
         console.log('All websites finished. Thanks!');
         
