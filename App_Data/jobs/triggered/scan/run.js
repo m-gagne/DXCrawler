@@ -260,7 +260,7 @@ function doWork(websites) {
     }
     
     function truncateForExcel(value) {
-        var MAX_CHARACTERS_PER_CELL = 32750;
+        var MAX_CHARACTERS_PER_CELL = 30000;
         if (!!value && typeof value === 'string' && value.length > MAX_CHARACTERS_PER_CELL) {
             value = value.substring(0, MAX_CHARACTERS_PER_CELL);
         }
