@@ -3,6 +3,7 @@ var config = require('../../../../lib/checks/config.js');
 var fs = require('fs');
 var parseArgs = require('minimist');
 var http = require('http');
+var os = require('os');
 
 var argv;
 
@@ -209,6 +210,8 @@ function doLines(lines) {
     console.log('starting date/time', starting);
     console.log('processing ' + websites.length + ' sites');
     console.log('date/time', new Date());
+    console.log('current free memory:' + os.freemem());
+
     
     if (useazurestorage) {
         var blobSvc = azure.createBlobService(config.storage_account_name, config.storage_account_key);
@@ -511,7 +514,9 @@ function doWork(websites) {
             nrows++;
             
             // dump partial results every 1000 checks
-            if (nrows % 1000 == 0) {
+            if (nrows % 100 == 0) {
+                console.log('current free memory:' + os.freemem());
+
                 var newresults = 'rank,area,url,' + tests.join(',') + ',comments\n';
                 var newsummary = 'rank,area,url,' + tests.join(',') + '\n';
                 
@@ -616,6 +621,7 @@ function doWork(websites) {
         console.log('All websites finished. Thanks!');
         
         console.log('milliseconds', ending.getTime() - starting.getTime());
+        console.log('current free memory:' + os.freemem());
         
         for (var n in machines)
             console.log('machine', n, machines[n]);
