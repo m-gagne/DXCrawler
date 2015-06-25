@@ -507,7 +507,7 @@ function doWork(websites) {
             }
             
             // dump partial results every DUMP_RESULTS checks
-            if (nrows % DUMP_RESULTS == 0) {
+            if (!!nrows && nrows % DUMP_RESULTS == 0) {
                 console.log('current free memory:' + os.freemem());
 
                 var newresults = '';
