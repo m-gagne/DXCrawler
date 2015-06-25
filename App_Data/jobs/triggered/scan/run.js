@@ -642,8 +642,10 @@ function doWork(websites) {
         errors += url + ", " + err.toString().replace(",", "").replace("\n", " ").replace("\r", " ") + "\n";
         
         // dump error results every 100 errors
-        if (errorCount % 100 == 0)
+        if (errorCount % 100 == 0) {
             saveDataToFile(outputErrorsFile, errors);
+            errors = "";
+        }
     };
     
     if (issimulation) {
