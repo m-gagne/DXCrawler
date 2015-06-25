@@ -70,6 +70,7 @@ var errorCount = 0;
 var areas = [];
 var ranks = [];
 var drows = {};
+var retryRows = {};
 var nrows = 0;
 
 var tests = [
@@ -200,8 +201,6 @@ function doLines(lines) {
         
         areas[url] = split[1];
         ranks[url] = split[2];
-        
-        drows[url] = {};
         
         return url;
     });
@@ -504,17 +503,24 @@ function doWork(websites) {
                 console.log(comment);
                 batch.onError(data.url, comment);
                 
-                if (comment.indexOf("ENOTFOUND") < 0 && data.url && (!drows[data.url] || !drows[data.url].url)) {
+                if (comment.indexOf("ENOTFOUND") < 0 && data.url && !retryRows[data.url]) {
+                    retryRows[data.url] = true;
                     console.log('To Retry', data.url);
                     batch.pushRequestPage(data.url);
                 }
+                else {
+                    drows[data.url] = row;
+                    delete retryRows[data.url];
+                }
             }
-            
-            drows[data.url] = row;
+            else {
+                drows[data.url] = row;
+            }
+
             nrows++;
             
             // dump partial results every 1000 checks
-            if (nrows % 100 == 0) {
+            if (nrows % 1000 == 0) {
                 console.log('current free memory:' + os.freemem());
 
                 var newresults = 'rank,area,url,' + tests.join(',') + ',comments\n';
@@ -567,12 +573,15 @@ function doWork(websites) {
             console.log('error - ' + data.url, err);
             batch.onError(data.url, err);
             
-            if (data && data.body == '' && data.url && (!drows[data.url] || !drows[data.url].url)) {
+            if (data && data.body == '' && data.url && !retryRows[data.url]) {
+                retryRows[data.url] = true;
                 console.log('To Retry', data.url);
                 batch.pushRequestPage(data.url);
             }
-            
-            drows[data.url] = row;
+            else {
+                drows[data.url] = row;
+                delete retryRows[data.url];
+            }
         }
         
         content += '\n';
