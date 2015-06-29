@@ -3,6 +3,7 @@ var config = require('../../../../lib/checks/config.js');
 var fs = require('fs');
 var parseArgs = require('minimist');
 var http = require('http');
+var os = require('os');
 
 var argv;
 
@@ -69,7 +70,9 @@ var errorCount = 0;
 var areas = [];
 var ranks = [];
 var drows = {};
+var retryRows = {};
 var nrows = 0;
+var DUMP_RESULTS = 1000;
 
 var tests = [
     //'browserbite',
@@ -105,6 +108,11 @@ var outputErrorsFile = 'errors' + suffix + '.txt';
 var summaryErrorsFile = 'summary' + suffix + '.csv';
 var errors = "";
 
+// Clean up output files before appending data
+fs.writeFileSync(outputResultsFile, "");
+fs.writeFileSync(outputErrorsFile, "");
+fs.writeFileSync(summaryErrorsFile, "");
+
 if (useazurestorage) {
     console.log('account name', config.storage_account_name);
     console.log('access key', config.storage_account_key);
@@ -130,46 +138,27 @@ else {
 }
 
 function saveDataToAzureFile(filename, data, callback) {
-    var blobSvc = azure.createBlobService(config.storage_account_name, config.storage_account_key);
-    
-    // Open local file
-    fs.open(filename, 'w', function (err1, fd) {
+    // Append local file
+    fs.appendFile(filename, data, function (err1) {
         if (!err1) {
-            console.log("'" + filename + "' local file opened.");
+            console.log("'" + filename + "' local file appended.");
+
+            // Upload to blob storage from local file
+            var blobSvc = azure.createBlobService(config.storage_account_name, config.storage_account_key);
             
-            // Write local file
-            var buffer = new Buffer(data);
-            fs.write(fd, buffer, 0, buffer.length, 0, function (err2, written) {
+            blobSvc.createBlockBlobFromLocalFile(config.website_list_container_name, filename, filename, function (err2) {
                 if (!err2) {
-                    console.log("'" + filename + "' local file written (" + written + "/" + buffer.length + ").");
-                    
-                    // Close local file
-                    fs.close(fd, function (err3) {
-                        if (!err3) {
-                            console.log("'" + filename + "' local file closed.");
-                        } else {
-                            console.log("error closing '" + filename + "' local file. ", err3);
-                        }
-                        
-                        // Upload to blob storage from local file
-                        blobSvc.createBlockBlobFromLocalFile(config.website_list_container_name, filename, filename, function (err4) {
-                            if (!err4) {
-                                console.log("'" + filename + "' blob uploaded.");
-                            } else {
-                                console.log("error uploading '" + filename + "' blob. ", err4);
-                            }
-                            
-                            if (!!callback) {
-                                callback();
-                            }
-                        });
-                    });
+                    console.log("'" + filename + "' blob uploaded.");
                 } else {
-                    console.log("error writing '" + filename + "' local file. ", err2);
+                    console.log("error uploading '" + filename + "' blob. ", err2);
+                }
+                
+                if (!!callback) {
+                    callback();
                 }
             });
         } else {
-            console.log("error opening '" + filename + "' local file. ", err1);
+            console.log("error appending data to '" + filename + "' local file. ", err1);
         }
     });
 }
@@ -180,8 +169,8 @@ function saveDataToFile(filename, data, callback) {
         return;
     }
     
-    fs.writeFileSync(filename, data);
-    console.log(filename + " created");
+    fs.appendFileSync(filename, data);
+    console.log(filename + " appended");
     
     if (!!callback) {
         callback();
@@ -200,8 +189,6 @@ function doLines(lines) {
         areas[url] = split[1];
         ranks[url] = split[2];
         
-        drows[url] = {};
-        
         return url;
     });
     
@@ -209,6 +196,8 @@ function doLines(lines) {
     console.log('starting date/time', starting);
     console.log('processing ' + websites.length + ' sites');
     console.log('date/time', new Date());
+    console.log('current free memory:' + os.freemem());
+
     
     if (useazurestorage) {
         var blobSvc = azure.createBlobService(config.storage_account_name, config.storage_account_key);
@@ -260,7 +249,7 @@ function doWork(websites) {
     }
     
     function truncateForExcel(value) {
-        var MAX_CHARACTERS_PER_CELL = 30000;
+        var MAX_CHARACTERS_PER_CELL = 5000;
         if (!!value && typeof value === 'string' && value.length > MAX_CHARACTERS_PER_CELL) {
             value = value.substring(0, MAX_CHARACTERS_PER_CELL);
         }
@@ -501,20 +490,34 @@ function doWork(websites) {
                 console.log(comment);
                 batch.onError(data.url, comment);
                 
-                if (comment.indexOf("ENOTFOUND") < 0 && data.url && (!drows[data.url] || !drows[data.url].url)) {
+                if (comment.indexOf("ENOTFOUND") < 0 && data.url && !retryRows[data.url]) {
+                    retryRows[data.url] = true;
                     console.log('To Retry', data.url);
                     batch.pushRequestPage(data.url);
                 }
+                else {
+                    drows[data.url] = row;
+                    nrows++;
+                    delete retryRows[data.url];
+                }
+            }
+            else {
+                drows[data.url] = row;
+                nrows++;
             }
             
-            drows[data.url] = row;
-            nrows++;
-            
-            // dump partial results every 1000 checks
-            if (nrows % 1000 == 0) {
-                var newresults = 'rank,area,url,' + tests.join(',') + ',comments\n';
-                var newsummary = 'rank,area,url,' + tests.join(',') + '\n';
+            // dump partial results every DUMP_RESULTS checks
+            if (!!nrows && nrows % DUMP_RESULTS == 0) {
+                console.log('current free memory:' + os.freemem());
+
+                var newresults = '';
+                var newsummary = '';
                 
+                if (nrows <= DUMP_RESULTS) {
+                    newresults = 'rank,area,url,' + tests.join(',') + ',comments\n';
+                    newsummary = 'rank,area,url,' + tests.join(',') + '\n';
+                }
+
                 for (var n in drows) {
                     var row = drows[n];
                     if (row.rank) {
@@ -524,6 +527,8 @@ function doWork(websites) {
                         newresults += ",," + row.url + "," + row.tests.join(",") + "," + row.comment + "\n";
                         newsummary += ",," + row.url + "," + row.summary.join(",") + "\n";
                     }
+
+                    delete drows[n];
                 }
                 
                 saveDataToFile(summaryErrorsFile, newsummary);
@@ -562,12 +567,16 @@ function doWork(websites) {
             console.log('error - ' + data.url, err);
             batch.onError(data.url, err);
             
-            if (data && data.body == '' && data.url && (!drows[data.url] || !drows[data.url].url)) {
+            if (data && data.body == '' && data.url && !retryRows[data.url]) {
+                retryRows[data.url] = true;
                 console.log('To Retry', data.url);
                 batch.pushRequestPage(data.url);
             }
-            
-            drows[data.url] = row;
+            else {
+                drows[data.url] = row;
+                nrows++;
+                delete retryRows[data.url];
+            }
         }
         
         content += '\n';
@@ -585,8 +594,13 @@ function doWork(websites) {
             }
         });
         
-        var newresults = 'rank,area,url,' + tests.join(',') + ',comments\n';
-        var newsummary = 'rank,area,url,' + tests.join(',') + '\n';
+        var newresults = '';
+        var newsummary = '';
+        
+        if (nrows <= DUMP_RESULTS) {
+            newresults = 'rank,area,url,' + tests.join(',') + ',comments\n';
+            newsummary = 'rank,area,url,' + tests.join(',') + '\n';
+        }
         
         for (var n in drows) {
             var row = drows[n];
@@ -616,6 +630,7 @@ function doWork(websites) {
         console.log('All websites finished. Thanks!');
         
         console.log('milliseconds', ending.getTime() - starting.getTime());
+        console.log('current free memory:' + os.freemem());
         
         for (var n in machines)
             console.log('machine', n, machines[n]);
@@ -627,8 +642,10 @@ function doWork(websites) {
         errors += url + ", " + err.toString().replace(",", "").replace("\n", " ").replace("\r", " ") + "\n";
         
         // dump error results every 100 errors
-        if (errorCount % 100 == 0)
+        if (errorCount % 100 == 0) {
             saveDataToFile(outputErrorsFile, errors);
+            errors = "";
+        }
     };
     
     if (issimulation) {
