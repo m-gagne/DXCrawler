@@ -15,6 +15,8 @@
     <NodejsPort>1337</NodejsPort>
     <StartWebBrowser>True</StartWebBrowser>
     <NodeExeArguments>--max-old-space-size=5120</NodeExeArguments>
+    <LaunchUrl>http://localhost:1337/api/v2/scan?url=http://www.runtastic.com</LaunchUrl>
+    <ScriptArguments>nodeunit</ScriptArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />

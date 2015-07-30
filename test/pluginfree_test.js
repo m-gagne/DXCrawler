@@ -17,13 +17,19 @@
 
 "use strict";
 
-var pluginChecker = require('../lib/checks/check-pluginfree.js'),
-    request = require('request'),
-    cheerio = require('cheerio'),
-    url = require('url'),
-    testServer = require('../static/test-server.js'),
-    testUrl = 'http://localhost:' + testServer.port + '/plugin-';
+var config = "Test";
 
+var pluginChecker = require('../lib/checks/check-pluginfree.js'),
+   request = require('request'),
+   cheerio = require('cheerio'),
+   url = require('url'),
+   testServer = require('../static/test-server.js'),
+   testUrl = 'http://localhost:' + testServer.port + '/plugin-',
+  // config = require('C:/Users/aschabus/Documents/_DevProjects/DXCrawler/lib/checks/config.js');
+config = require('../lib/checks/config.js');
+
+
+   // '../../../../lib/checks/config.js'
 
 function checkPage(page, expected, options) {
     return function (test) {
@@ -43,7 +49,7 @@ function checkPage(page, expected, options) {
                 $: cheerio.load(content, { lowerCaseTags: true, lowerCaseAttributeNames: true })
             };
 
-            pluginChecker.check(website, options).then(function (result) {
+         pluginChecker.check(website, options).then(function (result) {
                 test.equal(result.passed, expected.passed, uri + " passed: " + result.passed + " !== " + expected.passed);
                 if (expected.data) {
                     for (var key in expected.data) {
@@ -55,6 +61,10 @@ function checkPage(page, expected, options) {
         });
     };
 }
+
+
+// not really good, but as config is set in run.js I inject it here for tests
+global.config = (typeof global.config === 'undefined') ? config : global.config;
 
 module.exports['Plugin Free'] = {
     'No plugin - No CV list': checkPage('1.html', {passed: true}),
