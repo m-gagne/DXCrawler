@@ -146,7 +146,7 @@ function getResultListFromAzure(callback, errorCallback) {
         
         if (result.entries)
             result.entries.forEach(function (entry) {
-                if (entry.name && entry.name.length == 30 && entry.name.substring(0, 7) == 'results')
+                if (entry.name && entry.name.substring(0, 7) == 'results')
                     names.push(entry.name);
             });
         
