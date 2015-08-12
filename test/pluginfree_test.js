@@ -25,11 +25,8 @@ var pluginChecker = require('../lib/checks/check-pluginfree.js'),
    url = require('url'),
    testServer = require('../static/test-server.js'),
    testUrl = 'http://localhost:' + testServer.port + '/plugin-',
-  // config = require('C:/Users/aschabus/Documents/_DevProjects/DXCrawler/lib/checks/config.js');
-config = require('../lib/checks/config.js');
+   config = require('../lib/checks/config.js');
 
-
-   // '../../../../lib/checks/config.js'
 
 function checkPage(page, expected, options) {
     return function (test) {
@@ -76,14 +73,14 @@ module.exports['Plugin Free'] = {
     'ActiveX control': checkPage('7.html', {passed: false,
         data: {
             activex: true,
-            cvlist: false,
-            lineNumber: 10
+            cvlist: false
+            // no lineNumber provided by check: , lineNumber: 10 
         }}),
     'Active Content with object tag (no SWF)': checkPage('8.html', {passed: false,
         data: {
             activex: true,
-            cvlist: false,
-            lineNumber: 10
+            cvlist: false
+            // no lineNumber provided by check: , lineNumber: 10
         }}),
     'Embed SVG': checkPage('9.html', {passed: true}),
     'Object SVG': checkPage('10.html', {passed: true}),
@@ -91,18 +88,20 @@ module.exports['Plugin Free'] = {
     'SVG + ActiveX': checkPage('12.html', {passed: false,
         data: {
             activex: true,
-            cvlist: false,
-            lineNumber: 11
+            cvlist: false
+            // no lineNumber provided by check: , lineNumber: 11
         }
     }),
-    'Silverlight': checkPage('13.html', {passed: true}),
+   'Silverlight': checkPage('13.html', {passed: true}),
+   
+   /* aardman.com seems to be off the CV list at the moment
     'Blocked website in CV List': checkPage('http://aardman.com',{passed:false,
     data:{
         activex: false,
         cvlist: true
-    }}),
+    }}),*/
     'Embed tag with SVG instead flash ( http://doulosdiscovery.org)': checkPage('http://doulosdiscovery.org', {passed: true}),
     'Flash embed tag not allowed': checkPage('2.html', {passed: false}, { allowFlash: false }),
     'Silverlight not allowed': checkPage('13.html', {passed: false}, { allowSilverlight: false }),
-    //'Stop server': function (test) { testServer.close(); test.done(); }
+    // 'Stop server': function (test) { testServer.close(); test.done(); }
 };
