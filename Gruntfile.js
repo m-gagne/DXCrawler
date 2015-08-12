@@ -21,7 +21,7 @@ module.exports = function (grunt) {
         nodeunit: {
             all: ['test/**/*.js'],
             libs: ['test/**/checklibs*.js'],
-            // compat: ['test/**/compatlist*.js'],
+            compat: ['test/**/compatlist*.js'],
             cssprefixes: ['test/**/cssprefixes*.js'],
             // doctype: ['test/**/doctype*.js'],
             // ie11tiles: ['test/**/ie11*.js'],
