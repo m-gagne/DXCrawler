@@ -30,46 +30,75 @@ function checkPage(page, test, expected, config) {
     var uri = testUrl + page,
         dataKeys = [],
         tests = 1;
-
+    
     if (expected.data) {
         dataKeys = Object.keys(expected.data[0]);
         tests += dataKeys.length * expected.data.length;
     }
-
+    
     test.expect(tests);
-
+    
     request(uri, function (error, response, content) {
         var website = {
             url: url.parse(uri),
             content: content,
             $: cheerio.load(content)
         };
-
+        
         if (config)
             checklibs.merge(config);
-
+        
         jsloader.loadjsFiles(website)
             .then(checklibs.check)
             .then(function (result) {
-                test.equal(result.passed, expected.passed, uri + " " + result.data.join("\n"));
-                if (expected.data) {
-                    for (var i = 0; i < expected.data.length; i++) {
-                        for (var key in expected.data[i]) {
-                            test.equal(result.data[i][key], expected.data[i][key], uri + " " + result.data[i][key]);
-                        }
+            test.equal(result.passed, expected.passed, uri + " " + result.data.join("\n"));
+            if (expected.data) {
+                for (var i = 0; i < expected.data.length; i++) {
+                    for (var key in expected.data[i]) {
+                        test.equal(result.data[i][key], expected.data[i][key], uri + " " + result.data[i][key]);
                     }
                 }
-
-                if (config)
-                    checklibs.merge(null);
-                    
-                test.done();
-            });
+            }
+            
+            if (config)
+                checklibs.merge(null);
+            
+            test.done();
+        });
     });
+}
+
+function checkCompareVersions(test, expected, data) {
+    test.equal(checklibs.checkCompareVersions(data.v1, data.v2), expected);
+    test.done();
 }
 
 
 module.exports['JS Libraries'] = {
+    '1.7.1 < 1.7.10': function (test) {
+        checkCompareVersions(test, -1, {
+            v1: "1.7.1",
+            v2: "1.7.10"
+        });
+    }, 
+    '1.7.10 > 1.7.1': function (test) {
+        checkCompareVersions(test, 1, {
+            v1: "1.7.10",
+            v2: "1.7.1"
+        });
+    },
+    '1.8 == 1.8': function (test) {
+        checkCompareVersions(test, 0, {
+            v1: "1.8",
+            v2: "1.8"
+        });
+    },
+    '1.8 > 1.5.10': function (test) {
+        checkCompareVersions(test, 1, {
+            v1: "1.8",
+            v2: "1.5.10"
+        });
+    },
     'jQuery - latest version': function (test) {
         checkPage('1.html', test, {
             passed: true
@@ -88,11 +117,11 @@ module.exports['JS Libraries'] = {
         });
     },
     'dojo - latest version': function (test) {
-        checkPage('3.html', test, {passed: true});
+        checkPage('3.html', test, { passed: true });
     },
     'dojo - v1.8.0': function (test) {
         checkPage('4.html', test, {
-			passed: false,
+            passed: false,
             data: [
                 {
                     lineNumber: 7,
@@ -100,10 +129,10 @@ module.exports['JS Libraries'] = {
                     minVersion: "1.8.5"
                 }
             ]
-		});
+        });
     },
     'jQuery UI - latest version': function (test) {
-        checkPage('5.html', test, {passed: true});
+        checkPage('5.html', test, { passed: true });
     },
     'jQuery UI - v1.9.0': function (test) {
         checkPage('6.html', test, {
@@ -216,8 +245,8 @@ module.exports['JS Libraries'] = {
                     version: "2.0.1",
                     minVersion: "2.0.2",
                     name: "hammer js"
-                }            
-                ]
+                }
+            ]
         });
     },
     'several libraries outdated skip jQuery cookie': function (test) {
@@ -248,14 +277,14 @@ module.exports['JS Libraries'] = {
                     version: "2.0.1",
                     minVersion: "2.0.2",
                     name: "hammer js"
-                }            
-                ]
+                }
+            ]
         },
         [
-                {
-                    name: "jQuery cookie",
-                    skip: true
-                }
+            {
+                name: "jQuery cookie",
+                skip: true
+            }
         ]
         );
     },
@@ -297,8 +326,8 @@ module.exports['JS Libraries'] = {
                     version: "1.2.3",
                     minVersion: "1.2.4",
                     name: "mytools"
-                }            
-                ]
+                }
+            ]
         },
         [
             {
