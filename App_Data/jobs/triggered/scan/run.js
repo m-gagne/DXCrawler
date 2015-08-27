@@ -780,8 +780,8 @@ function doWork(websites, progress) {
 
         tryAndWrapUp = function () {
             if (originalSuffix != suffix) {
-                console.log("Starting with a fresh run for today");
-                startRun();
+                console.log("That's all folks. I finished a previous run, perhaps you'd like to reschedule me to start with a fresh run for today");
+                //startRun();
             }
             else {
                 console.log("That's all folks!");
