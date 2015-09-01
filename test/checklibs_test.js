@@ -55,7 +55,7 @@ function checkPage(page, test, expected, config) {
             if (expected.data) {
                 for (var i = 0; i < expected.data.length; i++) {
                     for (var key in expected.data[i]) {
-                        test.equal(result.data[i][key], expected.data[i][key], uri + " " + result.data[i][key]);
+                        test.equal(result.data[i] ? result.data[i][key] : null, expected.data[i][key], uri + " " + (result.data[i] ?result.data[i][key] : null));
                     }
                 }
             }
