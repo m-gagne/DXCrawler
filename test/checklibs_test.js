@@ -227,8 +227,8 @@ module.exports['JS Libraries'] = {
                     name: "jQuery mousewheel"
                 },
                 {
-                    version: "1.8.0",
-                    minVersion: "1.8.1",
+                    version: "1.7.0",
+                    minVersion: "1.8.0",
                     name: "hoverIntent"
                 },
                 {
@@ -248,7 +248,7 @@ module.exports['JS Libraries'] = {
                 }
             ]
         });
-    },
+    }/*,
     'several libraries outdated skip jQuery cookie': function (test) {
         checkPage('13.html', test, {
             passed: false,
@@ -339,5 +339,5 @@ module.exports['JS Libraries'] = {
             }
         ]
         );
-    }
+    }*/
 };
