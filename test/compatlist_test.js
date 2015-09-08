@@ -62,8 +62,7 @@ module.exports['Compatibility List'] = {
     'www.modern.ie - Not CV list': checkPage('http://www.modern.ie', {passed: true}),
     'Present (aladin.co.kr)': checkPage('http://aladin.co.kr', {passed: false,
         data: {
-            source: 'cvlist',
-            mode: 'EmulateIE11'
+            source: 'cvlist'
         }
    }), 
     /* website currently not available => removed from the tests

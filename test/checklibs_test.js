@@ -55,7 +55,7 @@ function checkPage(page, test, expected, config) {
             if (expected.data) {
                 for (var i = 0; i < expected.data.length; i++) {
                     for (var key in expected.data[i]) {
-                        test.equal(result.data[i][key], expected.data[i][key], uri + " " + result.data[i][key]);
+                        test.equal(result.data[i] ? result.data[i][key] : null, expected.data[i][key], uri + " " + (result.data[i] ?result.data[i][key] : null));
                     }
                 }
             }
@@ -227,8 +227,8 @@ module.exports['JS Libraries'] = {
                     name: "jQuery mousewheel"
                 },
                 {
-                    version: "1.8.0",
-                    minVersion: "1.8.1",
+                    version: "1.7.0",
+                    minVersion: "1.8.0",
                     name: "hoverIntent"
                 },
                 {
@@ -259,8 +259,8 @@ module.exports['JS Libraries'] = {
                     name: "jQuery mousewheel"
                 },
                 {
-                    version: "1.8.0",
-                    minVersion: "1.8.1",
+                    version: "1.7.0",
+                    minVersion: "1.8.0",
                     name: "hoverIntent"
                 },
                 {
@@ -303,8 +303,8 @@ module.exports['JS Libraries'] = {
                     name: "jQuery mousewheel"
                 },
                 {
-                    version: "1.8.0",
-                    minVersion: "1.8.1",
+                    version: "1.7.0",
+                    minVersion: "1.8.0",
                     name: "hoverIntent"
                 },
                 {
