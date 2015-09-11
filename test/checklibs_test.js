@@ -337,7 +337,15 @@ module.exports['JS Libraries'] = {
                     { major: "1.2.", minor: "4" }
                 ]
             }
-        ]
+        ]          
         );
-    }
+    },
+    // Unit test for issue #16 (https://github.com/deltakosh/DXCrawler/issues/16)
+    // Tests both compiled & minified version of Bootstrap 3.3.5 which previously caused a
+    // false negative scan (detected as out dated jQuery)
+    'Boostrap 3.3.5': function (test) {
+        checkPage('15.html', test, {
+            passed: true
+        });
+    }  
 };
