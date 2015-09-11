@@ -1,5 +1,5 @@
 /**
- * Description: Tests for conditional comments that target all IE versions
+ * Description: Test the Browser Detection
  *
  * Copyright (c) Microsoft Corporation; All rights reserved.
  *
@@ -17,113 +17,56 @@
 
 "use strict";
 
-var conditional = require('../lib/checks/check-browser-detection.js'),
+var checkBrowserDetection = require('../lib/checks/check-browser-detection.js'),
     url = require('url'),
     request = require('request'),
     cheerio = require('cheerio'),
+    jsloader = require('../lib/checks/loadjs.js'),
     testServer = require('../static/test-server.js'),
-    testUrl = 'http://localhost:' + testServer.port + '/conditional-';
+    testUrl = 'http://localhost:' + testServer.port + '/browserdetection-';
 
 
-function recursiveCheck(expected, result, test){
-    for(var key in expected){
-        if(typeof expected[key] === 'object'){
-            recursiveCheck(expected[key], result[key], test);
-        }else{
-            test.equal(result[key], expected[key], "key: " + result[key] + " !== " + expected[key]);
-        }
+function checkPage(page, test, expected) {
+    var uri = testUrl + page,
+        dataKeys = [],
+        tests = 1;
+
+    if (expected.data) {
+        dataKeys = Object.keys(expected.data[0]);
+        tests += dataKeys.length * expected.data.length;
     }
-}
 
-function testCount(expected){
-    var count = 0;
-    for(var key in expected){
-        if(typeof expected[key] === 'object'){
-            count += testCount(expected[key]);
-        }else{
-            count++;
-        }
-    }
-    return count;
-}
+    test.expect(tests);
 
-function checkPage(page, expected) {
-        return function (test) {
-        var uri = page.indexOf('http') === 0 ? page : testUrl + page,
-            tests = 1;
-
-        if (expected.data) {
-            tests += testCount(expected.data);
-        }
-
-        test.expect(tests);
-
-        request(uri, function (error, response, content) {
-            var website = {
-                url: url.parse(uri),
-                content: content,
-                js: [],
-                $: cheerio.load(content)
-            };
-
-            conditional.check(website).then(function (result) {
-                test.equal(result.passed, expected.passed, uri + " passed: " + result.passed + " !== " + expected.passed);
+    request(uri, function (error, response, content) {
+        var website = {
+            url: url.parse(uri),
+            content: content,
+            $: cheerio.load(content)
+        };
+        jsloader.loadjsFiles(website)
+            .then(checkBrowserDetection.check)
+            .then(function (result) {
+                var jsData = result.data.javascript.data;
+                test.equal(result.passed, expected.passed, uri + " " + jsData.join("\n"));
                 if (expected.data) {
-                    recursiveCheck(expected.data, result.data, test);
+                    for (var i = 0; i < expected.data.length; i++) {
+                        for (var key in expected.data[i]) {
+                            test.equal(jsData[i][key], expected.data[i][key], uri + " " + jsData[i][key]);
+                        }
+                    }
                 }
+                
                 test.done();
             });
-        });
-    };
+    });
 }
 
-module.exports['Conditional Comments'] = {
-    'No conditional comments': checkPage('1.html', {
-        passed: true
-    }),
-    'if IE': checkPage('2.html', {
-        passed: false,
-        data: {
-            comments: {
-                passed:false,
-                data: {
-                    lineNumber: 6
-                }
-            }
-        }
-    }),
-    'if IE 6': checkPage('3.html', {
-        passed: true
-    }),
-    'if IE 7': checkPage('4.html', {
-        passed: true
-    }),
-    'if IE 8': checkPage('5.html', {
-        passed: true
-    }),
-    'if IE9': checkPage('6.html', {
-        passed: true
-    }),
-    'if gte IE 8': checkPage('7.html', {
-        passed: false,
-        data: {
-            comments: {
-                passed:false,
-                data: {
-                    lineNumber: 6
-                }
-            }
-        }
-    }),
-    'if gte IE 6': checkPage('8.html', {
-        passed: false,
-        data: {
-            comments: {
-                passed:false,
-                data: {
-                    lineNumber: 6
-                }
-            }
-        }
-    })
+
+module.exports['Browser Detection'] = {
+    'SiteCatalyst Exclusion': function (test) {
+        checkPage('1.html', test, {
+            passed: true
+        });
+    }    
 };
