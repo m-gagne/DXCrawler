@@ -227,7 +227,8 @@ function determineProgress(lines) {
                             var currentProgressLine = progress[progressCounter];
                             if (currentProgressLine) {
                                 currentProgressLine = currentProgressLine.split(',')[2]; //'rank, area, url'
-                                currentProgressLine = prefix + currentProgressLine;
+                                currentProgressLine = prefix + currentProgressLine
+                                    .split('"').join('').split('\'').join(''); //current progress now has "somesite.com" with quotes around it?
                                 progress[progressCounter] = currentProgressLine;
                             }
                         }
