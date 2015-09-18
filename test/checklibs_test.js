@@ -99,6 +99,12 @@ module.exports['JS Libraries'] = {
             v2: "1.5.10"
         });
     },
+    '1.10.2 > 1.1.10': function (test) {
+        checkCompareVersions(test, 1, {
+            v1: "1.10.2",
+            v2: "1.1.10"
+        });
+    },
     'jQuery - latest version': function (test) {
         checkPage('1.html', test, {
             passed: true
@@ -119,14 +125,14 @@ module.exports['JS Libraries'] = {
     'dojo - latest version': function (test) {
         checkPage('3.html', test, { passed: true });
     },
-    'dojo - v1.8.0': function (test) {
+    'dojo - v1.5.0': function (test) {
         checkPage('4.html', test, {
             passed: false,
             data: [
                 {
                     lineNumber: 7,
-                    version: "1.8.0",
-                    minVersion: "1.8.5"
+                    version: "1.5.0",
+                    minVersion: "1.5.3"
                 }
             ]
         });
@@ -134,37 +140,38 @@ module.exports['JS Libraries'] = {
     'jQuery UI - latest version': function (test) {
         checkPage('5.html', test, { passed: true });
     },
-    'jQuery UI - v1.9.0': function (test) {
-        checkPage('6.html', test, {
+    'jQuery UI - v1.8.20': function (test) {
+        checkPage('16.html', test, {
             passed: false,
             data: [
                 {
-                    name: "jQuery UI",
                     lineNumber: 7,
-                    version: "1.9.0",
-                    minVersion: "1.9.2"
+                    version: "1.8.20",
+                    minVersion: "1.8.24"
                 }
             ]
         });
+    },    
+    'jQuery UI - v1.9.0': function (test) {
+        // Validates that 1.9.0 > minVersion of 1.8.24
+        checkPage('6.html', test, { passed: true });
     },
     'jQuery UI - v1.9.0 min': function (test) {
-        checkPage('7.html', test, {
-            passed: false
-        });
+        checkPage('7.html', test, { passed: true });
     },
     'jQuery & dojo up to date': function (test) {
         checkPage('8.html', test, {
             passed: true
         });
     },
-    'jQuery up to date & dojo v 1.7.0': function (test) {
+    'jQuery up to date & dojo v 1.5.1': function (test) {
         checkPage('9.html', test, {
             passed: false,
             data: [
                 {
                     lineNumber: 8,
-                    version: "1.7.0",
-                    minVersion: "1.7.5"
+                    version: "1.5.1",
+                    minVersion: "1.5.3"
                 }
             ]
         });
@@ -180,8 +187,8 @@ module.exports['JS Libraries'] = {
                 },
                 {
                     lineNumber: 8,
-                    version: "1.7.0",
-                    minVersion: "1.7.5"
+                    version: "1.5.1",
+                    minVersion: "1.5.3"
                 }
             ]
         });
@@ -217,8 +224,8 @@ module.exports['JS Libraries'] = {
             passed: false,
             data: [
                 {
-                    version: "1.4.0",
-                    minVersion: "1.4.1",
+                    version: "1.3.0",
+                    minVersion: "1.3.1",
                     name: "jQuery cookie"
                 },
                 {
@@ -230,11 +237,6 @@ module.exports['JS Libraries'] = {
                     version: "1.7.0",
                     minVersion: "1.8.0",
                     name: "hoverIntent"
-                },
-                {
-                    version: "1.5.1",
-                    minVersion: "1.5.2",
-                    name: "underscore"
                 },
                 {
                     version: "1.4.2",
@@ -264,11 +266,6 @@ module.exports['JS Libraries'] = {
                     name: "hoverIntent"
                 },
                 {
-                    version: "1.5.1",
-                    minVersion: "1.5.2",
-                    name: "underscore"
-                },
-                {
                     version: "1.4.2",
                     minVersion: "1.4.3",
                     name: "jQuery mobile"
@@ -293,8 +290,8 @@ module.exports['JS Libraries'] = {
             passed: false,
             data: [
                 {
-                    version: "1.4.0",
-                    minVersion: "1.4.1",
+                    version: "1.3.0",
+                    minVersion: "1.3.1",
                     name: "jQuery cookie"
                 },
                 {
@@ -306,11 +303,6 @@ module.exports['JS Libraries'] = {
                     version: "1.7.0",
                     minVersion: "1.8.0",
                     name: "hoverIntent"
-                },
-                {
-                    version: "1.5.1",
-                    minVersion: "1.5.2",
-                    name: "underscore"
                 },
                 {
                     version: "1.4.2",
@@ -333,9 +325,7 @@ module.exports['JS Libraries'] = {
             {
                 name: "mytools",
                 match: "mytools.(\\d+\\.\\d+\\.\\d+)",
-                minVersions: [
-                    { major: "1.2.", minor: "4" }
-                ]
+                minVersion: { major: "1.2.", minor: "4" }
             }
         ]          
         );
